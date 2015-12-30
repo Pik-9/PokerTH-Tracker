@@ -20,7 +20,7 @@ struct PlayerStat
   uint32_t observed_hands, pf_calls, pf_open;
 
   /* Flop */
-  uint32_t f_seen, f_check_call, f_bet, f_contibet;
+  uint32_t f_seen, f_check_call, f_bet, f_contibet, f_fold;
 
   /* Turn */
   uint32_t t_seen, t_check_call, t_bet, t_fold;
@@ -61,8 +61,8 @@ class RightPart : public QWidget
   Q_OBJECT
 private:
   QGridLayout *layout;
-  QLabel *l_name, *l_obh, *l_vpip, *l_pfr, *l_conbet, *l_taf, *l_raf, *l_wts, *l_sdw;
-  QLabel *t_obh, *t_vpip, *t_pfr, *t_conbet, *t_taf, *t_raf, *t_wts, *t_sdw;
+  QLabel *l_name, *l_obh, *l_vpip, *l_pfr, *l_faf, *l_conbet, *l_taf, *l_raf, *l_wts, *l_sdw;
+  QLabel *t_obh, *t_vpip, *t_pfr, *t_faf, *t_conbet, *t_taf, *t_raf, *t_wts, *t_sdw;
 
 public:
   RightPart (QWidget *parent = 0);
