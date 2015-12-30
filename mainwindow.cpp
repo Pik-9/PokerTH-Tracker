@@ -135,7 +135,8 @@ MainWindow::MainWindow (QWidget *parent)
   : QMainWindow (parent), player ()
 {
   resize (1024, 786);
-  setWindowTitle (tr ("PokerTH tracker"));
+  setWindowTitle (tr ("PokerTH Tracker"));
+  setWindowIcon (QIcon ("/usr/local/share/PokerTH_tracker/PokerTH_Tracker.png"));
   splitter = new QSplitter (Qt::Horizontal);
 
   /* Move window to screen center. */
@@ -183,7 +184,7 @@ void MainWindow::refresh ()
 
     /* The interesting stuff happens here: */
     std::map<QString, RoundAct> hand_agg;
-    unsigned int current_bet, current_round;
+    unsigned int current_bet = 0, current_round = 0;
     while (qu.next ())  {
       unsigned int round = qu.value (0).toInt ();
       QString player_name = qu.value (1).toString ();
@@ -319,5 +320,5 @@ void MainWindow::clickedAboutQT ()
 
 void MainWindow::clickedAbout ()
 {
-  QMessageBox::about (this, tr ("PokerTH Tracker"), tr ("PokerTH Tracker - A simple poker statistics tracker for PokerTH\n(C) Daniel Steinhauer (9 of Spades)"));
+  QMessageBox::about (this, tr ("PokerTH Tracker"), tr ("PokerTH Tracker - A simple poker statistics tracker for PokerTH\n(C) 2015-2016 Daniel Steinhauer (9 of Spades)"));
 }
