@@ -16,9 +16,14 @@ TEMPLATE = app
 
 target.path = /usr/local/bin
 
-INSTALLS += target iconset
-
 SOURCES += main.cpp\
         mainwindow.cpp
 
 HEADERS  += mainwindow.h
+
+TRANSLATIONS = Lang/PokerTH_tracker_de.ts
+
+qm_files.path = /usr/local/share/PokerTH_tracker
+qm_files.files = Lang/*.qm
+
+INSTALLS += target iconset qm_files
