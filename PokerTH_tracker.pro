@@ -19,7 +19,7 @@ target.path = /usr/local/bin
 SOURCES += main.cpp\
         mainwindow.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.hpp
 
 TRANSLATIONS = Lang/PokerTH_tracker_de.ts
 
