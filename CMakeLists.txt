@@ -7,6 +7,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(PTHT_SRC main.cpp mainwindow.cpp)
 set(PTHT_LANG Lang/PokerTH_tracker_de.ts)
 set(PTHT_ICON Icons/PokerTH_Tracker.png)
+set(PTHT_DSKT PokerTH_tracker.desktop)
 
 find_package(Qt5Widgets)
 if(${Qt5Widgets_FOUND})
@@ -28,4 +29,5 @@ endif(${Qt5Widgets_FOUND})
 
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 install(FILES ${PTHT_ICON} DESTINATION share/PokerTH_tracker)
+install(PROGRAMS ${PTHT_DSKT} DESTINATION /usr/share/applications)
 install(FILES ${QM} DESTINATION share/PokerTH_tracker)

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Exec=PokerTH_tracker %u
+Icon=/usr/local/share/PokerTH_tracker/PokerTH_Tracker.png
+Name=PokerTH Tracker
+Comment=A simple statistics tool to analyse PokerTH logs.
+Categories=Qt;Game;CardGame;
