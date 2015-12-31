@@ -96,10 +96,10 @@ RightPart::RightPart (QWidget *parent)
   layout->addWidget (t_vpip, 2, 1, 1, 1);
   layout->addWidget (l_pfr, 3, 0, 1, 1);
   layout->addWidget (t_pfr, 3, 1, 1, 1);
-  layout->addWidget (l_faf, 4, 0, 1, 1);
-  layout->addWidget (t_faf, 4, 1, 1, 1);
-  layout->addWidget (l_conbet, 5, 0, 1, 1);
-  layout->addWidget (t_conbet, 5, 1, 1, 1);
+  layout->addWidget (l_conbet, 4, 0, 1, 1);
+  layout->addWidget (t_conbet, 4, 1, 1, 1);
+  layout->addWidget (l_faf, 5, 0, 1, 1);
+  layout->addWidget (t_faf, 5, 1, 1, 1);
   layout->addWidget (l_taf, 6, 0, 1, 1);
   layout->addWidget (t_taf, 6, 1, 1, 1);
   layout->addWidget (l_raf, 7, 0, 1, 1);
@@ -294,6 +294,9 @@ void MainWindow::refresh ()
           hand_agg[player_name][round] |= 4;
         } else {
           hand_agg[player_name][round] |= 2;
+        }
+        for (int ii = round + 1; ii < 5; ++ii)  {
+          hand_agg[player_name][ii] |= 8;
         }
       }
 
