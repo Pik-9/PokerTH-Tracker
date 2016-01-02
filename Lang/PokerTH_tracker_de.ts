@@ -12,55 +12,55 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="166"/>
-        <location filename="../mainwindow.cpp" line="360"/>
+        <location filename="../mainwindow.cpp" line="179"/>
+        <location filename="../mainwindow.cpp" line="373"/>
         <source>PokerTH Tracker</source>
         <translation>PokerTH Tracker</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="174"/>
+        <location filename="../mainwindow.cpp" line="187"/>
         <source>&amp;File</source>
         <translation>&amp;Datei</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="175"/>
+        <location filename="../mainwindow.cpp" line="188"/>
         <source>&amp;Refresh</source>
         <translation>&amp;Aktualisieren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="176"/>
+        <location filename="../mainwindow.cpp" line="189"/>
         <source>&amp;Quit</source>
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="179"/>
+        <location filename="../mainwindow.cpp" line="192"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="180"/>
+        <location filename="../mainwindow.cpp" line="193"/>
         <source>About Qt</source>
         <translation>Über Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="181"/>
+        <location filename="../mainwindow.cpp" line="194"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="342"/>
+        <location filename="../mainwindow.cpp" line="355"/>
         <source>Opened %1 files from %2</source>
         <translation>%1 Dateien aus %2 geöffnet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="357"/>
+        <location filename="../mainwindow.cpp" line="370"/>
         <source>PokerTH Tracker - A simple poker statistics tracker for PokerTH
 </source>
         <translation>PokerTH Tracker - Ein einfaches Statistik Analyse Programm für PokerTH
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="359"/>
+        <location filename="../mainwindow.cpp" line="372"/>
         <source>This software is published under the termns of the GNU General Public License Version 3.</source>
         <translation>Dieses Programm ist unter der GNU General Public License in Version 3 veröffentlicht.</translation>
     </message>
@@ -84,31 +84,41 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="98"/>
+        <source>Preflop Aggression Factor:</source>
+        <translation>Preflop Aggressionsfaktor:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="99"/>
         <source>Flop Aggression Factor:</source>
         <translation>Flop Aggressionsfaktor:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="99"/>
+        <location filename="../mainwindow.cpp" line="100"/>
         <source>Continuation bet:</source>
         <translation>Continuation Bet:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="100"/>
+        <location filename="../mainwindow.cpp" line="101"/>
         <source>Turn Aggression Factor:</source>
         <translation>Turn Aggressionsfaktor:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="101"/>
+        <location filename="../mainwindow.cpp" line="102"/>
         <source>River Aggression Factor:</source>
         <translation>River Aggressionsfaktor:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="102"/>
+        <location filename="../mainwindow.cpp" line="103"/>
+        <source>Average Aggression Factor:</source>
+        <translation>Durchschnittlicher Aggressionsfaktor:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="104"/>
         <source>Went to Showdown:</source>
         <translation>Bis in den Showdown gegangen:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="103"/>
+        <location filename="../mainwindow.cpp" line="105"/>
         <source>Won Showdown:</source>
         <translation>Showdown gewonnen:</translation>
     </message>

@@ -95,19 +95,23 @@ RightPart::RightPart (QWidget *parent)
   l_obh = new QLabel (tr ("Observed hands:"));
   l_vpip = new QLabel (tr ("VP$IP:"));
   l_pfr = new QLabel (tr ("Preflop Raise:"));
+  l_pfaf = new QLabel (tr ("Preflop Aggression Factor:"));
   l_faf = new QLabel (tr ("Flop Aggression Factor:"));
   l_conbet = new QLabel (tr ("Continuation bet:"));
   l_taf = new QLabel (tr ("Turn Aggression Factor:"));
   l_raf = new QLabel (tr ("River Aggression Factor:"));
+  l_af = new QLabel (tr ("Average Aggression Factor:"));
   l_wts = new QLabel (tr ("Went to Showdown:"));
   l_sdw = new QLabel (tr ("Won Showdown:"));
   t_obh = new QLabel ("0");
   t_vpip = new QLabel ("0");
   t_pfr = new QLabel ("0");
+  t_pfaf = new QLabel ("0");
   t_faf = new QLabel ("0");
   t_conbet = new QLabel ("0");
   t_taf = new QLabel ("0");
   t_raf = new QLabel ("0");
+  t_af = new QLabel ("0");
   t_wts = new QLabel ("0");
   t_sdw = new QLabel ("0");
 
@@ -120,16 +124,20 @@ RightPart::RightPart (QWidget *parent)
   layout->addWidget (t_pfr, 3, 1, 1, 1);
   layout->addWidget (l_conbet, 4, 0, 1, 1);
   layout->addWidget (t_conbet, 4, 1, 1, 1);
-  layout->addWidget (l_faf, 5, 0, 1, 1);
-  layout->addWidget (t_faf, 5, 1, 1, 1);
-  layout->addWidget (l_taf, 6, 0, 1, 1);
-  layout->addWidget (t_taf, 6, 1, 1, 1);
-  layout->addWidget (l_raf, 7, 0, 1, 1);
-  layout->addWidget (t_raf, 7, 1, 1, 1);
-  layout->addWidget (l_wts, 8, 0, 1, 1);
-  layout->addWidget (t_wts, 8, 1, 1, 1);
-  layout->addWidget (l_sdw, 9, 0, 1, 1);
-  layout->addWidget (t_sdw, 9, 1, 1, 1);
+  layout->addWidget (l_pfaf, 5, 0, 1, 1);
+  layout->addWidget (t_pfaf, 5, 1, 1, 1);
+  layout->addWidget (l_faf, 6, 0, 1, 1);
+  layout->addWidget (t_faf, 6, 1, 1, 1);
+  layout->addWidget (l_taf, 7, 0, 1, 1);
+  layout->addWidget (t_taf, 7, 1, 1, 1);
+  layout->addWidget (l_raf, 8, 0, 1, 1);
+  layout->addWidget (t_raf, 8, 1, 1, 1);
+  layout->addWidget (l_af, 9, 0, 1, 1);
+  layout->addWidget (t_af, 9, 1, 1, 1);
+  layout->addWidget (l_wts, 10, 0, 1, 1);
+  layout->addWidget (t_wts, 10, 1, 1, 1);
+  layout->addWidget (l_sdw, 11, 0, 1, 1);
+  layout->addWidget (t_sdw, 11, 1, 1, 1);
 }
 
 RightPart::~RightPart ()
@@ -142,19 +150,24 @@ void RightPart::setupProps (const QString pname, const PlayerStat stat)
 
   double vpip = 100.0 * (stat.pf_calls + stat.pf_open) / stat.observed_hands;
   double pfr = 100.0 * stat.pf_open / stat.observed_hands;
-  double faf = (double) stat.f_bet / (stat.f_check_call + stat.f_fold);
+  double pfaf = (double) stat.pf_open / stat.pf_calls;
+  double faf = (double) stat.f_bet / stat.f_check_call;
   double contibet = 100.0 * stat.f_contibet / stat.pf_open;
-  double taf = (double) stat.t_bet / (stat.t_check_call + stat.t_fold);
-  double raf = (double) stat.r_bet / (stat.r_check_call + stat.r_fold);
+  double taf = (double) stat.t_bet / stat.t_check_call;
+  double raf = (double) stat.r_bet / stat.r_check_call;
   double wts = 100.0 * stat.sd_seen / stat.observed_hands;
   double sdw = 100.0 * stat.sd_won / stat.sd_seen;
+  /* Average aggression factor. */
+  double af = (pfaf + faf + taf + raf) / 4.0;
 
   t_vpip->setText (QString ("%1 %").arg (vpip, 1));
   t_pfr->setText (QString ("%1 %").arg (pfr, 1));
+  t_pfaf->setText (QString::number (pfaf, 'g', 3));
   t_faf->setText (QString::number (faf, 'g', 3));
   t_conbet->setText (QString ("%1 %").arg (contibet, 1));
   t_taf->setText (QString::number (taf, 'g', 3));
   t_raf->setText (QString::number (raf, 'g', 3));
+  t_af->setText (QString::number (af, 'g', 3));
   t_wts->setText (QString ("%1 %").arg (wts, 1));
   t_sdw->setText (QString ("%1 %").arg (sdw, 1));
 }
