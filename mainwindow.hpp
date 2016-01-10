@@ -83,8 +83,9 @@ class RightPart : public QWidget
   Q_OBJECT
 private:
   QGridLayout *layout;
-  QLabel *l_name, *l_obh, *l_vpip, *l_pfr, *l_pfaf, *l_faf, *l_conbet, *l_taf, *l_raf, *l_af, *l_wts, *l_sdw;
-  QLabel *t_obh, *t_vpip, *t_pfr, *t_pfaf, *t_faf, *t_conbet, *t_taf, *t_raf, *t_af, *t_wts, *t_sdw;
+  QLabel *l_name, *l_obh, *l_vpip, *l_pfr, *l_faf, *l_conbet, *l_tseen, *l_taf, *l_rseen, *l_raf, *l_af, *l_wts, *l_sdw;
+  QLabel *t_obh, *t_vpip, *t_pfr, *t_faf, *t_conbet, *t_tseen, *t_taf, *t_rseen, *t_raf, *t_af, *t_wts, *t_sdw;
+  QLabel *l_preflop_cap, *l_flop_cap, *l_turn_cap, *l_river_cap, *l_showdown_cap;
 
 public:
   RightPart (QWidget *parent = 0);
