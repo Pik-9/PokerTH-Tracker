@@ -182,7 +182,7 @@ void RightPart::setupProps (const QString pname, const PlayerStat stat)
   double taf = (double) stat.t_bet / stat.t_check_call;
   double rseen = 100.0 * stat.r_seen / stat.observed_hands;
   double raf = (double) stat.r_bet / stat.r_check_call;
-  double wts = 100.0 * stat.sd_seen / stat.observed_hands;
+  double wts = 100.0 * stat.sd_seen / stat.f_seen;
   double sdw = 100.0 * stat.sd_won / stat.sd_seen;
   /* Average aggression factor. */
   double af = (faf + taf + raf) / 3.0;
