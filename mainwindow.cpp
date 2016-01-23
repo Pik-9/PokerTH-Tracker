@@ -38,6 +38,8 @@
 #include <QDir>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlError>
+#include <QDebug>
 
 /* Dirty workaround! */
 struct RoundAct
@@ -241,17 +243,44 @@ MainWindow::~MainWindow ()
 
 void MainWindow::refresh ()
 {
+  bool success = false;
   player.clear ();
   QDir dir (lp->getFilePath ());
   QStringList files = dir.entryList (QStringList ("*.pdb"));
+  QSqlDatabase db = QSqlDatabase::addDatabase ("QSQLITE", "Logfile");
+  QSqlQuery qu (db);
   for (int ii = 0; ii < files.count (); ++ii)  {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName (dir.absoluteFilePath (files.at (ii)));
-    db.open ();
+    success = db.open ();
+    if (!success)  {
+      qDebug () << "Error while loading database: " << db.lastError ().text ();
+      qDebug () << "Available SQL drivers: " << QSqlDatabase::drivers ();
+      break;
+    }
+    
     QSqlQuery qu (db);
-    qu.exec ("SELECT Action.BeRo, Player.Player, Action.Action, Action.Amount FROM Action, Player WHERE Action.UniqueGameID = Player.UniqueGameID AND Action.Player = Player.Seat");
+    if (!qu.exec (
+      "SELECT Action.BeRo, Player.Player, Action.Action, Action.Amount "
+      "FROM Action, Player "
+      "WHERE Action.UniqueGameID = Player.UniqueGameID AND Action.Player = Player.Seat"))
+    {
+      success = false;
+      qDebug () << "Error while executing query: " << qu.lastError ().text ();
+      break;
+    }
 
     /* The interesting stuff happens here: */
+    
+    /* Which actions were performed during the bet rounds?
+     *   Bit 1: fold
+     *   Bit 2: check, call
+     *   Bit 3: bet raise
+     *   Bit 4: is all-in
+     * 
+     * Showdown:
+     *   Bit 1: Went to showdown
+     *   Bit 2: Won showdown
+     */
     std::map<QString, RoundAct> hand_agg;
     unsigned int current_bet = 0, current_round = 0;
     while (qu.next ())  {
@@ -269,6 +298,7 @@ void MainWindow::refresh ()
       if (player_action == "starts as dealer")  {
         /* New game begins. */
         current_bet = current_round = 0;
+	/* Evaluate the stats from the last game. */
         for (std::map<QString, RoundAct>::iterator it = hand_agg.begin (); it != hand_agg.end (); ++it)  {
           /* Preflop */
           player[it->first].observed_hands++;
@@ -295,7 +325,7 @@ void MainWindow::refresh ()
           if (it->second[1] > 0)  {
             player[it->first].f_seen++;
           }
-
+          
           /* Turn */
           if (it->second[2] & 1)  {
             player[it->first].t_fold++;
@@ -374,13 +404,17 @@ void MainWindow::refresh ()
     }
     db.close ();
   }
-
-  QListWidget *overview = lp->getListWidget ();
-  overview->clear ();
-  for (std::map<QString, PlayerStat>::iterator it = player.begin (); it != player.end (); ++it)  {
-    overview->addItem (it->first);
+  
+  if (success)  {
+    QListWidget *overview = lp->getListWidget ();
+    overview->clear ();
+    for (std::map<QString, PlayerStat>::iterator it = player.begin (); it != player.end (); ++it)  {
+      overview->addItem (it->first);
+    }
+    statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (files.count ()).arg (dir.absolutePath ()));
+  } else  {
+    statusBar ()->showMessage (tr ("There were errors while loading files from %1!").arg (dir.absolutePath ()));
   }
-  statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (files.count ()).arg (dir.absolutePath ()));
 }
 
 void MainWindow::showPlayerStats (const QString pname)
