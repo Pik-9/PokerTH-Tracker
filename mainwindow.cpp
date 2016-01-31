@@ -62,7 +62,14 @@ LeftPart::LeftPart (QWidget *parent)
   layout->addWidget (b_search, 0, 1, 1, 1);
   layout->addWidget (l_players, 1, 0, 1, 2);
 
-  t_path->setText (QDir::homePath () + "/.pokerth/log-files/");
+  QDir logData (QDir::home ());
+  /* Try to navigate to the linux client's log file directory.
+   * Otherwise try to navigate to the windows client's log file directory. */
+  if (!logData.cd (".pokerth/log-files"))  {
+    /* If this fails as well, stay at home! */
+    logData.cd ("AppData/Roaming/pokerth/log-files");
+  }
+  t_path->setText (logData.absolutePath ());
 
   connect (b_search, SIGNAL (clicked ()), lopen, SLOT (show ()));
   connect (lopen, SIGNAL (fileSelected (const QString)), this, SLOT (chooseURL (const QString)));
@@ -223,7 +230,17 @@ MainWindow::MainWindow (QWidget *parent)
 {
   resize (1024, 786);
   setWindowTitle (tr ("PokerTH Tracker"));
-  setWindowIcon (QIcon ("/usr/local/share/PokerTH_tracker/PokerTH_Tracker.png"));
+  
+  /* If the linux directory for shared files exists, load icon from it. */
+  QDir sharedData ("/usr/local/share/PokerTH_tracker");
+  if (sharedData.exists ("PokerTH_Tracker.png"))  {
+    setWindowIcon (QIcon ("/usr/local/share/PokerTH_tracker/PokerTH_Tracker.png"));
+  } else  {
+    /* Otherwise try to load from current directory.
+     * This is necessary for the windows cross build. /*/
+    setWindowIcon (QIcon ("PokerTH_Tracker.png"));
+  }
+  
   splitter = new QSplitter (Qt::Horizontal);
 
   /* Move window to screen center. */
