@@ -96,27 +96,43 @@ RightPart::RightPart (QWidget *parent)
   l_name->setAlignment(Qt::AlignCenter);
   l_obh = new QLabel (tr ("Observed hands:"));
   l_af = new QLabel (tr ("Average Aggression Factor:"));
+  l_af->setCursor (Qt::WhatsThisCursor);
+  l_af->setToolTip (tr ("Agression Factor = (times of <i>bet</i> or <i>raise</i>) / (times of <i>check</i> or <i>call</i>)"));
   
   l_preflop_cap = new QLabel (tr ("<b>Preflop</b>"));
   l_vpip = new QLabel (tr ("VP$IP:"));
+  l_vpip->setCursor (Qt::WhatsThisCursor);
+  l_vpip->setToolTip (tr ("Percantage of hands the player voluntarily invested money in."));
   l_pfr = new QLabel (tr ("Preflop Raise:"));
+  l_pfr->setCursor (Qt::WhatsThisCursor);
+  l_pfr->setToolTip (tr ("Percentage of hands the player raised with preflop."));
   
   l_flop_cap = new QLabel (tr ("<b>Flop</b>"));
   l_faf = new QLabel (tr ("Flop Aggression Factor:"));
   l_conbet = new QLabel (tr ("Continuation bet:"));
+  l_conbet->setCursor (Qt::WhatsThisCursor);
+  l_conbet->setToolTip (tr ("How often the player bet on the Flop after he raised preflop."));
   
   l_turn_cap = new QLabel (tr ("<b>Turn</b>"));
   l_tseen = new QLabel (tr ("Turn seen:"));
+  l_tseen->setCursor (Qt::WhatsThisCursor);
+  l_tseen->setToolTip (tr ("With how many hands the player went to the Turn."));
   l_taf = new QLabel (tr ("Turn Aggression Factor:"));
   
   l_river_cap = new QLabel (tr ("<b>River</b>"));
   l_rseen = new QLabel (tr ("River seen:"));
+  l_rseen->setCursor (Qt::WhatsThisCursor);
+  l_rseen->setToolTip (tr ("With how many hands the player went to the River."));
   l_raf = new QLabel (tr ("River Aggression Factor:"));
   
   
   l_showdown_cap = new QLabel (tr ("<b>Showdown</b>"));
   l_wts = new QLabel (tr ("Went to Showdown:"));
+  l_wts->setCursor (Qt::WhatsThisCursor);
+  l_wts->setToolTip (tr ("With how many hands the player went to Showdown <b>after the flop</b>."));
   l_sdw = new QLabel (tr ("Won Showdown:"));
+  l_sdw->setCursor (Qt::WhatsThisCursor);
+  l_sdw->setToolTip (tr ("How many Showdowns the player won."));
   
   t_obh = new QLabel ("0");
   t_vpip = new QLabel ("0");
@@ -189,17 +205,17 @@ void RightPart::setupProps (const QString pname, const PlayerStat stat)
   /* Average aggression factor. */
   double af = (faf + taf + raf) / 3.0;
 
-  t_vpip->setText (QString ("%1 %").arg (vpip, 1));
-  t_pfr->setText (QString ("%1 %").arg (pfr, 1));
+  t_vpip->setText (QString ("%1 %").arg (vpip));
+  t_pfr->setText (QString ("%1 %").arg (pfr));
   t_faf->setText (QString::number (faf, 'g', 3));
-  t_conbet->setText (QString ("%1 %").arg (contibet, 1));
-  t_tseen->setText (QString ("%1 %").arg (tseen, 1));
+  t_conbet->setText (QString ("%1 %").arg (contibet));
+  t_tseen->setText (QString ("%1 %").arg (tseen));
   t_taf->setText (QString::number (taf, 'g', 3));
-  t_rseen->setText (QString ("%1 %").arg (rseen, 1));
+  t_rseen->setText (QString ("%1 %").arg (rseen));
   t_raf->setText (QString::number (raf, 'g', 3));
   t_af->setText (QString::number (af, 'g', 3));
-  t_wts->setText (QString ("%1 %").arg (wts, 1));
-  t_sdw->setText (QString ("%1 %").arg (sdw, 1));
+  t_wts->setText (QString ("%1 %").arg (wts));
+  t_sdw->setText (QString ("%1 %").arg (sdw));
 }
 
 MainWindow::MainWindow (QWidget *parent)
