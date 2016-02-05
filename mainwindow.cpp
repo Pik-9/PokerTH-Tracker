@@ -26,6 +26,7 @@
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QComboBox>
 #include <QLabel>
 #include <QSplitter>
 #include <QFileDialog>
@@ -40,6 +41,84 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
+
+double PlayerStat::VPIP () const
+{
+  return 100.0 * (pf_calls + pf_open) / observed_hands;
+}
+
+double PlayerStat::preflop_raise () const
+{
+  return 100.0 * pf_open / observed_hands;
+}
+
+double PlayerStat::AF_ave () const
+{
+  return (AF_flop () + AF_turn () + AF_river ()) / 3.0;
+}
+
+double PlayerStat::AF_flop () const
+{
+  return (double) f_bet / f_check_call;
+}
+
+double PlayerStat::AF_turn () const
+{
+  return (double) t_bet / t_check_call;
+}
+
+double PlayerStat::AF_river () const
+{
+  return (double) r_bet / r_check_call;
+}
+
+double PlayerStat::contibet () const
+{
+  return 100.0 * f_contibet / pf_open;
+}
+
+double PlayerStat::seen_turn () const
+{
+  return 100.0 * t_seen / observed_hands;
+}
+
+double PlayerStat::seen_river () const
+{
+  return 100.0 * r_seen / observed_hands;
+}
+
+double PlayerStat::wtShowdown () const
+{
+  return 100.0 * sd_seen / f_seen;
+}
+
+double PlayerStat::wonShowdown () const
+{
+  return 100.0 * sd_won / sd_seen;
+}
+
+PlayerStat& PlayerStat::operator+= (PlayerStat& other)
+{
+  observed_hands += other.observed_hands;
+  pf_open += other.pf_open;
+  pf_calls += other.pf_calls;
+  f_seen += other.f_seen;
+  f_check_call += other.f_check_call;
+  f_bet += other.f_bet;
+  f_contibet += other.f_contibet;
+  f_fold += other.f_fold;
+  t_seen += other.t_seen;
+  t_bet += other.t_bet;
+  t_check_call += other.t_check_call;
+  t_fold += other.t_fold;
+  r_seen += other.r_seen;
+  r_bet += other.r_bet;
+  r_check_call += other.r_check_call;
+  r_fold += other.r_fold;
+  sd_seen += other.sd_seen;
+  sd_won += other.sd_won;
+  return *this;
+}
 
 /* Dirty workaround! */
 struct RoundAct
@@ -101,6 +180,15 @@ RightPart::RightPart (QWidget *parent)
   l_name = new QLabel ("Name");
   l_name->setStyleSheet ("QLabel { font-weight: bold }");
   l_name->setAlignment(Qt::AlignCenter);
+  
+  l_tsize = new QLabel (tr ("Table size:"));
+  c_table = new QComboBox ();
+  c_table->addItem (tr ("Fullring (7 - 10 players)"));
+  c_table->addItem (tr ("Shorthand (3 - 6 players)"));
+  c_table->addItem (tr ("Heads-Up (2 players)"));
+  c_table->addItem (tr ("Any"));
+  c_table->setCurrentIndex (3);
+  
   l_obh = new QLabel (tr ("Observed hands:"));
   l_af = new QLabel (tr ("Average Aggression Factor:"));
   l_af->setCursor (Qt::WhatsThisCursor);
@@ -155,40 +243,45 @@ RightPart::RightPart (QWidget *parent)
   t_sdw = new QLabel ("0");
 
   layout->addWidget (l_name, 0, 0, 1, 2);
-  layout->addWidget (l_obh, 1, 0, 1, 1);
-  layout->addWidget (t_obh, 1, 1, 1, 1);
-  layout->addWidget (l_af, 2, 0, 1, 1);
-  layout->addWidget (t_af, 2, 1, 1, 1);
+  layout->addWidget (l_tsize, 1, 0, 1, 1);
+  layout->addWidget (c_table, 1, 1, 1, 1);
   
-  layout->addWidget (l_preflop_cap, 3, 0, 1, 1);
-  layout->addWidget (l_vpip, 4, 0, 1, 1);
-  layout->addWidget (t_vpip, 4, 1, 1, 1);
-  layout->addWidget (l_pfr, 5, 0, 1, 1);
-  layout->addWidget (t_pfr, 5, 1, 1, 1);
+  layout->addWidget (l_obh, 2, 0, 1, 1);
+  layout->addWidget (t_obh, 2, 1, 1, 1);
+  layout->addWidget (l_af, 3, 0, 1, 1);
+  layout->addWidget (t_af, 3, 1, 1, 1);
   
-  layout->addWidget (l_flop_cap, 6, 0, 1, 1);
-  layout->addWidget (l_conbet, 7, 0, 1, 1);
-  layout->addWidget (t_conbet, 7, 1, 1, 1);
-  layout->addWidget (l_faf, 8, 0, 1, 1);
-  layout->addWidget (t_faf, 8, 1, 1, 1);
+  layout->addWidget (l_preflop_cap, 4, 0, 1, 1);
+  layout->addWidget (l_vpip, 5, 0, 1, 1);
+  layout->addWidget (t_vpip, 5, 1, 1, 1);
+  layout->addWidget (l_pfr, 6, 0, 1, 1);
+  layout->addWidget (t_pfr, 6, 1, 1, 1);
   
-  layout->addWidget (l_turn_cap, 9, 0, 1, 1);
-  layout->addWidget (l_tseen, 10, 0, 1, 1);
-  layout->addWidget (t_tseen, 10, 1, 1, 1);
-  layout->addWidget (l_taf, 11, 0, 1, 1);
-  layout->addWidget (t_taf, 11, 1, 1, 1);
+  layout->addWidget (l_flop_cap, 7, 0, 1, 1);
+  layout->addWidget (l_conbet, 8, 0, 1, 1);
+  layout->addWidget (t_conbet, 8, 1, 1, 1);
+  layout->addWidget (l_faf, 9, 0, 1, 1);
+  layout->addWidget (t_faf, 9, 1, 1, 1);
   
-  layout->addWidget (l_river_cap, 12, 0, 1, 1);
-  layout->addWidget (l_rseen, 13, 0, 1, 1);
-  layout->addWidget (t_rseen, 13, 1, 1, 1);
-  layout->addWidget (l_raf, 14, 0, 1, 1);
-  layout->addWidget (t_raf, 14, 1, 1, 1);
+  layout->addWidget (l_turn_cap, 10, 0, 1, 1);
+  layout->addWidget (l_tseen, 11, 0, 1, 1);
+  layout->addWidget (t_tseen, 11, 1, 1, 1);
+  layout->addWidget (l_taf, 12, 0, 1, 1);
+  layout->addWidget (t_taf, 12, 1, 1, 1);
   
-  layout->addWidget (l_showdown_cap, 15, 0, 1, 1);
-  layout->addWidget (l_wts, 16, 0, 1, 1);
-  layout->addWidget (t_wts, 16, 1, 1, 1);
-  layout->addWidget (l_sdw, 17, 0, 1, 1);
-  layout->addWidget (t_sdw, 17, 1, 1, 1);
+  layout->addWidget (l_river_cap, 13, 0, 1, 1);
+  layout->addWidget (l_rseen, 14, 0, 1, 1);
+  layout->addWidget (t_rseen, 14, 1, 1, 1);
+  layout->addWidget (l_raf, 15, 0, 1, 1);
+  layout->addWidget (t_raf, 15, 1, 1, 1);
+  
+  layout->addWidget (l_showdown_cap, 16, 0, 1, 1);
+  layout->addWidget (l_wts, 17, 0, 1, 1);
+  layout->addWidget (t_wts, 17, 1, 1, 1);
+  layout->addWidget (l_sdw, 18, 0, 1, 1);
+  layout->addWidget (t_sdw, 18, 1, 1, 1);
+  
+  connect (c_table, SIGNAL (activated (int)), this, SLOT (changedTableSize (int)));
 }
 
 RightPart::~RightPart ()
@@ -198,31 +291,27 @@ void RightPart::setupProps (const QString pname, const PlayerStat stat)
 {
   l_name->setText (pname);
   t_obh->setText (QString::number (stat.observed_hands));
+  t_vpip->setText (QString ("%1 %").arg (stat.VPIP ()));
+  t_pfr->setText (QString ("%1 %").arg (stat.preflop_raise ()));
+  t_faf->setText (QString::number (stat.AF_flop (), 'g', 3));
+  t_conbet->setText (QString ("%1 %").arg (stat.contibet ()));
+  t_tseen->setText (QString ("%1 %").arg (stat.seen_turn ()));
+  t_taf->setText (QString::number (stat.AF_turn (), 'g', 3));
+  t_rseen->setText (QString ("%1 %").arg (stat.seen_river ()));
+  t_raf->setText (QString::number (stat.AF_river (), 'g', 3));
+  t_af->setText (QString::number (stat.AF_ave (), 'g', 3));
+  t_wts->setText (QString ("%1 %").arg (stat.wtShowdown ()));
+  t_sdw->setText (QString ("%1 %").arg (stat.wonShowdown ()));
+}
 
-  double vpip = 100.0 * (stat.pf_calls + stat.pf_open) / stat.observed_hands;
-  double pfr = 100.0 * stat.pf_open / stat.observed_hands;
-  double faf = (double) stat.f_bet / stat.f_check_call;
-  double contibet = 100.0 * stat.f_contibet / stat.pf_open;
-  double tseen = 100.0 * stat.f_seen / stat.observed_hands;
-  double taf = (double) stat.t_bet / stat.t_check_call;
-  double rseen = 100.0 * stat.r_seen / stat.observed_hands;
-  double raf = (double) stat.r_bet / stat.r_check_call;
-  double wts = 100.0 * stat.sd_seen / stat.f_seen;
-  double sdw = 100.0 * stat.sd_won / stat.sd_seen;
-  /* Average aggression factor. */
-  double af = (faf + taf + raf) / 3.0;
+int RightPart::desiredTableSize ()
+{
+  return c_table->currentIndex ();
+}
 
-  t_vpip->setText (QString ("%1 %").arg (vpip));
-  t_pfr->setText (QString ("%1 %").arg (pfr));
-  t_faf->setText (QString::number (faf, 'g', 3));
-  t_conbet->setText (QString ("%1 %").arg (contibet));
-  t_tseen->setText (QString ("%1 %").arg (tseen));
-  t_taf->setText (QString::number (taf, 'g', 3));
-  t_rseen->setText (QString ("%1 %").arg (rseen));
-  t_raf->setText (QString::number (raf, 'g', 3));
-  t_af->setText (QString::number (af, 'g', 3));
-  t_wts->setText (QString ("%1 %").arg (wts));
-  t_sdw->setText (QString ("%1 %").arg (sdw));
+void RightPart::changedTableSize (int index)
+{
+  emit requestStat ();
 }
 
 MainWindow::MainWindow (QWidget *parent)
@@ -237,7 +326,7 @@ MainWindow::MainWindow (QWidget *parent)
     setWindowIcon (QIcon ("/usr/local/share/PokerTH_tracker/PokerTH_Tracker.png"));
   } else  {
     /* Otherwise try to load from current directory.
-     * This is necessary for the windows cross build. /*/
+     * This is necessary for the windows cross build. */
     setWindowIcon (QIcon ("PokerTH_Tracker.png"));
   }
   
@@ -267,6 +356,7 @@ MainWindow::MainWindow (QWidget *parent)
 
   connect (lp, SIGNAL (changedDirectory ()), this, SLOT (refresh ()));
   connect (lp->getListWidget (), SIGNAL (currentTextChanged (const QString)), this, SLOT (showPlayerStats (const QString)));
+  connect (rp, SIGNAL (requestStat ()), this, SLOT (showPlayerStats ()));
 
   refresh ();
 }
@@ -277,7 +367,10 @@ MainWindow::~MainWindow ()
 void MainWindow::refresh ()
 {
   bool success = false;
-  player.clear ();
+  allPlayers.clear ();
+  for (uint32_t ii = 0; ii < 3; ++ii)  {
+    player[ii].clear ();
+  }
   QDir dir (lp->getFilePath ());
   QStringList files = dir.entryList (QStringList ("*.pdb"));
   QSqlDatabase db = QSqlDatabase::addDatabase ("QSQLITE", "Logfile");
@@ -307,7 +400,7 @@ void MainWindow::refresh ()
     /* Which actions were performed during the bet rounds?
      *   Bit 1: fold
      *   Bit 2: check, call
-     *   Bit 3: bet raise
+     *   Bit 3: bet, raise
      *   Bit 4: is all-in
      * 
      * Showdown:
@@ -331,67 +424,80 @@ void MainWindow::refresh ()
       if (player_action == "starts as dealer")  {
         /* New game begins. */
         current_bet = current_round = 0;
-	/* Evaluate the stats from the last game. */
+        /* Evaluate the stats from the last game. */
         for (std::map<QString, RoundAct>::iterator it = hand_agg.begin (); it != hand_agg.end (); ++it)  {
+          /* Determine which map should be used. */
+          uint32_t mapToUse;
+          if (hand_agg.size () > 6)  {
+            /* Fullring */
+            mapToUse = 0;
+          } else if (hand_agg.size () > 2)  {
+            /* Shorthand */
+            mapToUse = 1;
+          } else  {
+            /* Heads-Up */
+            mapToUse = 2;
+          }
+  
           /* Preflop */
-          player[it->first].observed_hands++;
+          player[mapToUse][it->first].observed_hands++;
           if ((it->second[0] & 6) == 2)  {
-            player[it->first].pf_calls++;
+            player[mapToUse][it->first].pf_calls++;
           }
           if (it->second[0] & 4)  {
-            player[it->first].pf_open++;
+            player[mapToUse][it->first].pf_open++;
           }
 
           /* Flop */
           if (it->second[1] & 1)  {
-            player[it->first].f_fold++;
+            player[mapToUse][it->first].f_fold++;
           }
           if (it->second[1] & 2)  {
-            player[it->first].f_check_call++;
+            player[mapToUse][it->first].f_check_call++;
           }
           if (it->second[1] & 4)  {
-            player[it->first].f_bet++;
+            player[mapToUse][it->first].f_bet++;
             if (it->second[0] & it->second[1] & 4)  {
-              player[it->first].f_contibet++;
+              player[mapToUse][it->first].f_contibet++;
             }
           }
           if (it->second[1] > 0)  {
-            player[it->first].f_seen++;
+            player[mapToUse][it->first].f_seen++;
           }
           
           /* Turn */
           if (it->second[2] & 1)  {
-            player[it->first].t_fold++;
+            player[mapToUse][it->first].t_fold++;
           }
           if (it->second[2] & 2)  {
-            player[it->first].t_check_call++;
+            player[mapToUse][it->first].t_check_call++;
           }
           if (it->second[2] & 4)  {
-            player[it->first].t_bet++;
+            player[mapToUse][it->first].t_bet++;
           }
           if (it->second[2] > 0)  {
-            player[it->first].t_seen++;
+            player[mapToUse][it->first].t_seen++;
           }
 
           /* River */
           if (it->second[3] & 1)  {
-            player[it->first].r_fold++;
+            player[mapToUse][it->first].r_fold++;
           }
           if (it->second[3] & 2)  {
-            player[it->first].r_check_call++;
+            player[mapToUse][it->first].r_check_call++;
           }
           if (it->second[3] & 4)  {
-            player[it->first].r_bet++;
+            player[mapToUse][it->first].r_bet++;
           }
           if (it->second[3] > 0)  {
-            player[it->first].r_seen++;
+            player[mapToUse][it->first].r_seen++;
           }
 
           /* Showdown */
           if (it->second[4] > 0)  {
-            player[it->first].sd_seen++;
+            player[mapToUse][it->first].sd_seen++;
             if (it->second[4] & 2)  {
-              player[it->first].sd_won++;
+              player[mapToUse][it->first].sd_won++;
             }
           }
         }
@@ -441,7 +547,15 @@ void MainWindow::refresh ()
   if (success)  {
     QListWidget *overview = lp->getListWidget ();
     overview->clear ();
-    for (std::map<QString, PlayerStat>::iterator it = player.begin (); it != player.end (); ++it)  {
+    
+    /* Create the map of players in any situation. */
+    for (uint32_t ii = 0; ii < 3; ++ii)  {
+      for (std::map<QString, PlayerStat>::iterator it = player[ii].begin (); it != player[ii].end (); ++it)  {
+        allPlayers[it->first] += it->second;
+      }
+    }
+    
+    for (std::map<QString, PlayerStat>::iterator it = allPlayers.begin (); it != allPlayers.end (); ++it)  {
       overview->addItem (it->first);
     }
     statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (files.count ()).arg (dir.absolutePath ()));
@@ -450,9 +564,23 @@ void MainWindow::refresh ()
   }
 }
 
+void MainWindow::showPlayerStats ()
+{
+  QListWidgetItem *li = lp->getListWidget ()->currentItem ();
+  if (li)  {
+    showPlayerStats (li->text ());
+  }
+}
+
 void MainWindow::showPlayerStats (const QString pname)
 {
-  rp->setupProps (pname, player[pname]);
+  if (!pname.isEmpty ())  {
+    if (rp->desiredTableSize () > 2)  {
+      rp->setupProps (pname, allPlayers[pname]);
+    } else  {
+      rp->setupProps (pname, player[rp->desiredTableSize ()][pname]);
+    }
+  }
 }
 
 void MainWindow::clickedAboutQT ()

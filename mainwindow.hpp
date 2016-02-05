@@ -32,6 +32,7 @@ class QSplitter;
 class QLineEdit;
 class QLabel;
 class QPushButton;
+class QComboBox;
 class QListWidget;
 class QGridLayout;
 class QFileDialog;
@@ -52,6 +53,20 @@ struct PlayerStat
 
   /* Showdown */
   uint32_t sd_seen, sd_won;
+  
+  double VPIP () const;
+  double preflop_raise () const;
+  double AF_ave () const;
+  double AF_flop () const;
+  double AF_turn () const;
+  double AF_river () const;
+  double contibet () const;
+  double seen_turn () const;
+  double seen_river () const;
+  double wtShowdown () const;
+  double wonShowdown () const;
+  
+  PlayerStat& operator+= (PlayerStat&);
 };
 
 class LeftPart : public QWidget
@@ -83,7 +98,8 @@ class RightPart : public QWidget
   Q_OBJECT
 private:
   QGridLayout *layout;
-  QLabel *l_name, *l_obh, *l_vpip, *l_pfr, *l_faf, *l_conbet, *l_tseen, *l_taf, *l_rseen, *l_raf, *l_af, *l_wts, *l_sdw;
+  QComboBox *c_table;
+  QLabel *l_tsize, *l_name, *l_obh, *l_vpip, *l_pfr, *l_faf, *l_conbet, *l_tseen, *l_taf, *l_rseen, *l_raf, *l_af, *l_wts, *l_sdw;
   QLabel *t_obh, *t_vpip, *t_pfr, *t_faf, *t_conbet, *t_tseen, *t_taf, *t_rseen, *t_raf, *t_af, *t_wts, *t_sdw;
   QLabel *l_preflop_cap, *l_flop_cap, *l_turn_cap, *l_river_cap, *l_showdown_cap;
 
@@ -92,6 +108,13 @@ public:
   ~RightPart ();
 
   void setupProps (const QString, const PlayerStat);
+  int desiredTableSize ();
+  
+public slots:
+  void changedTableSize (int);
+  
+signals:
+  void requestStat ();
 };
 
 class MainWindow : public QMainWindow
@@ -103,7 +126,16 @@ private:
   LeftPart *lp;
   RightPart *rp;
 
-  std::map<QString, PlayerStat> player;
+  /* 
+   * Different maps for different table sizes:
+   *   player[0]: Fullring (7 - 10 players)
+   *   player[1]: Shorthand (3 - 6 players)
+   *   player[2]: Heads-Up (2 players)
+   */
+  std::map<QString, PlayerStat> player[3];
+  
+  /* A map for the players in any situation. */
+  std::map<QString, PlayerStat> allPlayers;
 
 public:
   MainWindow (QWidget *parent = 0);
@@ -111,6 +143,7 @@ public:
 
 public slots:
   void refresh ();
+  void showPlayerStats ();
   void showPlayerStats (const QString);
   void clickedAboutQT ();
   void clickedAbout ();
