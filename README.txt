@@ -7,6 +7,15 @@ It reads the PokerTH logs, so you should collect them for a more
 precise analysis.
 
 
+Prerequirements
+---------------
+
+In order to compile and link this application you need the Qt development files.
+On Ubuntu and derived distributions you can install anything you need with:
+  
+  $ sudo apt-get install git cmake qt5-default qttools5-dev-tools libqt5sql5-sqlite
+
+
 Compile and Install
 -------------------
 
