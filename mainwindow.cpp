@@ -41,6 +41,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
+#include <QSettings>
 
 double PlayerStat::VPIP () const
 {
@@ -127,8 +128,8 @@ struct RoundAct
   uint8_t& operator[] (unsigned int id) { return data[id]; }
 };
 
-LeftPart::LeftPart (QWidget *parent)
-  : QWidget (parent)
+LeftPart::LeftPart (QSettings* config, QWidget *parent)
+  : QWidget (parent), settings (config)
 {
   layout = new QGridLayout (this);
   t_path = new QLineEdit ();
@@ -141,14 +142,17 @@ LeftPart::LeftPart (QWidget *parent)
   layout->addWidget (b_search, 0, 1, 1, 1);
   layout->addWidget (l_players, 1, 0, 1, 2);
 
-  QDir logData (QDir::home ());
-  /* Try to navigate to the linux client's log file directory.
-   * Otherwise try to navigate to the windows client's log file directory. */
-  if (!logData.cd (".pokerth/log-files"))  {
-    /* If this fails as well, stay at home! */
-    logData.cd ("AppData/Roaming/pokerth/log-files");
+  if (!settings->contains ("defaultPath"))  {
+    QDir logData (QDir::home ());
+    /* Try to navigate to the linux client's log file directory.
+     * Otherwise try to navigate to the windows client's log file directory. */
+    if (!logData.cd (".pokerth/log-files"))  {
+      /* If this fails as well, stay at home! */
+      logData.cd ("AppData/Roaming/pokerth/log-files");
+    }
+    settings->setValue ("defaultPath", logData.absolutePath ());
   }
-  t_path->setText (logData.absolutePath ());
+  t_path->setText (settings->value ("defaultPath").toString ());
 
   connect (b_search, SIGNAL (clicked ()), lopen, SLOT (show ()));
   connect (lopen, SIGNAL (fileSelected (const QString)), this, SLOT (chooseURL (const QString)));
@@ -317,6 +321,7 @@ void RightPart::changedTableSize (int index)
 MainWindow::MainWindow (QWidget *parent)
   : QMainWindow (parent), player ()
 {
+  settings = new QSettings ("Pik-9", "PokerTH-Tracker");  
   resize (1024, 786);
   setWindowTitle (tr ("PokerTH Tracker"));
   
@@ -346,7 +351,7 @@ MainWindow::MainWindow (QWidget *parent)
   fhelp->addAction (tr ("About"), this, SLOT (clickedAbout ()));
   menuBar ()->addMenu (fhelp);
 
-  lp = new LeftPart ();
+  lp = new LeftPart (settings);
   rp = new RightPart ();
   splitter->addWidget (lp);
   splitter->addWidget (rp);
@@ -558,6 +563,7 @@ void MainWindow::refresh ()
     for (std::map<QString, PlayerStat>::iterator it = allPlayers.begin (); it != allPlayers.end (); ++it)  {
       overview->addItem (it->first);
     }
+    settings->setValue ("defaultPath", lp->getFilePath ());
     statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (files.count ()).arg (dir.absolutePath ()));
   } else  {
     statusBar ()->showMessage (tr ("There were errors while loading files from %1!").arg (dir.absolutePath ()));

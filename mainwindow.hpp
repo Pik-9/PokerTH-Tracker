@@ -36,6 +36,7 @@ class QComboBox;
 class QListWidget;
 class QGridLayout;
 class QFileDialog;
+class QSettings;
 
 struct PlayerStat
 {
@@ -78,9 +79,10 @@ private:
   QLineEdit *t_path;
   QListWidget *l_players;
   QFileDialog *lopen;
+  QSettings *settings;
 
 public:
-  LeftPart (QWidget *parent = 0);
+  LeftPart (QSettings*, QWidget *parent = 0);
   ~LeftPart ();
 
   QString getFilePath () const;
@@ -122,6 +124,7 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 private:
+  QSettings *settings;
   QSplitter *splitter;
   LeftPart *lp;
   RightPart *rp;
