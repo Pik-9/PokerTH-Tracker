@@ -25,8 +25,8 @@
 
 #include <QMainWindow>
 
-#include <stdint.h>
-#include <map>
+#include "PlayerStat.hpp"
+#include "multiview.hpp"
 
 class QSplitter;
 class QLineEdit;
@@ -34,41 +34,10 @@ class QLabel;
 class QPushButton;
 class QComboBox;
 class QListWidget;
+class QListWidgetItem;
 class QGridLayout;
 class QFileDialog;
 class QSettings;
-
-struct PlayerStat
-{
-  /* Preflop */
-  uint32_t observed_hands, pf_calls, pf_open;
-
-  /* Flop */
-  uint32_t f_seen, f_check_call, f_bet, f_contibet, f_fold;
-
-  /* Turn */
-  uint32_t t_seen, t_check_call, t_bet, t_fold;
-
-  /* River */
-  uint32_t r_seen, r_check_call, r_bet, r_fold;
-
-  /* Showdown */
-  uint32_t sd_seen, sd_won;
-  
-  double VPIP () const;
-  double preflop_raise () const;
-  double AF_ave () const;
-  double AF_flop () const;
-  double AF_turn () const;
-  double AF_river () const;
-  double contibet () const;
-  double seen_turn () const;
-  double seen_river () const;
-  double wtShowdown () const;
-  double wonShowdown () const;
-  
-  PlayerStat& operator+= (PlayerStat&);
-};
 
 class LeftPart : public QWidget
 {
@@ -128,6 +97,7 @@ private:
   QSplitter *splitter;
   LeftPart *lp;
   RightPart *rp;
+  MultiView *mv;
 
   /* 
    * Different maps for different table sizes:
@@ -135,10 +105,10 @@ private:
    *   player[1]: Shorthand (3 - 6 players)
    *   player[2]: Heads-Up (2 players)
    */
-  std::map<QString, PlayerStat> player[3];
+  smap player[3];
   
   /* A map for the players in any situation. */
-  std::map<QString, PlayerStat> allPlayers;
+  smap allPlayers;
 
 public:
   MainWindow (QWidget *parent = 0);
@@ -148,6 +118,7 @@ public slots:
   void refresh ();
   void showPlayerStats ();
   void showPlayerStats (const QString);
+  void addToMultiview (QListWidgetItem*);
   void clickedAboutQT ();
   void clickedAbout ();
 };

@@ -4,7 +4,12 @@ cmake_minimum_required(VERSION 2.8.11)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(PTHT_SRC main.cpp mainwindow.cpp)
+set(PTHT_SRC
+  main.cpp
+  mainwindow.cpp
+  PlayerStat.cpp
+  multiview.cpp
+)
 set(PTHT_LANG Lang/PokerTH_tracker_de.ts)
 set(PTHT_ICON Icons/PokerTH_Tracker.png)
 set(PTHT_DSKT PokerTH_tracker.desktop)

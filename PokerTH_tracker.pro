@@ -17,9 +17,13 @@ TEMPLATE = app
 target.path = /usr/local/bin
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp\
+        PlayerStat.cpp\
+        multiview.cpp
 
-HEADERS  += mainwindow.hpp
+HEADERS  += mainwindow.hpp\
+        PlayerStat.hpp\
+        multiview.hpp
 
 TRANSLATIONS = Lang/PokerTH_tracker_de.ts
 

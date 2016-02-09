@@ -43,84 +43,6 @@
 #include <QDebug>
 #include <QSettings>
 
-double PlayerStat::VPIP () const
-{
-  return 100.0 * (pf_calls + pf_open) / observed_hands;
-}
-
-double PlayerStat::preflop_raise () const
-{
-  return 100.0 * pf_open / observed_hands;
-}
-
-double PlayerStat::AF_ave () const
-{
-  return (AF_flop () + AF_turn () + AF_river ()) / 3.0;
-}
-
-double PlayerStat::AF_flop () const
-{
-  return (double) f_bet / f_check_call;
-}
-
-double PlayerStat::AF_turn () const
-{
-  return (double) t_bet / t_check_call;
-}
-
-double PlayerStat::AF_river () const
-{
-  return (double) r_bet / r_check_call;
-}
-
-double PlayerStat::contibet () const
-{
-  return 100.0 * f_contibet / pf_open;
-}
-
-double PlayerStat::seen_turn () const
-{
-  return 100.0 * t_seen / observed_hands;
-}
-
-double PlayerStat::seen_river () const
-{
-  return 100.0 * r_seen / observed_hands;
-}
-
-double PlayerStat::wtShowdown () const
-{
-  return 100.0 * sd_seen / f_seen;
-}
-
-double PlayerStat::wonShowdown () const
-{
-  return 100.0 * sd_won / sd_seen;
-}
-
-PlayerStat& PlayerStat::operator+= (PlayerStat& other)
-{
-  observed_hands += other.observed_hands;
-  pf_open += other.pf_open;
-  pf_calls += other.pf_calls;
-  f_seen += other.f_seen;
-  f_check_call += other.f_check_call;
-  f_bet += other.f_bet;
-  f_contibet += other.f_contibet;
-  f_fold += other.f_fold;
-  t_seen += other.t_seen;
-  t_bet += other.t_bet;
-  t_check_call += other.t_check_call;
-  t_fold += other.t_fold;
-  r_seen += other.r_seen;
-  r_bet += other.r_bet;
-  r_check_call += other.r_check_call;
-  r_fold += other.r_fold;
-  sd_seen += other.sd_seen;
-  sd_won += other.sd_won;
-  return *this;
-}
-
 /* Dirty workaround! */
 struct RoundAct
 {
@@ -136,6 +58,7 @@ LeftPart::LeftPart (QSettings* config, QWidget *parent)
   t_path->setReadOnly (true);
   b_search = new QPushButton (tr ("Search..."));
   l_players = new QListWidget ();
+  l_players->setToolTip (tr ("Double click on player to add to multi player view."));
   lopen = new QFileDialog ();
   lopen->setFileMode (QFileDialog::Directory);
   layout->addWidget (t_path, 0, 0, 1, 1);
@@ -295,17 +218,17 @@ void RightPart::setupProps (const QString pname, const PlayerStat stat)
 {
   l_name->setText (pname);
   t_obh->setText (QString::number (stat.observed_hands));
-  t_vpip->setText (QString ("%1 %").arg (stat.VPIP ()));
-  t_pfr->setText (QString ("%1 %").arg (stat.preflop_raise ()));
+  t_vpip->setText (QString ("%1 %").arg (stat.VPIP (), 0, 'g', 3));
+  t_pfr->setText (QString ("%1 %").arg (stat.preflop_raise (), 0, 'g', 3));
   t_faf->setText (QString::number (stat.AF_flop (), 'g', 3));
-  t_conbet->setText (QString ("%1 %").arg (stat.contibet ()));
-  t_tseen->setText (QString ("%1 %").arg (stat.seen_turn ()));
+  t_conbet->setText (QString ("%1 %").arg (stat.contibet (), 0, 'g', 3));
+  t_tseen->setText (QString ("%1 %").arg (stat.seen_turn (), 0, 'g', 3));
   t_taf->setText (QString::number (stat.AF_turn (), 'g', 3));
-  t_rseen->setText (QString ("%1 %").arg (stat.seen_river ()));
+  t_rseen->setText (QString ("%1 %").arg (stat.seen_river (), 0, 'g', 3));
   t_raf->setText (QString::number (stat.AF_river (), 'g', 3));
   t_af->setText (QString::number (stat.AF_ave (), 'g', 3));
-  t_wts->setText (QString ("%1 %").arg (stat.wtShowdown ()));
-  t_sdw->setText (QString ("%1 %").arg (stat.wonShowdown ()));
+  t_wts->setText (QString ("%1 %").arg (stat.wtShowdown (), 0, 'g', 3));
+  t_sdw->setText (QString ("%1 %").arg (stat.wonShowdown (), 0, 'g', 3));
 }
 
 int RightPart::desiredTableSize ()
@@ -319,7 +242,7 @@ void RightPart::changedTableSize (int index)
 }
 
 MainWindow::MainWindow (QWidget *parent)
-  : QMainWindow (parent), player ()
+  : QMainWindow (parent)
 {
   settings = new QSettings ("Pik-9", "PokerTH-Tracker");  
   resize (1024, 786);
@@ -353,6 +276,7 @@ MainWindow::MainWindow (QWidget *parent)
 
   lp = new LeftPart (settings);
   rp = new RightPart ();
+  mv = new MultiView (player, &allPlayers);
   splitter->addWidget (lp);
   splitter->addWidget (rp);
   splitter->setStretchFactor (0, 1);
@@ -361,6 +285,7 @@ MainWindow::MainWindow (QWidget *parent)
 
   connect (lp, SIGNAL (changedDirectory ()), this, SLOT (refresh ()));
   connect (lp->getListWidget (), SIGNAL (currentTextChanged (const QString)), this, SLOT (showPlayerStats (const QString)));
+  connect (lp->getListWidget (), SIGNAL (itemDoubleClicked (QListWidgetItem*)), this, SLOT (addToMultiview (QListWidgetItem*)));
   connect (rp, SIGNAL (requestStat ()), this, SLOT (showPlayerStats ()));
 
   refresh ();
@@ -567,6 +492,7 @@ void MainWindow::refresh ()
       overview->addItem (it->first);
     }
     settings->setValue ("defaultPath", lp->getFilePath ());
+    mv->writeTable ();
     statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (files.count ()).arg (dir.absolutePath ()));
   } else  {
     statusBar ()->showMessage (tr ("There were errors while loading files from %1!").arg (dir.absolutePath ()));
@@ -590,6 +516,11 @@ void MainWindow::showPlayerStats (const QString pname)
       rp->setupProps (pname, player[rp->desiredTableSize ()][pname]);
     }
   }
+}
+
+void MainWindow::addToMultiview (QListWidgetItem* item)
+{
+  mv->addPlayer (item->text ());
 }
 
 void MainWindow::clickedAboutQT ()
