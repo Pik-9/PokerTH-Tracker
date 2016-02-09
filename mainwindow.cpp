@@ -540,6 +540,9 @@ void MainWindow::refresh ()
       /* Showdown */
       if (round == 4)  {
         hand_agg[player_name][4] |= 1;
+        for (uint32_t ii = 0; ii < 4; ++ii)  {
+          hand_agg[player_name][ii] |= 16;
+        }
         if (player_action == "wins")  {
           hand_agg[player_name][4] |= 2;
         }
