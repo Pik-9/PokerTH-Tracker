@@ -25,7 +25,6 @@
 
 #include <QWidget>
 
-#include <map>
 #include <vector>
 
 #include "PlayerStat.hpp"
@@ -36,8 +35,6 @@ class QGridLayout;
 class QLabel;
 class QComboBox;
 class QShowEvent;
-
-typedef std::map<QString, PlayerStat> smap;
 
 class MultiView : public QWidget
 {

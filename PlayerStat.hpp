@@ -24,6 +24,8 @@
 #define PLAYER_HPP
 
 #include <stdint.h>
+#include <map>
+#include <QString>
 
 struct PlayerStat
 {
@@ -56,5 +58,20 @@ struct PlayerStat
   
   PlayerStat& operator+= (PlayerStat&);
 };
+
+/*
+ * This is just a comparison object.
+ * It defines an < operator where upper and lower case letters are
+ * treated the same.
+ */
+struct orderQStringIgnCase
+{
+  bool operator ()(const QString& a, const QString& b) const
+  {
+    return (a.toUpper () < b.toUpper ());
+  }
+};
+
+typedef std::map<QString, PlayerStat, orderQStringIgnCase> smap;
 
 #endif
