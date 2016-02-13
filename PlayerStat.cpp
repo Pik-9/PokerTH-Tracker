@@ -30,79 +30,55 @@
 
 double PlayerStat::VPIP () const
 {
-  return 100.0 * (pf_calls + pf_open) / observed_hands;
+  return 100.0 * (round_bet[0] + round_call[0]) / observed_hands;
 }
 
 double PlayerStat::preflop_raise () const
 {
-  return 100.0 * pf_open / observed_hands;
+  return 100.0 * round_bet[0] / observed_hands;
 }
 
 double PlayerStat::AF_ave () const
 {
-  return (AF_flop () + AF_turn () + AF_river ()) / 3.0;
+  return (AF (FLOP) + AF (TURN) + AF (RIVER)) / 3.0;
 }
 
-double PlayerStat::AF_flop () const
+double PlayerStat::AF (const gameRound RND) const
 {
-  return (double) f_bet / f_check_call;
+  return (double) round_bet[RND] / (round_check[RND] + round_call[RND]);
 }
 
-double PlayerStat::AF_turn () const
+double PlayerStat::F_contibet () const
 {
-  return (double) t_bet / t_check_call;
+  return 100.0 * contibet / round_bet[0];
 }
 
-double PlayerStat::AF_river () const
+double PlayerStat::seen_round (const gameRound RND) const
 {
-  return (double) r_bet / r_check_call;
-}
-
-double PlayerStat::contibet () const
-{
-  return 100.0 * f_contibet / pf_open;
-}
-
-double PlayerStat::seen_turn () const
-{
-  return 100.0 * t_seen / observed_hands;
-}
-
-double PlayerStat::seen_river () const
-{
-  return 100.0 * r_seen / observed_hands;
+  return 100.0 * round_seen[RND] / observed_hands;
 }
 
 double PlayerStat::wtShowdown () const
 {
-  return 100.0 * sd_seen / f_seen;
-}
-
-double PlayerStat::wonShowdown () const
-{
-  return 100.0 * sd_won / sd_seen;
+  return 100.0 * round_seen[4] / round_seen[1];
 }
 
 PlayerStat& PlayerStat::operator+= (PlayerStat& other)
 {
   observed_hands += other.observed_hands;
-  pf_open += other.pf_open;
-  pf_calls += other.pf_calls;
-  f_seen += other.f_seen;
-  f_check_call += other.f_check_call;
-  f_bet += other.f_bet;
-  f_contibet += other.f_contibet;
-  f_fold += other.f_fold;
-  t_seen += other.t_seen;
-  t_bet += other.t_bet;
-  t_check_call += other.t_check_call;
-  t_fold += other.t_fold;
-  r_seen += other.r_seen;
-  r_bet += other.r_bet;
-  r_check_call += other.r_check_call;
-  r_fold += other.r_fold;
-  sd_seen += other.sd_seen;
-  sd_won += other.sd_won;
+  contibet += other.contibet;
+  wsd += other.wsd;
+  wwsf += other.wwsf;
+  for (int ii = 0; ii < 4; ++ii)  {
+    round_bet[ii] += other.round_bet[ii];
+    round_call[ii] += other.round_call[ii];
+    round_check[ii] += other.round_check[ii];
+    round_checkraise[ii] += other.round_checkraise[ii];
+    round_fn[ii] += other.round_fn[ii];
+    round_nbet[ii] += other.round_nbet[ii];
+    round_seen[ii] += other.round_seen[ii];
+  }
+  round_seen[SHOWDOWN] += other.round_seen[SHOWDOWN];
   return *this;
 }
 
@@ -120,6 +96,12 @@ void Statistics::loadStatistics (const QString path)
   QStringList files = dir.entryList (QStringList ("*.pdb"));
   QSqlDatabase db = QSqlDatabase::addDatabase ("QSQLITE", "Logfile");
   QSqlQuery qu (db);
+  
+  /* Clear the maps before (re-)loading. */
+  for (int ii = 0; ii < 4; ++ii)  {
+    statMaps[ii].clear ();
+  }
+  
   for (int ii = 0; ii < files.count (); ++ii)  {
     db.setDatabaseName (dir.absoluteFilePath (files.at (ii)));
     db.open ();
@@ -130,9 +112,9 @@ void Statistics::loadStatistics (const QString path)
       "WHERE Action.UniqueGameID = Player.UniqueGameID AND Action.Player = Player.Seat"
     );
     
-    unsigned int round_ = 6, nbet = 0;
+    unsigned int round_ = 6, nbet = 0, betsize = 0;
     smap tmp;
-    while (qu.next ())  {
+    while (qu.next ())  {      
       unsigned int round = qu.value (0).toInt ();
       QString player_name = qu.value (1).toString ();
       QString player_action = qu.value (2).toString ();
@@ -140,21 +122,117 @@ void Statistics::loadStatistics (const QString path)
       
       /* New game. */
       if (round < round_)  {
-        
+        /* Determine table size and correct map. */
+        unsigned int mtu;
+        if (tmp.size() < 7)  {
+          mtu = 0;
+        } else if (tmp.size () > 2)  {
+          mtu = 1;
+        } else  {
+          mtu = 2;
+        }
+        smap& mapToUse = statMaps[mtu];
+        for (smap::iterator it = tmp.begin (); it != tmp.end (); ++it)  {
+          mapToUse[it->first] += it->second;
+        }
       } else if (round > round_)  {
         /* New round. */
-        nbet = 0;
+        betsize = nbet = 0;
       }
       
-      switch (round)  {
-        case 1: { /* Flop */
-          if (!tmp[player_name].f_seen)  {
-            tmp[player_name].f_seen++;
+      tmp[player_name].round_seen[round] = 1;
+      
+      if (player_action == "postst big blind")  {
+        nbet = 1;
+        betsize = amount;
+      }
+      
+      if (player_action == "checks")  {
+        tmp[player_name].round_check[round]++;
+      }
+      
+      if (player_action == "calls")  {
+        tmp[player_name].round_call[round]++;
+      }
+      
+      if (player_action == "bets")  {
+        if (nbet)  {
+          tmp[player_name].round_nbet[round]++;
+          if (tmp[player_name].round_check[round])  {
+            tmp[player_name].round_checkraise[round]++;
+            tmp[player_name].round_check[round] = 0;
           }
-          break;
+        }
+        tmp[player_name].round_bet[round]++;
+        betsize = amount;
+        
+        if (tmp[player_name].round_bet[0])  {
+          tmp[player_name].contibet++;
+        }
+        
+        nbet++;
+      }
+      
+      if (player_action == "folds")  {
+        if (nbet > 1)  {
+          tmp[player_name].round_fn[round]++;
         }
       }
       
+      if (player_action == "is all in with")  {
+        for (int ir = 0; ir < 5; ++ir)  {
+          tmp[player_name].round_seen[ir] = 1;
+        }
+        
+        /* Is this all-in a call or a raise? */
+        if (amount > betsize)  {
+          if (nbet)  {
+            tmp[player_name].round_nbet[round]++;
+            if (tmp[player_name].round_check[round])  {
+              tmp[player_name].round_checkraise[round]++;
+              tmp[player_name].round_check[round] = 0;
+            }
+          }
+          tmp[player_name].round_bet[round]++;
+          betsize = amount;
+          nbet++;
+        } else  {
+          tmp[player_name].round_call[round]++;
+        }
+      }
+      
+      if (player_action == "wins")  {
+        if (round)  {
+          /* Won money after seeing the flop. */
+          tmp[player_name].wwsf++;
+        }
+        if (round == 5)  {
+          /* Won money in showdown. */
+          tmp[player_name].wsd++;
+        }
+      }
+    }
+    db.close ();
+  }
+  
+  /* Sum up the maps for different table sizes in the last one for any. */
+  for (int ii = 0; ii < 3; ++ii)  {
+    for (smap::iterator it = statMaps[ii].begin (); it != statMaps[ii].end (); ++it)  {
+      statMaps[ANY][it->first] += it->second;
     }
   }
+}
+
+QStringList Statistics::getPlayerNames ()
+{
+  QStringList RET;
+  for (smap::iterator it = statMaps[ANY].begin (); it != statMaps[ANY].end (); ++it)  {
+    RET.push_back (it->first);
+  }
+  return RET;
+}
+
+PlayerStat Statistics::getPlayerStat(const QString pname, const tableSize size)
+{
+  return statMaps[size][pname];
 }

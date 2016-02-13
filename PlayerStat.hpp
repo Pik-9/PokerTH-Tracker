@@ -25,36 +25,55 @@
 
 #include <stdint.h>
 #include <map>
-#include <QString>
+#include <QStringList>
+
+enum tableSize
+{
+  FULLRING,
+  SHORTHAND,
+  HEADSUP,
+  ANY
+};
+
+enum gameRound
+{
+  PREFLOP,
+  FLOP,
+  TURN,
+  RIVER,
+  SHOWDOWN
+};
 
 struct PlayerStat
 {
-  /* Preflop */
-  uint32_t observed_hands, pf_calls, pf_open, pf_nbet, pf_fn; /* n > 2 */
+  /* General */
+  uint32_t observed_hands, contibet;
 
-  /* Flop */
-  uint32_t f_seen, f_check_call, f_bet, f_contibet, f_fold;
+  /* 
+   * 0: Preflop
+   * 1: Flop
+   * 2: Turn
+   * 3: River
+   * 4: Showdown
+   */
+  uint32_t round_seen[5],
+    round_bet[4],
+    round_check[4],
+    round_call[4],
+    round_nbet[4],
+    round_fn[4],
+    round_checkraise[4];
 
-  /* Turn */
-  uint32_t t_seen, t_check_call, t_bet, t_fold;
-
-  /* River */
-  uint32_t r_seen, r_check_call, r_bet, r_fold;
-
-  /* Showdown */
-  uint32_t sd_seen, sd_won, wwsf;
+  /* Winnings */
+  uint32_t wsd, wwsf;
   
   double VPIP () const;
   double preflop_raise () const;
   double AF_ave () const;
-  double AF_flop () const;
-  double AF_turn () const;
-  double AF_river () const;
-  double contibet () const;
-  double seen_turn () const;
-  double seen_river () const;
+  double AF (const gameRound) const;
+  double F_contibet () const;
+  double seen_round (const gameRound) const;
   double wtShowdown () const;
-  double wonShowdown () const;
   
   PlayerStat& operator+= (PlayerStat&);
 };
@@ -77,13 +96,15 @@ typedef std::map<QString, PlayerStat, orderQStringIgnCase> smap;
 class Statistics
 {
 private:
-  smap allSizes, tableSize[3];
+  smap statMaps[4];
   
 public:
   Statistics ();
   virtual ~Statistics ();
   
   void loadStatistics (const QString);
+  QStringList getPlayerNames ();
+  PlayerStat getPlayerStat (const QString, const tableSize);
 };
 
 #endif
