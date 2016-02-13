@@ -30,7 +30,7 @@
 struct PlayerStat
 {
   /* Preflop */
-  uint32_t observed_hands, pf_calls, pf_open;
+  uint32_t observed_hands, pf_calls, pf_open, pf_nbet, pf_fn; /* n > 2 */
 
   /* Flop */
   uint32_t f_seen, f_check_call, f_bet, f_contibet, f_fold;
@@ -42,7 +42,7 @@ struct PlayerStat
   uint32_t r_seen, r_check_call, r_bet, r_fold;
 
   /* Showdown */
-  uint32_t sd_seen, sd_won;
+  uint32_t sd_seen, sd_won, wwsf;
   
   double VPIP () const;
   double preflop_raise () const;
@@ -73,5 +73,17 @@ struct orderQStringIgnCase
 };
 
 typedef std::map<QString, PlayerStat, orderQStringIgnCase> smap;
+
+class Statistics
+{
+private:
+  smap allSizes, tableSize[3];
+  
+public:
+  Statistics ();
+  virtual ~Statistics ();
+  
+  void loadStatistics (const QString);
+};
 
 #endif

@@ -22,6 +22,12 @@
 
 #include "PlayerStat.hpp"
 
+#include <QDir>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QDebug>
+
 double PlayerStat::VPIP () const
 {
   return 100.0 * (pf_calls + pf_open) / observed_hands;
@@ -98,4 +104,57 @@ PlayerStat& PlayerStat::operator+= (PlayerStat& other)
   sd_seen += other.sd_seen;
   sd_won += other.sd_won;
   return *this;
+}
+
+Statistics::Statistics ()
+{
+
+}
+
+Statistics::~Statistics ()
+{}
+
+void Statistics::loadStatistics (const QString path)
+{
+  QDir dir (path);
+  QStringList files = dir.entryList (QStringList ("*.pdb"));
+  QSqlDatabase db = QSqlDatabase::addDatabase ("QSQLITE", "Logfile");
+  QSqlQuery qu (db);
+  for (int ii = 0; ii < files.count (); ++ii)  {
+    db.setDatabaseName (dir.absoluteFilePath (files.at (ii)));
+    db.open ();
+    QSqlQuery qu (db);
+    qu.exec (
+      "SELECT Action.BeRo, Player.Player, Action.Action, Action.Amount "
+      "FROM Action, Player "
+      "WHERE Action.UniqueGameID = Player.UniqueGameID AND Action.Player = Player.Seat"
+    );
+    
+    unsigned int round_ = 6, nbet = 0;
+    smap tmp;
+    while (qu.next ())  {
+      unsigned int round = qu.value (0).toInt ();
+      QString player_name = qu.value (1).toString ();
+      QString player_action = qu.value (2).toString ();
+      unsigned int amount = qu.value (3).toInt ();
+      
+      /* New game. */
+      if (round < round_)  {
+        
+      } else if (round > round_)  {
+        /* New round. */
+        nbet = 0;
+      }
+      
+      switch (round)  {
+        case 1: { /* Flop */
+          if (!tmp[player_name].f_seen)  {
+            tmp[player_name].f_seen++;
+          }
+          break;
+        }
+      }
+      
+    }
+  }
 }
