@@ -30,7 +30,7 @@
 
 double PlayerStat::VPIP () const
 {
-  return 100.0 * (round_bet[0] + round_call[0]) / observed_hands;
+  return 100.0 * pf_invest / observed_hands;
 }
 
 double PlayerStat::preflop_raise () const
@@ -43,11 +43,6 @@ double PlayerStat::bet3_preflop () const
   return 100.0 * pf_3bet / observed_hands;
 }
 
-/*double PlayerStat::fold_3bet_preflop () const
-{
-  
-}*/
-
 double PlayerStat::AF_ave () const
 {
   return (AF (FLOP) + AF (TURN) + AF (RIVER)) / 3.0;
@@ -57,11 +52,6 @@ double PlayerStat::AF (const gameRound RND) const
 {
   return (double) round_bet[RND] / (round_check[RND] + round_call[RND]);
 }
-
-/*double PlayerStat::post_nbet () const
-{
-  return 100.0 * postflop_nbet / 
-}*/
 
 double PlayerStat::F_contibet () const
 {
@@ -120,6 +110,7 @@ PlayerStat& PlayerStat::operator+= (PlayerStat& other)
   wsd += other.wsd;
   wwsf += other.wwsf;
   pf_open += other.pf_open;
+  pf_invest += other.pf_invest;
   pf_3bet += other.pf_3bet;
   t_2b += other.t_2b;
   t_2be += other.t_2be;
@@ -332,6 +323,12 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
         } else  {
           tmp[player_name].round_call[round]++;
         }
+      }
+      
+      /* Check whether the player invested anything preflop,
+       * either by betting or by calling. */
+      if ((tmp[player_name].round_call[PREFLOP]) || (tmp[player_name].round_bet[PREFLOP]))  {
+        tmp[player_name].pf_invest = 1;
       }
       
       if (player_action == "wins")  {

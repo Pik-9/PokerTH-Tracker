@@ -32,10 +32,10 @@
 #include <QShowEvent>
 #include <QDir>
 
-MultiView::MultiView (smap* sizeDependentMap, smap* allSizeMap, QWidget* parent)
-  : QWidget (parent), sitStats (sizeDependentMap), allStats (allSizeMap)
+MultiView::MultiView (Statistics* PInformation, QWidget* parent)
+  : QWidget (parent), stat (PInformation)
 {
-  resize (1000, 550);
+  resize (1000, 750);
   setWindowTitle (tr ("Multiplayer view"));
   
   /* If the linux directory for shared files exists, load icon from it. */
@@ -93,32 +93,40 @@ void MultiView::writeTable ()
 {
   table->clear ();
   table->setColumnCount (observedPlayers.size () + 1);
-  table->setRowCount (13);
+  table->setRowCount (20);
   
-  QString desc[13] = {
+  tableSize ts = (tableSize) c_tsize->currentIndex ();
+  
+  QString desc[20] = {
     tr ("Name:"),
     tr ("Observed hands:"),
-    tr ("Average Aggression Factor:"),
     tr ("VP$IP:"),
     tr ("Preflop Raise:"),
+    tr ("3bet:"),
     tr ("Continuation bet:"),
-    tr ("Flop Aggression Factor:"),
+    tr ("Folded to Contibet:"),
+    tr ("Turn Contibet:"),
+    tr ("Folded to Turn C-Bet:"),
+    tr ("Folded to n-Bets:"),
+    tr ("Check-Raise:"),
+    tr ("Average AF:"),
+    tr ("Flop AF:"),
     tr ("Turn seen:"),
-    tr ("Turn Aggression Factor:"),
+    tr ("Turn AF:"),
     tr ("River seen:"),
-    tr ("River Aggression Factor:"),
+    tr ("River AF:"),
     tr ("Went to Showdown:"),
-    tr ("Won Showdown:")
+    tr ("W$WSF:"),
+    tr ("W$SD")
   };
   
   for (uint32_t ic = 0; ic < table->columnCount (); ++ic)  {
-    for (uint32_t ir = 0; ir < 13; ++ir)  {
+    for (uint32_t ir = 0; ir < 20; ++ir)  {
       QTableWidgetItem *ti = new QTableWidgetItem ();
       QFont boldText;
       boldText.setBold (true);
       if (ic)  {
         QString pname = observedPlayers[ic - 1];
-        smap& mapToUse = (c_tsize->currentIndex () > 2 ? *allStats : sitStats[c_tsize->currentIndex ()]);
         switch (ir)  {
           case 0:  {
             ti->setText (QString ("%1").arg (pname));
@@ -127,62 +135,97 @@ void MultiView::writeTable ()
           }
           
           case 1:  {
-            ti->setText (QString::number (mapToUse[pname].observed_hands));
+            ti->setText (QString::number (stat->getPlayerStat(pname, ts).observed_hands));
             break;
           }
           
           case 2:  {
-            ti->setText (QString::number (mapToUse[pname].AF_ave (), 'g', 3));
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat(pname, ts).VPIP (), 0, 'g', 3));
             break;
           }
           
           case 3:  {
-            ti->setText (QString ("%1 %").arg (mapToUse[pname].VPIP (), 0, 'g', 3));
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat(pname, ts).preflop_raise (), 0, 'g', 3));
             break;
           }
           
           case 4:  {
-            ti->setText (QString ("%1 %").arg (mapToUse[pname].preflop_raise (), 0, 'g', 3));
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).bet3_preflop (), 0, 'g', 3));
             break;
           }
           
           case 5:  {
-            //ti->setText (QString ("%1 %").arg (mapToUse[pname].contibet (), 0, 'g', 3));
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).F_contibet (), 0, 'g', 3));
             break;
           }
           
           case 6:  {
-            //ti->setText (QString::number (mapToUse[pname].AF_flop (), 'g', 3));
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).folded_conbet (), 0, 'g', 3));
             break;
           }
           
           case 7:  {
-            //ti->setText (QString ("%1 %").arg (mapToUse[pname].seen_turn (), 0, 'g', 3));
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).T_contibet (), 0, 'g', 3));
             break;
           }
           
           case 8:  {
-            //ti->setText (QString::number (mapToUse[pname].AF_turn (), 'g', 3));
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).folded_turnbet (), 0, 'g', 3));
             break;
           }
           
           case 9:  {
-            //ti->setText (QString ("%1 %").arg (mapToUse[pname].seen_river (), 0, 'g', 3));
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).folded_nbet (), 0, 'g', 3));
             break;
           }
           
           case 10:  {
-            //ti->setText (QString::number (mapToUse[pname].AF_river (), 'g', 3));
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).checkraise_prop (), 0, 'g', 3));
             break;
           }
           
           case 11:  {
-            ti->setText (QString ("%1 %").arg (mapToUse[pname].wtShowdown (), 0, 'g', 3));
+            ti->setText (QString ("%1").arg (stat->getPlayerStat (pname, ts).AF_ave (), 0, 'g', 3));
             break;
           }
           
           case 12:  {
-            //ti->setText (QString ("%1 %").arg (mapToUse[pname].wonShowdown (), 0, 'g', 3));
+            ti->setText (QString ("%1").arg (stat->getPlayerStat (pname, ts).AF (FLOP), 0, 'g', 3));
+            break;
+          }
+          
+          case 13:  {
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).seen_round (TURN), 0, 'g', 3));
+            break;
+          }
+          
+          case 14:  {
+            ti->setText (QString ("%1").arg (stat->getPlayerStat (pname, ts).AF (TURN), 0, 'g', 3));
+            break;
+          }
+          
+          case 15:  {
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).seen_round (RIVER), 0, 'g', 3));
+            break;
+          }
+          
+          case 16:  {
+            ti->setText (QString ("%1").arg (stat->getPlayerStat (pname, ts).AF (RIVER), 0, 'g', 3));
+            break;
+          }
+          
+          case 17:  {
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).wtShowdown (), 0, 'g', 3));
+            break;
+          }
+          
+          case 18:  {
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).wonPostflop (), 0, 'g', 3));
+            break;
+          }
+          
+          case 19:  {
+            ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).wonShowdown (), 0, 'g', 3));
             break;
           }
         }

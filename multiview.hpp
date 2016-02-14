@@ -46,11 +46,11 @@ private:
   QPushButton *b_ok, *b_clear, *b_rem;
   QTableWidget *table;
   
-  smap *sitStats, *allStats;
+  Statistics* stat;
   std::vector<QString> observedPlayers;
   
 public:
-  MultiView (smap*, smap*, QWidget* parent = 0);
+  MultiView (Statistics*, QWidget* parent = 0);
   ~MultiView ();
   
 protected:

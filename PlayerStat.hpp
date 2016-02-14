@@ -47,7 +47,8 @@ enum gameRound
 struct PlayerStat
 {
   /* General */
-  uint32_t observed_hands, pf_open;
+  uint32_t observed_hands,
+    pf_open, pf_invest;
   
   /* n-bets and other stuff */
   uint32_t pf_3bet,  /* Preflop 3bet */

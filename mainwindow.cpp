@@ -291,16 +291,16 @@ MainWindow::MainWindow (QWidget *parent)
   fhelp->addAction (tr ("About"), this, SLOT (clickedAbout ()));
   menuBar ()->addMenu (fhelp);
 
+  stat = new Statistics ();
+  
   lp = new LeftPart (settings);
   rp = new RightPart ();
-  //mv = new MultiView (player, &allPlayers);
+  mv = new MultiView (stat);
   splitter->addWidget (lp);
   splitter->addWidget (rp);
   splitter->setStretchFactor (0, 1);
   splitter->setStretchFactor (1, 1);
   setCentralWidget (splitter);
-  
-  stat = new Statistics ();
 
   connect (lp, SIGNAL (changedDirectory ()), this, SLOT (refresh ()));
   connect (lp->getListWidget (), SIGNAL (currentTextChanged (const QString)), this, SLOT (showPlayerStats (const QString)));
@@ -321,7 +321,7 @@ void MainWindow::refresh ()
     overview->clear ();
     overview->addItems (stat->getPlayerNames ());
     settings->setValue ("defaultPath", lp->getFilePath ());
-    //mv->writeTable ();
+    mv->writeTable ();
     statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (cf).arg (lp->getFilePath ()));
   } else  {
     statusBar ()->showMessage (tr ("There were errors while loading files from %1!").arg (lp->getFilePath ()));
@@ -345,7 +345,7 @@ void MainWindow::showPlayerStats (const QString pname)
 
 void MainWindow::addToMultiview (QListWidgetItem* item)
 {
-  //mv->addPlayer (item->text ());
+  mv->addPlayer (item->text ());
 }
 
 void MainWindow::clickedAboutQT ()
