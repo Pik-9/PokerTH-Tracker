@@ -47,7 +47,15 @@ enum gameRound
 struct PlayerStat
 {
   /* General */
-  uint32_t observed_hands, contibet;
+  uint32_t observed_hands, pf_open;
+  
+  /* n-bets and other stuff */
+  uint32_t pf_3bet,  /* Preflop 3bet */
+    f_cb, f_cbe, f_fc,  /* Contibet on flop, confronted with c-bet, folded to c-bet. */
+    t_2b, t_2be, t_f2,  /* Turn bet, confronted with Turn bet and folded to Turn bet. */
+    postflop_nb, postflop_nbe, postflop_fn; /* Postflop n-bet, confronted with p-n-bet, folded to p-n-bet. */
+    
+  uint32_t checkraises;
 
   /* 
    * 0: Preflop
@@ -58,22 +66,27 @@ struct PlayerStat
    */
   uint32_t round_seen[5],
     round_bet[4],
-    round_check[4],
-    round_call[4],
-    round_nbet[4],
-    round_fn[4],
-    round_checkraise[4];
+    round_check[4], /* Only count passive checks; check-raises are counted separately. */
+    round_call[4];
 
   /* Winnings */
   uint32_t wsd, wwsf;
   
   double VPIP () const;
   double preflop_raise () const;
+  double bet3_preflop () const;
   double AF_ave () const;
   double AF (const gameRound) const;
   double F_contibet () const;
+  double T_contibet () const;
+  double folded_conbet () const;
+  double folded_turnbet () const;
+  double folded_nbet () const;
+  double checkraise_prop () const;
   double seen_round (const gameRound) const;
   double wtShowdown () const;
+  double wonShowdown () const;
+  double wonPostflop () const;
   
   PlayerStat& operator+= (PlayerStat&);
 };
@@ -102,7 +115,8 @@ public:
   Statistics ();
   virtual ~Statistics ();
   
-  void loadStatistics (const QString);
+  /* Returns true on success, false otherwise. */
+  bool loadStatistics (const QString, uint32_t *count_files = 0);
   QStringList getPlayerNames ();
   PlayerStat getPlayerStat (const QString, const tableSize);
 };

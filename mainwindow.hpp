@@ -70,15 +70,32 @@ class RightPart : public QWidget
 private:
   QGridLayout *layout;
   QComboBox *c_table;
-  QLabel *l_tsize, *l_name, *l_obh, *l_vpip, *l_pfr, *l_faf, *l_conbet, *l_tseen, *l_taf, *l_rseen, *l_raf, *l_af, *l_wts, *l_sdw;
-  QLabel *t_obh, *t_vpip, *t_pfr, *t_faf, *t_conbet, *t_tseen, *t_taf, *t_rseen, *t_raf, *t_af, *t_wts, *t_sdw;
-  QLabel *l_preflop_cap, *l_flop_cap, *l_turn_cap, *l_river_cap, *l_showdown_cap;
+  QLabel *l_tsize, *l_name, *l_obh, *t_obh;
+  QLabel *l_preflop, *l_postflop, *l_winnings;
+  QLabel *l_vpip, *t_vpip,
+    *l_pfr, *t_pfr,
+    *l_3bet, *t_3bet;
+  QLabel *l_conti, *t_conti,
+    *l_fconti, *t_fconti,
+    *l_tbet, *t_tbet,
+    *l_ftbet, *t_ftbet;
+  QLabel *l_fnbet, *t_fnbet;
+  QLabel *l_cr, *t_cr;
+  QLabel *l_aAF, *t_aAF,
+    *l_fAF, *t_fAF,
+    *l_tseen, *t_tseen,
+    *l_tAF, *t_tAF,
+    *l_rseen, *t_rseen,
+    *l_rAF, *t_rAF;
+  QLabel *l_wts, *t_wts,
+    *l_wwsf, *t_wwsf,
+    *l_wsd, *t_wsd;
 
 public:
   RightPart (QWidget *parent = 0);
   ~RightPart ();
 
-  void setupProps (const QString, const PlayerStat);
+  void setupProps (const QString, Statistics*);
   int desiredTableSize ();
   
 public slots:
@@ -99,16 +116,7 @@ private:
   RightPart *rp;
   MultiView *mv;
 
-  /* 
-   * Different maps for different table sizes:
-   *   player[0]: Fullring (7 - 10 players)
-   *   player[1]: Shorthand (3 - 6 players)
-   *   player[2]: Heads-Up (2 players)
-   */
-  smap player[3];
-  
-  /* A map for the players in any situation. */
-  smap allPlayers;
+  Statistics *stat;
 
 public:
   MainWindow (QWidget *parent = 0);

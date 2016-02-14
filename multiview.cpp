@@ -147,32 +147,32 @@ void MultiView::writeTable ()
           }
           
           case 5:  {
-            ti->setText (QString ("%1 %").arg (mapToUse[pname].contibet (), 0, 'g', 3));
+            //ti->setText (QString ("%1 %").arg (mapToUse[pname].contibet (), 0, 'g', 3));
             break;
           }
           
           case 6:  {
-            ti->setText (QString::number (mapToUse[pname].AF_flop (), 'g', 3));
+            //ti->setText (QString::number (mapToUse[pname].AF_flop (), 'g', 3));
             break;
           }
           
           case 7:  {
-            ti->setText (QString ("%1 %").arg (mapToUse[pname].seen_turn (), 0, 'g', 3));
+            //ti->setText (QString ("%1 %").arg (mapToUse[pname].seen_turn (), 0, 'g', 3));
             break;
           }
           
           case 8:  {
-            ti->setText (QString::number (mapToUse[pname].AF_turn (), 'g', 3));
+            //ti->setText (QString::number (mapToUse[pname].AF_turn (), 'g', 3));
             break;
           }
           
           case 9:  {
-            ti->setText (QString ("%1 %").arg (mapToUse[pname].seen_river (), 0, 'g', 3));
+            //ti->setText (QString ("%1 %").arg (mapToUse[pname].seen_river (), 0, 'g', 3));
             break;
           }
           
           case 10:  {
-            ti->setText (QString::number (mapToUse[pname].AF_river (), 'g', 3));
+            //ti->setText (QString::number (mapToUse[pname].AF_river (), 'g', 3));
             break;
           }
           
@@ -182,7 +182,7 @@ void MultiView::writeTable ()
           }
           
           case 12:  {
-            ti->setText (QString ("%1 %").arg (mapToUse[pname].wonShowdown (), 0, 'g', 3));
+            //ti->setText (QString ("%1 %").arg (mapToUse[pname].wonShowdown (), 0, 'g', 3));
             break;
           }
         }

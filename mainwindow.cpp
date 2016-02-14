@@ -37,18 +37,7 @@
 #include <QDesktopWidget>
 #include <QMessageBox>
 #include <QDir>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QDebug>
 #include <QSettings>
-
-/* Dirty workaround! */
-struct RoundAct
-{
-  uint8_t data[5];
-  uint8_t& operator[] (unsigned int id) { return data[id]; }
-};
 
 LeftPart::LeftPart (QSettings* config, QWidget *parent)
   : QWidget (parent), settings (config)
@@ -117,96 +106,116 @@ RightPart::RightPart (QWidget *parent)
   c_table->setCurrentIndex (3);
   
   l_obh = new QLabel (tr ("Observed hands:"));
-  l_af = new QLabel (tr ("Average Aggression Factor:"));
-  l_af->setCursor (Qt::WhatsThisCursor);
-  l_af->setToolTip (tr ("Agression Factor = (times of <i>bet</i> or <i>raise</i>) / (times of <i>check</i> or <i>call</i>)"));
   
-  l_preflop_cap = new QLabel (tr ("<b>Preflop</b>"));
+  l_preflop = new QLabel (tr ("<b>Preflop</b>"));
+  l_postflop = new QLabel (tr ("<b>Postflop</b>"));
+  l_winnings = new QLabel (tr ("<b>Winnings</b>"));
+  
   l_vpip = new QLabel (tr ("VP$IP:"));
   l_vpip->setCursor (Qt::WhatsThisCursor);
   l_vpip->setToolTip (tr ("Percantage of hands the player voluntarily invested money in."));
   l_pfr = new QLabel (tr ("Preflop Raise:"));
   l_pfr->setCursor (Qt::WhatsThisCursor);
   l_pfr->setToolTip (tr ("Percentage of hands the player raised with preflop."));
+  l_3bet = new QLabel (tr ("3bet:"));
   
-  l_flop_cap = new QLabel (tr ("<b>Flop</b>"));
-  l_faf = new QLabel (tr ("Flop Aggression Factor:"));
-  l_conbet = new QLabel (tr ("Continuation bet:"));
-  l_conbet->setCursor (Qt::WhatsThisCursor);
-  l_conbet->setToolTip (tr ("How often the player bet on the Flop after he raised preflop."));
+  l_conti = new QLabel (tr ("Continuation Bet:"));
+  l_fconti = new QLabel (tr ("Folded to Contibet:"));
+  l_tbet = new QLabel (tr ("Turn Contibet:"));
+  l_ftbet = new QLabel (tr ("Folded to Turn C-Bet:"));
   
-  l_turn_cap = new QLabel (tr ("<b>Turn</b>"));
+  l_fnbet = new QLabel (tr ("Folded to n-Bets:"));
+  l_cr = new QLabel (tr ("Check-Raise:"));
+  
+  l_aAF = new QLabel (tr ("Average AF:"));
+  l_fAF = new QLabel (tr ("Flop AF:"));
   l_tseen = new QLabel (tr ("Turn seen:"));
   l_tseen->setCursor (Qt::WhatsThisCursor);
   l_tseen->setToolTip (tr ("With how many hands the player went to the Turn."));
-  l_taf = new QLabel (tr ("Turn Aggression Factor:"));
-  
-  l_river_cap = new QLabel (tr ("<b>River</b>"));
+  l_tAF = new QLabel (tr ("Turn AF:"));
   l_rseen = new QLabel (tr ("River seen:"));
   l_rseen->setCursor (Qt::WhatsThisCursor);
   l_rseen->setToolTip (tr ("With how many hands the player went to the River."));
-  l_raf = new QLabel (tr ("River Aggression Factor:"));
+  l_rAF = new QLabel (tr ("River AF:"));
   
-  
-  l_showdown_cap = new QLabel (tr ("<b>Showdown</b>"));
   l_wts = new QLabel (tr ("Went to Showdown:"));
   l_wts->setCursor (Qt::WhatsThisCursor);
   l_wts->setToolTip (tr ("With how many hands the player went to Showdown <b>after the flop</b>."));
-  l_sdw = new QLabel (tr ("Won Showdown:"));
-  l_sdw->setCursor (Qt::WhatsThisCursor);
-  l_sdw->setToolTip (tr ("How many Showdowns the player won."));
+  l_wwsf = new QLabel (tr ("W$WSF:"));
+  l_wsd = new QLabel (tr ("W$SD:"));
+  l_wsd->setCursor (Qt::WhatsThisCursor);
+  l_wsd->setToolTip (tr ("How often the player wins by going to Showdown."));
   
   t_obh = new QLabel ("0");
   t_vpip = new QLabel ("0");
   t_pfr = new QLabel ("0");
-  t_faf = new QLabel ("0");
-  t_conbet = new QLabel ("0");
+  t_3bet = new QLabel ("0");
+  t_conti = new QLabel ("0");
+  t_fconti = new QLabel ("0");
+  t_tbet = new QLabel ("0");
+  t_ftbet = new QLabel ("0");
+  t_fnbet = new QLabel ("0");
+  t_cr = new QLabel ("0");
+  t_aAF = new QLabel ("0");
+  t_fAF = new QLabel ("0");
   t_tseen = new QLabel ("0");
-  t_taf = new QLabel ("0");
+  t_tAF = new QLabel ("0");
   t_rseen = new QLabel ("0");
-  t_raf = new QLabel ("0");
-  t_af = new QLabel ("0");
+  t_rAF = new QLabel ("0");
   t_wts = new QLabel ("0");
-  t_sdw = new QLabel ("0");
+  t_wwsf = new QLabel ("0");
+  t_wsd = new QLabel ("0");
 
   layout->addWidget (l_name, 0, 0, 1, 2);
   layout->addWidget (l_tsize, 1, 0, 1, 1);
   layout->addWidget (c_table, 1, 1, 1, 1);
-  
   layout->addWidget (l_obh, 2, 0, 1, 1);
   layout->addWidget (t_obh, 2, 1, 1, 1);
-  layout->addWidget (l_af, 3, 0, 1, 1);
-  layout->addWidget (t_af, 3, 1, 1, 1);
   
-  layout->addWidget (l_preflop_cap, 4, 0, 1, 1);
-  layout->addWidget (l_vpip, 5, 0, 1, 1);
-  layout->addWidget (t_vpip, 5, 1, 1, 1);
-  layout->addWidget (l_pfr, 6, 0, 1, 1);
-  layout->addWidget (t_pfr, 6, 1, 1, 1);
+  layout->addWidget (l_preflop, 3, 0, 1, 2);
   
-  layout->addWidget (l_flop_cap, 7, 0, 1, 1);
-  layout->addWidget (l_conbet, 8, 0, 1, 1);
-  layout->addWidget (t_conbet, 8, 1, 1, 1);
-  layout->addWidget (l_faf, 9, 0, 1, 1);
-  layout->addWidget (t_faf, 9, 1, 1, 1);
+  layout->addWidget (l_vpip, 4, 0, 1, 1);
+  layout->addWidget (t_vpip, 4, 1, 1, 1);
+  layout->addWidget (l_pfr, 5, 0, 1, 1);
+  layout->addWidget (t_pfr, 5, 1, 1, 1);
+  layout->addWidget (l_3bet, 6, 0, 1, 1);
+  layout->addWidget (t_3bet, 6, 1, 1, 1);
   
-  layout->addWidget (l_turn_cap, 10, 0, 1, 1);
-  layout->addWidget (l_tseen, 11, 0, 1, 1);
-  layout->addWidget (t_tseen, 11, 1, 1, 1);
-  layout->addWidget (l_taf, 12, 0, 1, 1);
-  layout->addWidget (t_taf, 12, 1, 1, 1);
+  layout->addWidget (l_postflop, 7, 0, 1, 2);
   
-  layout->addWidget (l_river_cap, 13, 0, 1, 1);
-  layout->addWidget (l_rseen, 14, 0, 1, 1);
-  layout->addWidget (t_rseen, 14, 1, 1, 1);
-  layout->addWidget (l_raf, 15, 0, 1, 1);
-  layout->addWidget (t_raf, 15, 1, 1, 1);
+  layout->addWidget (l_conti, 8, 0, 1, 1);
+  layout->addWidget (t_conti, 8, 1, 1, 1);
+  layout->addWidget (l_fconti, 9, 0, 1, 1);
+  layout->addWidget (t_fconti, 9, 1, 1, 1);
+  layout->addWidget (l_tbet, 10, 0, 1, 1);
+  layout->addWidget (t_tbet, 10, 1, 1, 1);
+  layout->addWidget (l_ftbet, 11, 0, 1, 1);
+  layout->addWidget (t_ftbet, 11, 1, 1, 1);
+  layout->addWidget (l_fnbet, 12, 0, 1, 1);
+  layout->addWidget (t_fnbet, 12, 1, 1, 1);
+  layout->addWidget (l_cr, 13, 0, 1, 1);
+  layout->addWidget (t_cr, 13, 1, 1, 1);
+  layout->addWidget (l_aAF, 14, 0, 1, 1);
+  layout->addWidget (t_aAF, 14, 1, 1, 1);
+  layout->addWidget (l_fAF, 15, 0, 1, 1);
+  layout->addWidget (t_fAF, 15, 1, 1, 1);
+  layout->addWidget (l_tseen, 16, 0, 1, 1);
+  layout->addWidget (t_tseen, 16, 1, 1, 1);
+  layout->addWidget (l_tAF, 17, 0, 1, 1);
+  layout->addWidget (t_tAF, 17, 1, 1, 1);
+  layout->addWidget (l_rseen, 18, 0, 1, 1);
+  layout->addWidget (t_rseen, 18, 1, 1, 1);
+  layout->addWidget (l_rAF, 19, 0, 1, 1);
+  layout->addWidget (t_rAF, 19, 1, 1, 1);
   
-  layout->addWidget (l_showdown_cap, 16, 0, 1, 1);
-  layout->addWidget (l_wts, 17, 0, 1, 1);
-  layout->addWidget (t_wts, 17, 1, 1, 1);
-  layout->addWidget (l_sdw, 18, 0, 1, 1);
-  layout->addWidget (t_sdw, 18, 1, 1, 1);
+  layout->addWidget (l_winnings, 20, 0, 1, 2);
+  
+  layout->addWidget (l_wts, 21, 0, 1, 1);
+  layout->addWidget (t_wts, 21, 1, 1, 1);
+  layout->addWidget (l_wwsf, 22, 0, 1, 1);
+  layout->addWidget (t_wwsf, 22, 1, 1, 1);
+  layout->addWidget (l_wsd, 23, 0, 1, 1);
+  layout->addWidget (t_wsd, 23, 1, 1, 1);
   
   connect (c_table, SIGNAL (activated (int)), this, SLOT (changedTableSize (int)));
 }
@@ -214,21 +223,29 @@ RightPart::RightPart (QWidget *parent)
 RightPart::~RightPart ()
 {}
 
-void RightPart::setupProps (const QString pname, const PlayerStat stat)
+void RightPart::setupProps (const QString pname, Statistics* ps)
 {
+  PlayerStat stat = ps->getPlayerStat (pname, (tableSize) c_table->currentIndex ());
   l_name->setText (pname);
   t_obh->setText (QString::number (stat.observed_hands));
   t_vpip->setText (QString ("%1 %").arg (stat.VPIP (), 0, 'g', 3));
   t_pfr->setText (QString ("%1 %").arg (stat.preflop_raise (), 0, 'g', 3));
-  t_faf->setText (QString::number (stat.AF_flop (), 'g', 3));
-  t_conbet->setText (QString ("%1 %").arg (stat.contibet (), 0, 'g', 3));
-  t_tseen->setText (QString ("%1 %").arg (stat.seen_turn (), 0, 'g', 3));
-  t_taf->setText (QString::number (stat.AF_turn (), 'g', 3));
-  t_rseen->setText (QString ("%1 %").arg (stat.seen_river (), 0, 'g', 3));
-  t_raf->setText (QString::number (stat.AF_river (), 'g', 3));
-  t_af->setText (QString::number (stat.AF_ave (), 'g', 3));
+  t_3bet->setText (QString ("%1 %").arg (stat.bet3_preflop (), 0, 'g', 3));
+  t_conti->setText (QString ("%1 %").arg (stat.F_contibet (), 0, 'g', 3));
+  t_fconti->setText (QString ("%1 %").arg (stat.folded_conbet (), 0, 'g', 3));
+  t_tbet->setText (QString ("%1 %").arg (stat.T_contibet (), 0, 'g', 3));
+  t_ftbet->setText (QString ("%1 %").arg (stat.folded_turnbet (), 0, 'g', 3));
+  t_fnbet->setText (QString ("%1 %").arg (stat.folded_nbet (), 0, 'g', 3));
+  t_cr->setText (QString ("%1 %").arg (stat.checkraise_prop (), 0, 'g', 3));
+  t_aAF->setText (QString::number (stat.AF_ave (), 'g', 3));
+  t_fAF->setText (QString::number (stat.AF (FLOP), 'g', 3));
+  t_tseen->setText (QString ("%1 %").arg (stat.seen_round (TURN), 0, 'g', 3));
+  t_tAF->setText (QString::number (stat.AF (TURN), 'g', 3));
+  t_rseen->setText (QString ("%1 %").arg (stat.seen_round (RIVER), 0, 'g', 3));
+  t_rAF->setText (QString::number (stat.AF (RIVER), 'g', 3));
   t_wts->setText (QString ("%1 %").arg (stat.wtShowdown (), 0, 'g', 3));
-  t_sdw->setText (QString ("%1 %").arg (stat.wonShowdown (), 0, 'g', 3));
+  t_wwsf->setText (QString ("%1 %").arg (stat.wonPostflop (), 0, 'g', 3));
+  t_wsd->setText (QString ("%1 %").arg (stat.wonShowdown (), 0, 'g', 3));
 }
 
 int RightPart::desiredTableSize ()
@@ -276,12 +293,14 @@ MainWindow::MainWindow (QWidget *parent)
 
   lp = new LeftPart (settings);
   rp = new RightPart ();
-  mv = new MultiView (player, &allPlayers);
+  //mv = new MultiView (player, &allPlayers);
   splitter->addWidget (lp);
   splitter->addWidget (rp);
   splitter->setStretchFactor (0, 1);
   splitter->setStretchFactor (1, 1);
   setCentralWidget (splitter);
+  
+  stat = new Statistics ();
 
   connect (lp, SIGNAL (changedDirectory ()), this, SLOT (refresh ()));
   connect (lp->getListWidget (), SIGNAL (currentTextChanged (const QString)), this, SLOT (showPlayerStats (const QString)));
@@ -296,206 +315,16 @@ MainWindow::~MainWindow ()
 
 void MainWindow::refresh ()
 {
-  bool success = false;
-  allPlayers.clear ();
-  for (uint32_t ii = 0; ii < 3; ++ii)  {
-    player[ii].clear ();
-  }
-  QDir dir (lp->getFilePath ());
-  QStringList files = dir.entryList (QStringList ("*.pdb"));
-  QSqlDatabase db = QSqlDatabase::addDatabase ("QSQLITE", "Logfile");
-  QSqlQuery qu (db);
-  for (int ii = 0; ii < files.count (); ++ii)  {
-    db.setDatabaseName (dir.absoluteFilePath (files.at (ii)));
-    success = db.open ();
-    if (!success)  {
-      qDebug () << "Error while loading database: " << db.lastError ().text ();
-      qDebug () << "Available SQL drivers: " << QSqlDatabase::drivers ();
-      break;
-    }
-    
-    QSqlQuery qu (db);
-    if (!qu.exec (
-      "SELECT Action.BeRo, Player.Player, Action.Action, Action.Amount "
-      "FROM Action, Player "
-      "WHERE Action.UniqueGameID = Player.UniqueGameID AND Action.Player = Player.Seat"))
-    {
-      success = false;
-      qDebug () << "Error while executing query: " << qu.lastError ().text ();
-      break;
-    }
-
-    /* The interesting stuff happens here: */
-    
-    /* Which actions were performed during the bet rounds?
-     *   Bit 1: fold
-     *   Bit 2: check, call
-     *   Bit 3: bet, raise
-     *   Bit 4: is all-in
-     * 
-     * Showdown:
-     *   Bit 1: Went to showdown
-     *   Bit 2: Won showdown
-     */
-    std::map<QString, RoundAct> hand_agg;
-    unsigned int current_bet = 0, current_round = 0;
-    while (qu.next ())  {
-      unsigned int round = qu.value (0).toInt ();
-      QString player_name = qu.value (1).toString ();
-      QString player_action = qu.value (2).toString ();
-      unsigned int amount = qu.value (3).toInt ();
-
-      if (round > current_round)  {
-        /* A new round. */
-        current_bet = 0;
-        current_round = round;
-      }
-
-      if (player_action == "starts as dealer")  {
-        /* New game begins. */
-        current_bet = current_round = 0;
-        /* Evaluate the stats from the last game. */
-        for (std::map<QString, RoundAct>::iterator it = hand_agg.begin (); it != hand_agg.end (); ++it)  {
-          /* Determine which map should be used. */
-          uint32_t mapToUse;
-          if (hand_agg.size () > 6)  {
-            /* Fullring */
-            mapToUse = 0;
-          } else if (hand_agg.size () > 2)  {
-            /* Shorthand */
-            mapToUse = 1;
-          } else  {
-            /* Heads-Up */
-            mapToUse = 2;
-          }
-  
-          /* Preflop */
-          player[mapToUse][it->first].observed_hands++;
-          if ((it->second[0] & 6) == 2)  {
-            player[mapToUse][it->first].pf_calls++;
-          }
-          if (it->second[0] & 4)  {
-            player[mapToUse][it->first].pf_open++;
-          }
-
-          /* Flop */
-          if (it->second[1] & 1)  {
-            player[mapToUse][it->first].f_fold++;
-          }
-          if (it->second[1] & 2)  {
-            player[mapToUse][it->first].f_check_call++;
-          }
-          if (it->second[1] & 4)  {
-            player[mapToUse][it->first].f_bet++;
-            if (it->second[0] & it->second[1] & 4)  {
-              player[mapToUse][it->first].f_contibet++;
-            }
-          }
-          if (it->second[1] > 0)  {
-            player[mapToUse][it->first].f_seen++;
-          }
-          
-          /* Turn */
-          if (it->second[2] & 1)  {
-            player[mapToUse][it->first].t_fold++;
-          }
-          if (it->second[2] & 2)  {
-            player[mapToUse][it->first].t_check_call++;
-          }
-          if (it->second[2] & 4)  {
-            player[mapToUse][it->first].t_bet++;
-          }
-          if (it->second[2] > 0)  {
-            player[mapToUse][it->first].t_seen++;
-          }
-
-          /* River */
-          if (it->second[3] & 1)  {
-            player[mapToUse][it->first].r_fold++;
-          }
-          if (it->second[3] & 2)  {
-            player[mapToUse][it->first].r_check_call++;
-          }
-          if (it->second[3] & 4)  {
-            player[mapToUse][it->first].r_bet++;
-          }
-          if (it->second[3] > 0)  {
-            player[mapToUse][it->first].r_seen++;
-          }
-
-          /* Showdown */
-          if (it->second[4] > 0)  {
-            player[mapToUse][it->first].sd_seen++;
-            if (it->second[4] & 2)  {
-              player[mapToUse][it->first].sd_won++;
-            }
-          }
-        }
-        hand_agg.clear ();
-      }
-
-      if (player_action == "posts big blind")  {
-        current_bet = amount;
-      }
-
-      if (player_action == "bets")  {
-        hand_agg[player_name][round] |= 4;
-        current_bet = amount;
-      }
-
-      if ((player_action == "calls") || (player_action == "checks"))  {
-        hand_agg[player_name][round] |= 2;
-      }
-
-      if (player_action == "folds")  {
-        hand_agg[player_name][round] |= 1;
-      }
-
-      if (player_action == "is all in with")  {
-        if (amount > current_bet)  {
-          hand_agg[player_name][round] |= 4;
-        } else {
-          hand_agg[player_name][round] |= 2;
-        }
-        for (int ii = round + 1; ii < 5; ++ii)  {
-          hand_agg[player_name][ii] |= 8;
-        }
-      }
-
-      /* Showdown */
-      if (round == 4)  {
-        hand_agg[player_name][4] |= 1;
-        for (uint32_t ii = 0; ii < 4; ++ii)  {
-          hand_agg[player_name][ii] |= 16;
-        }
-        if (player_action == "wins")  {
-          hand_agg[player_name][4] |= 2;
-        }
-      }
-      /***************************************************/
-    }
-    db.close ();
-  }
-  
-  if (success)  {
+  uint32_t cf = 0;
+  if (stat->loadStatistics (lp->getFilePath (), &cf))  {
     QListWidget *overview = lp->getListWidget ();
     overview->clear ();
-    
-    /* Create the map of players in any situation. */
-    for (uint32_t ii = 0; ii < 3; ++ii)  {
-      for (std::map<QString, PlayerStat>::iterator it = player[ii].begin (); it != player[ii].end (); ++it)  {
-        allPlayers[it->first] += it->second;
-      }
-    }
-    
-    for (std::map<QString, PlayerStat>::iterator it = allPlayers.begin (); it != allPlayers.end (); ++it)  {
-      overview->addItem (it->first);
-    }
+    overview->addItems (stat->getPlayerNames ());
     settings->setValue ("defaultPath", lp->getFilePath ());
-    mv->writeTable ();
-    statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (files.count ()).arg (dir.absolutePath ()));
+    //mv->writeTable ();
+    statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (cf).arg (lp->getFilePath ()));
   } else  {
-    statusBar ()->showMessage (tr ("There were errors while loading files from %1!").arg (dir.absolutePath ()));
+    statusBar ()->showMessage (tr ("There were errors while loading files from %1!").arg (lp->getFilePath ()));
   }
 }
 
@@ -510,17 +339,13 @@ void MainWindow::showPlayerStats ()
 void MainWindow::showPlayerStats (const QString pname)
 {
   if (!pname.isEmpty ())  {
-    if (rp->desiredTableSize () > 2)  {
-      rp->setupProps (pname, allPlayers[pname]);
-    } else  {
-      rp->setupProps (pname, player[rp->desiredTableSize ()][pname]);
-    }
+    rp->setupProps (pname, stat);
   }
 }
 
 void MainWindow::addToMultiview (QListWidgetItem* item)
 {
-  mv->addPlayer (item->text ());
+  //mv->addPlayer (item->text ());
 }
 
 void MainWindow::clickedAboutQT ()

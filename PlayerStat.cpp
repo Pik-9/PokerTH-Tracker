@@ -38,6 +38,16 @@ double PlayerStat::preflop_raise () const
   return 100.0 * round_bet[0] / observed_hands;
 }
 
+double PlayerStat::bet3_preflop () const
+{
+  return 100.0 * pf_3bet / observed_hands;
+}
+
+/*double PlayerStat::fold_3bet_preflop () const
+{
+  
+}*/
+
 double PlayerStat::AF_ave () const
 {
   return (AF (FLOP) + AF (TURN) + AF (RIVER)) / 3.0;
@@ -48,9 +58,39 @@ double PlayerStat::AF (const gameRound RND) const
   return (double) round_bet[RND] / (round_check[RND] + round_call[RND]);
 }
 
+/*double PlayerStat::post_nbet () const
+{
+  return 100.0 * postflop_nbet / 
+}*/
+
 double PlayerStat::F_contibet () const
 {
-  return 100.0 * contibet / round_bet[0];
+  return 100.0 * f_cb / pf_open;
+}
+
+double PlayerStat::T_contibet () const
+{
+  return 100.0 * t_2b / pf_open;
+}
+
+double PlayerStat::folded_conbet () const
+{
+  return 100.0 * f_fc / f_cbe;
+}
+
+double PlayerStat::folded_turnbet () const
+{
+  return 100.0 * t_f2 / t_2be;
+}
+
+double PlayerStat::folded_nbet () const
+{
+  return 100.0 * postflop_fn / postflop_nbe;
+}
+
+double PlayerStat::checkraise_prop () const
+{
+  return 100.0 * checkraises / (checkraises + round_check[1] + round_check[2] + round_check[3]);
 }
 
 double PlayerStat::seen_round (const gameRound RND) const
@@ -63,19 +103,37 @@ double PlayerStat::wtShowdown () const
   return 100.0 * round_seen[4] / round_seen[1];
 }
 
+double PlayerStat::wonShowdown () const
+{
+  return 100.0 * wsd / round_seen[1];
+}
+
+double PlayerStat::wonPostflop () const
+{
+  return 100.0 * wwsf / round_seen[1];
+}
+
 PlayerStat& PlayerStat::operator+= (PlayerStat& other)
 {
   observed_hands += other.observed_hands;
-  contibet += other.contibet;
+  f_cb += other.f_cb;
   wsd += other.wsd;
   wwsf += other.wwsf;
+  pf_open += other.pf_open;
+  pf_3bet += other.pf_3bet;
+  t_2b += other.t_2b;
+  t_2be += other.t_2be;
+  t_f2 += other.t_f2;
+  f_cbe += other.f_cbe;
+  f_fc += other.f_fc;
+  postflop_fn += other.postflop_fn;
+  postflop_nb += other.postflop_nb;
+  postflop_nbe += other.postflop_nbe;
+  checkraises += other.checkraises;
   for (int ii = 0; ii < 4; ++ii)  {
     round_bet[ii] += other.round_bet[ii];
     round_call[ii] += other.round_call[ii];
     round_check[ii] += other.round_check[ii];
-    round_checkraise[ii] += other.round_checkraise[ii];
-    round_fn[ii] += other.round_fn[ii];
-    round_nbet[ii] += other.round_nbet[ii];
     round_seen[ii] += other.round_seen[ii];
   }
   round_seen[SHOWDOWN] += other.round_seen[SHOWDOWN];
@@ -90,8 +148,9 @@ Statistics::Statistics ()
 Statistics::~Statistics ()
 {}
 
-void Statistics::loadStatistics (const QString path)
+bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
 {
+  bool success = false;
   QDir dir (path);
   QStringList files = dir.entryList (QStringList ("*.pdb"));
   QSqlDatabase db = QSqlDatabase::addDatabase ("QSQLITE", "Logfile");
@@ -104,15 +163,28 @@ void Statistics::loadStatistics (const QString path)
   
   for (int ii = 0; ii < files.count (); ++ii)  {
     db.setDatabaseName (dir.absoluteFilePath (files.at (ii)));
-    db.open ();
+    success = db.open ();
+    if (!success)  {
+      qDebug () << "Error while loading database: " << db.lastError ().text ();
+      qDebug () << "Available SQL drivers: " << QSqlDatabase::drivers ();
+      return false;
+    }
     QSqlQuery qu (db);
-    qu.exec (
+    success = qu.exec (
       "SELECT Action.BeRo, Player.Player, Action.Action, Action.Amount "
       "FROM Action, Player "
       "WHERE Action.UniqueGameID = Player.UniqueGameID AND Action.Player = Player.Seat"
     );
     
+    if (!success)  {
+      qDebug () << "Error while executing query: " << qu.lastError ().text ();
+      return false;
+    }
+    
     unsigned int round_ = 6, nbet = 0, betsize = 0;
+    
+    /* If a player in this round fired a contibet or turnbet. */
+    unsigned int conbet = 0, turnbet = 0;
     smap tmp;
     while (qu.next ())  {      
       unsigned int round = qu.value (0).toInt ();
@@ -121,28 +193,52 @@ void Statistics::loadStatistics (const QString path)
       unsigned int amount = qu.value (3).toInt ();
       
       /* New game. */
-      if (round < round_)  {
+      if (player_action == "starts as dealer")  {
         /* Determine table size and correct map. */
-        unsigned int mtu;
-        if (tmp.size() < 7)  {
-          mtu = 0;
+        tableSize mtu;
+        if (tmp.size() > 6)  {
+          mtu = FULLRING;
         } else if (tmp.size () > 2)  {
-          mtu = 1;
+          mtu = SHORTHAND;
         } else  {
-          mtu = 2;
+          mtu = HEADSUP;
         }
         smap& mapToUse = statMaps[mtu];
         for (smap::iterator it = tmp.begin (); it != tmp.end (); ++it)  {
           mapToUse[it->first] += it->second;
         }
-      } else if (round > round_)  {
-        /* New round. */
-        betsize = nbet = 0;
+        betsize = nbet = conbet = turnbet = 0;
+        tmp.clear ();
       }
       
-      tmp[player_name].round_seen[round] = 1;
+      if (round > round_)  {
+        /* New round. */
+        betsize = nbet = conbet = turnbet = 0;
+      }
+      round_ = round;
       
-      if (player_action == "postst big blind")  {
+      //tmp[player_name].round_seen[round] = 1;
+      for (int ir = 0; ir <= round; ++ir)  {
+        tmp[player_name].round_seen[ir] = 1;
+      }
+      tmp[player_name].observed_hands = 1;
+      
+      /* When this player is confronted with a contibet. */
+      if (conbet)  {
+        tmp[player_name].f_cbe = 1;
+      }
+      
+      /* When this player is confronted with a turnbet. */
+      if (turnbet)  {
+        tmp[player_name].t_2be = 1;
+      }
+      
+      /* When this player is confronted with a n-bet. */
+      if ((nbet > 1) && (round))  {
+        tmp[player_name].postflop_nbe++;
+      }
+      
+      if (player_action == "posts big blind")  {
         nbet = 1;
         betsize = amount;
       }
@@ -156,26 +252,61 @@ void Statistics::loadStatistics (const QString path)
       }
       
       if (player_action == "bets")  {
+        /* If somebody betted before in this round. */
         if (nbet)  {
-          tmp[player_name].round_nbet[round]++;
+          /* If it is post flop action. */
+          if (round)  {
+            tmp[player_name].postflop_nb++;
+          } else if (nbet == 2)  {
+            /* If it is a 3bet preflop. */
+            tmp[player_name].pf_3bet++;
+          }
+          
+          /* Recognise check-raises. */
           if (tmp[player_name].round_check[round])  {
-            tmp[player_name].round_checkraise[round]++;
+            tmp[player_name].checkraises++;
+            /* Reset the check counter, because this is not a passive check. */
             tmp[player_name].round_check[round] = 0;
           }
         }
+        
+        /* Recognise Turn bets. */
+        if ((round == TURN) && (tmp[player_name].f_cb))  {
+          tmp[player_name].t_2b++;
+          turnbet = 1;
+        }
+        
+        /* If it happens preflop, this player is opening the hand. */
+        if (!round)  {
+          tmp[player_name].pf_open = 1;
+        }
+        
         tmp[player_name].round_bet[round]++;
         betsize = amount;
         
-        if (tmp[player_name].round_bet[0])  {
-          tmp[player_name].contibet++;
+        /* Recognise a continuation bet. */
+        if ((tmp[player_name].pf_open) && (round == FLOP))  {
+          tmp[player_name].f_cb = 1;
+          conbet = 1;
         }
         
         nbet++;
       }
       
       if (player_action == "folds")  {
-        if (nbet > 1)  {
-          tmp[player_name].round_fn[round]++;
+        /* If the player folds to a n-bet post flop. (n > 1) */
+        if ((nbet > 1) && (round))  {
+          tmp[player_name].postflop_fn++;
+        }
+        
+        /* If the player folds to a continuation bet. */
+        if (conbet)  {
+          tmp[player_name].f_fc++;
+        }
+        
+        /* If the player folds to a turn bet. */
+        if (turnbet)  {
+          tmp[player_name].t_f2++;
         }
       }
       
@@ -187,9 +318,11 @@ void Statistics::loadStatistics (const QString path)
         /* Is this all-in a call or a raise? */
         if (amount > betsize)  {
           if (nbet)  {
-            tmp[player_name].round_nbet[round]++;
+            if (round)  {
+              tmp[player_name].postflop_nb++;
+            }
             if (tmp[player_name].round_check[round])  {
-              tmp[player_name].round_checkraise[round]++;
+              tmp[player_name].checkraises++;
               tmp[player_name].round_check[round] = 0;
             }
           }
@@ -206,11 +339,24 @@ void Statistics::loadStatistics (const QString path)
           /* Won money after seeing the flop. */
           tmp[player_name].wwsf++;
         }
-        if (round == 5)  {
+        if (round == SHOWDOWN)  {
           /* Won money in showdown. */
           tmp[player_name].wsd++;
         }
       }
+    }
+    /* Determine table size and correct map. */
+    tableSize mtu;
+    if (tmp.size() > 6)  {
+      mtu = FULLRING;
+    } else if (tmp.size () > 2)  {
+      mtu = SHORTHAND;
+    } else  {
+      mtu = HEADSUP;
+    }
+    smap& mapToUse = statMaps[mtu];
+    for (smap::iterator it = tmp.begin (); it != tmp.end (); ++it)  {
+      mapToUse[it->first] += it->second;
     }
     db.close ();
   }
@@ -221,6 +367,12 @@ void Statistics::loadStatistics (const QString path)
       statMaps[ANY][it->first] += it->second;
     }
   }
+  
+  if ((success) && (count_files))  {
+    *count_files = files.size ();
+  }
+  
+  return success;
 }
 
 QStringList Statistics::getPlayerNames ()
