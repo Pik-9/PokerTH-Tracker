@@ -237,9 +237,9 @@ void RightPart::setupProps (const QString pname, Statistics* ps)
   t_wsd->setText (QString ("%1 %").arg (stat.wonShowdown (), 0, 'g', 3));
 }
 
-int RightPart::desiredTableSize ()
+tableSize RightPart::desiredTableSize ()
 {
-  return c_table->currentIndex ();
+  return (tableSize) c_table->currentIndex ();
 }
 
 void RightPart::changedTableSize (int index)
@@ -275,7 +275,7 @@ MainWindow::MainWindow (QWidget *parent)
   
   lp = new LeftPart ();
   rp = new RightPart ();
-  ap = new AnaWidget ();
+  ap = new AnaWidget (stat);
   mv = new MultiView (stat);
   splitter->addWidget (lp);
   splitter->addWidget (rp);
@@ -320,6 +320,7 @@ void MainWindow::showPlayerStats (const QString pname)
 {
   if (!pname.isEmpty ())  {
     rp->setupProps (pname, stat);
+    ap->refresh (pname, rp->desiredTableSize ());
   }
 }
 

@@ -22,6 +22,7 @@
 
 #include "multiview.hpp"
 #include "global.hpp"
+#include "analysis_widget.hpp"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -35,7 +36,7 @@
 MultiView::MultiView (Statistics* PInformation, QWidget* parent)
   : QWidget (parent), stat (PInformation)
 {
-  resize (1000, 750);
+  resize (1000, 765);
   setWindowTitle (tr ("Multiplayer view"));
   
   setWindowIcon (QIcon (Global::getInstance ()->getDataDir () + "/PokerTH_Tracker.png"));
@@ -85,11 +86,21 @@ void MultiView::writeTable ()
 {
   table->clear ();
   table->setColumnCount (observedPlayers.size () + 1);
-  table->setRowCount (20);
+  table->setRowCount (21);
   
   tableSize ts = (tableSize) c_tsize->currentIndex ();
   
-  QString desc[20] = {
+  QString pchar[7] = {
+    tr ("Rock"),
+    tr ("Weak-Passive"),
+    tr ("Fish"),
+    tr ("Shark"),
+    tr ("Loose-Aggressive"),
+    tr ("Fool"),
+    tr ("Maniac")
+  };
+  
+  QString desc[21] = {
     tr ("Name:"),
     tr ("Observed hands:"),
     tr ("VP$IP:"),
@@ -109,11 +120,12 @@ void MultiView::writeTable ()
     tr ("River AF:"),
     tr ("Went to Showdown:"),
     tr ("W$WSF:"),
-    tr ("W$SD")
+    tr ("W$SD:"),
+    tr ("Characteristic:")
   };
   
   for (uint32_t ic = 0; ic < table->columnCount (); ++ic)  {
-    for (uint32_t ir = 0; ir < 20; ++ir)  {
+    for (uint32_t ir = 0; ir < 21; ++ir)  {
       QTableWidgetItem *ti = new QTableWidgetItem ();
       QFont boldText;
       boldText.setBold (true);
@@ -218,6 +230,11 @@ void MultiView::writeTable ()
           
           case 19:  {
             ti->setText (QString ("%1 %").arg (stat->getPlayerStat (pname, ts).wonShowdown (), 0, 'g', 3));
+            break;
+          }
+          
+          case 20:  {
+            ti->setText (pchar[(int) AnaWidget::analyseChar (stat->getPlayerStat (pname, ts), ts)]);
             break;
           }
         }

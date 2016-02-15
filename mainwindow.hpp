@@ -95,7 +95,7 @@ public:
   ~RightPart ();
 
   void setupProps (const QString, Statistics*);
-  int desiredTableSize ();
+  tableSize desiredTableSize ();
   
 public slots:
   void changedTableSize (int);

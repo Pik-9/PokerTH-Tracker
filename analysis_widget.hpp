@@ -8,10 +8,23 @@
 class QVBoxLayout;
 class QLabel;
 
+enum PlayerCharacteristic
+{
+  P_Rock,
+  P_Weak_Passive,
+  P_Fish,
+  P_TAG,
+  P_LAG,
+  P_Fool,
+  P_Maniac
+};
+
 class AnaWidget : public QWidget
 {
   Q_OBJECT
 private:
+  Statistics* stat;
+  
   QVBoxLayout *layout;
   QLabel *l_icon,
     *l_caption,
@@ -19,11 +32,19 @@ private:
     *l_tips;
   
 public:
-  AnaWidget (QWidget* parent = 0);
+  AnaWidget (Statistics*, QWidget* parent = 0);
   ~AnaWidget ();
   
+  /* 
+   * It is necessary to make a function for this, because
+   * tr() doesn't work with static QString arrays.
+   */
+  static QString charDescription (const PlayerCharacteristic);
+  
+  static PlayerCharacteristic analyseChar (const PlayerStat, const tableSize);
+  
 public slots:
-  void refresh (tableSize ts = ANY);
+  void refresh (const QString, tableSize ts = ANY);
 };
 
 #endif
