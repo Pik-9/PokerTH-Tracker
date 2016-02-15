@@ -38,7 +38,6 @@ class QListWidget;
 class QListWidgetItem;
 class QGridLayout;
 class QFileDialog;
-class QSettings;
 
 class LeftPart : public QWidget
 {
@@ -49,10 +48,9 @@ private:
   QLineEdit *t_path;
   QListWidget *l_players;
   QFileDialog *lopen;
-  QSettings *settings;
 
 public:
-  LeftPart (QSettings*, QWidget *parent = 0);
+  LeftPart (QWidget *parent = 0);
   ~LeftPart ();
 
   QString getFilePath () const;
@@ -111,7 +109,6 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 private:
-  QSettings *settings;
   QSplitter *splitter;
   LeftPart *lp;
   RightPart *rp;

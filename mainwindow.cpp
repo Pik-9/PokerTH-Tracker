@@ -21,6 +21,7 @@
  */
 
 #include "mainwindow.hpp"
+#include "global.hpp"
 
 #include <QListWidget>
 #include <QGridLayout>
@@ -36,11 +37,9 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QMessageBox>
-#include <QDir>
-#include <QSettings>
 
-LeftPart::LeftPart (QSettings* config, QWidget *parent)
-  : QWidget (parent), settings (config)
+LeftPart::LeftPart (QWidget *parent)
+  : QWidget (parent)
 {
   layout = new QGridLayout (this);
   t_path = new QLineEdit ();
@@ -54,17 +53,7 @@ LeftPart::LeftPart (QSettings* config, QWidget *parent)
   layout->addWidget (b_search, 0, 1, 1, 1);
   layout->addWidget (l_players, 1, 0, 1, 2);
 
-  if (!settings->contains ("defaultPath"))  {
-    QDir logData (QDir::home ());
-    /* Try to navigate to the linux client's log file directory.
-     * Otherwise try to navigate to the windows client's log file directory. */
-    if (!logData.cd (".pokerth/log-files"))  {
-      /* If this fails as well, stay at home! */
-      logData.cd ("AppData/Roaming/pokerth/log-files");
-    }
-    settings->setValue ("defaultPath", logData.absolutePath ());
-  }
-  t_path->setText (settings->value ("defaultPath").toString ());
+  t_path->setText (Global::getInstance ()->getLogDir ());
 
   connect (b_search, SIGNAL (clicked ()), lopen, SLOT (show ()));
   connect (lopen, SIGNAL (fileSelected (const QString)), this, SLOT (chooseURL (const QString)));
@@ -261,19 +250,10 @@ void RightPart::changedTableSize (int index)
 MainWindow::MainWindow (QWidget *parent)
   : QMainWindow (parent)
 {
-  settings = new QSettings ("Pik-9", "PokerTH-Tracker");  
   resize (1024, 786);
   setWindowTitle (tr ("PokerTH Tracker"));
   
-  /* If the linux directory for shared files exists, load icon from it. */
-  QDir sharedData ("/usr/local/share/PokerTH_tracker");
-  if (sharedData.exists ("PokerTH_Tracker.png"))  {
-    setWindowIcon (QIcon ("/usr/local/share/PokerTH_tracker/PokerTH_Tracker.png"));
-  } else  {
-    /* Otherwise try to load from current directory.
-     * This is necessary for the windows cross build. */
-    setWindowIcon (QIcon ("PokerTH_Tracker.png"));
-  }
+ setWindowIcon (QIcon (Global::getInstance ()->getDataDir () + "/PokerTH_Tracker.png"));
   
   splitter = new QSplitter (Qt::Horizontal);
 
@@ -293,15 +273,13 @@ MainWindow::MainWindow (QWidget *parent)
 
   stat = new Statistics ();
   
-  lp = new LeftPart (settings);
+  lp = new LeftPart ();
   rp = new RightPart ();
   ap = new AnaWidget ();
   mv = new MultiView (stat);
   splitter->addWidget (lp);
   splitter->addWidget (rp);
   splitter->addWidget (ap);
-  /*splitter->setStretchFactor (0, 1);
-  splitter->setStretchFactor (1, 1);*/
   setCentralWidget (splitter);
 
   connect (lp, SIGNAL (changedDirectory ()), this, SLOT (refresh ()));
@@ -322,7 +300,7 @@ void MainWindow::refresh ()
     QListWidget *overview = lp->getListWidget ();
     overview->clear ();
     overview->addItems (stat->getPlayerNames ());
-    settings->setValue ("defaultPath", lp->getFilePath ());
+    Global::getInstance ()->setLogDir (lp->getFilePath ());
     mv->writeTable ();
     statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (cf).arg (lp->getFilePath ()));
   } else  {

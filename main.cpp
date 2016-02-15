@@ -21,6 +21,7 @@
  */
 
 #include "mainwindow.hpp"
+#include "global.hpp"
 
 #include <QApplication>
 #include <QTranslator>
@@ -31,12 +32,7 @@ int main (int argc, char *argv[])
   QApplication app (argc, argv);
   QTranslator *trans = new QTranslator ();
   QString filename = QString ("PokerTH_tracker_%1.qm").arg (QLocale::system ().name ());
-  if (!trans->load (filename, "/usr/local/share/PokerTH_tracker"))  {
-    /* If the translation couldn't be found in the directory above, try current directory.
-     * This is necessary for the Windows cross build.
-     */
-    trans->load (filename);
-  }
+  trans->load (filename, Global::getInstance ()->getDataDir ());
   app.installTranslator (trans);
   MainWindow *mw = new MainWindow ();
   mw->show ();

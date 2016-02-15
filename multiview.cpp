@@ -21,6 +21,7 @@
  */
 
 #include "multiview.hpp"
+#include "global.hpp"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -30,7 +31,6 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QShowEvent>
-#include <QDir>
 
 MultiView::MultiView (Statistics* PInformation, QWidget* parent)
   : QWidget (parent), stat (PInformation)
@@ -38,15 +38,7 @@ MultiView::MultiView (Statistics* PInformation, QWidget* parent)
   resize (1000, 750);
   setWindowTitle (tr ("Multiplayer view"));
   
-  /* If the linux directory for shared files exists, load icon from it. */
-  QDir sharedData ("/usr/local/share/PokerTH_tracker");
-  if (sharedData.exists ("PokerTH_Tracker.png"))  {
-    setWindowIcon (QIcon ("/usr/local/share/PokerTH_tracker/PokerTH_Tracker.png"));
-  } else  {
-    /* Otherwise try to load from current directory.
-     * This is necessary for the windows cross build. */
-    setWindowIcon (QIcon ("PokerTH_Tracker.png"));
-  }
+  setWindowIcon (QIcon (Global::getInstance ()->getDataDir () + "/PokerTH_Tracker.png"));
   
   /* Move window to screen center. */
   QRect geom = QApplication::desktop ()->screenGeometry ();

@@ -1,4 +1,5 @@
 #include "analysis_widget.hpp"
+#include "global.hpp"
 
 #include <QVBoxLayout>
 #include <QLabel>
@@ -8,7 +9,7 @@ AnaWidget::AnaWidget (QWidget* parent)
 {
   l_icon = new QLabel ();
   l_icon->setAlignment (Qt::AlignCenter);
-  l_icon->setPixmap (QPixmap ("/usr/local/share/PokerTH_tracker/PokerTH_Tracker.png"));
+  l_icon->setPixmap (QPixmap (Global::getInstance ()->getDataDir () + "/PokerTH_Tracker.png"));
   l_caption = new QLabel (tr ("Category"));
   l_caption->setAlignment (Qt::AlignCenter);
   l_short = new QLabel (tr ("Short description"));

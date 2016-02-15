@@ -17,12 +17,14 @@ TEMPLATE = app
 target.path = /usr/local/bin
 
 SOURCES += main.cpp\
+        global.cpp\
         mainwindow.cpp\
         PlayerStat.cpp\
         multiview.cpp\
         analysis_widget.cpp
 
 HEADERS  += mainwindow.hpp\
+        global.hpp\
         PlayerStat.hpp\
         multiview.hpp\
         analysis_widget.hpp

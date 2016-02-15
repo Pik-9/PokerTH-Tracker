@@ -10,6 +10,7 @@ set(PTHT_SRC
   PlayerStat.cpp
   multiview.cpp
   analysis_widget.cpp
+  global.cpp
 )
 set(PTHT_LANG Lang/PokerTH_tracker_de.ts)
 set(PTHT_ICON Icons/PokerTH_Tracker.png)
