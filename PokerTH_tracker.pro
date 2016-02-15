@@ -19,11 +19,13 @@ target.path = /usr/local/bin
 SOURCES += main.cpp\
         mainwindow.cpp\
         PlayerStat.cpp\
-        multiview.cpp
+        multiview.cpp\
+        analysis_widget.cpp
 
 HEADERS  += mainwindow.hpp\
         PlayerStat.hpp\
-        multiview.hpp
+        multiview.hpp\
+        analysis_widget.hpp
 
 TRANSLATIONS = Lang/PokerTH_tracker_de.ts
 

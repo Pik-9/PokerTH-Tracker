@@ -27,6 +27,7 @@
 
 #include "PlayerStat.hpp"
 #include "multiview.hpp"
+#include "analysis_widget.hpp"
 
 class QSplitter;
 class QLineEdit;
@@ -114,6 +115,7 @@ private:
   QSplitter *splitter;
   LeftPart *lp;
   RightPart *rp;
+  AnaWidget *ap;
   MultiView *mv;
 
   Statistics *stat;

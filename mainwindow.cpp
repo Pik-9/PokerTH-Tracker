@@ -295,11 +295,13 @@ MainWindow::MainWindow (QWidget *parent)
   
   lp = new LeftPart (settings);
   rp = new RightPart ();
+  ap = new AnaWidget ();
   mv = new MultiView (stat);
   splitter->addWidget (lp);
   splitter->addWidget (rp);
-  splitter->setStretchFactor (0, 1);
-  splitter->setStretchFactor (1, 1);
+  splitter->addWidget (ap);
+  /*splitter->setStretchFactor (0, 1);
+  splitter->setStretchFactor (1, 1);*/
   setCentralWidget (splitter);
 
   connect (lp, SIGNAL (changedDirectory ()), this, SLOT (refresh ()));
