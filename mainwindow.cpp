@@ -107,16 +107,32 @@ RightPart::RightPart (QWidget *parent)
   l_pfr->setCursor (Qt::WhatsThisCursor);
   l_pfr->setToolTip (tr ("Percentage of hands the player raised with preflop."));
   l_3bet = new QLabel (tr ("3bet:"));
+  l_3bet->setCursor (Qt::WhatsThisCursor);
+  l_3bet->setToolTip (tr ("How often the player made a 3bet preflop."));
   
   l_conti = new QLabel (tr ("Continuation Bet:"));
+  l_conti->setCursor (Qt::WhatsThisCursor);
+  l_conti->setToolTip (tr ("How often the player fired a continuation bet after a preflop raise."));
   l_fconti = new QLabel (tr ("Folded to Contibet:"));
+  l_fconti->setCursor (Qt::WhatsThisCursor);
+  l_fconti->setToolTip (tr ("How often the player folded when confronted with a continuation bet."));
   l_tbet = new QLabel (tr ("Turn Contibet:"));
+  l_tbet->setCursor (Qt::WhatsThisCursor);
+  l_tbet->setToolTip (tr ("How often the player fired another c-bet on the turn after raising preflop."));
   l_ftbet = new QLabel (tr ("Folded to Turn C-Bet:"));
+  l_ftbet->setCursor (Qt::WhatsThisCursor);
+  l_ftbet->setToolTip (tr ("How often the player folded when confronted with a c-bet on the turn."));
   
   l_fnbet = new QLabel (tr ("Folded to n-Bets:"));
+  l_fnbet->setCursor (Qt::WhatsThisCursor);
+  l_fnbet->setToolTip (tr ("How often the opponent folds when confronted with a n-bet."));
   l_cr = new QLabel (tr ("Check-Raise:"));
+  l_cr->setCursor (Qt::WhatsThisCursor);
+  l_cr->setToolTip (tr ("How many checks are followed by an 2bet."));
   
   l_aAF = new QLabel (tr ("Average AF:"));
+  l_aAF->setCursor (Qt::WhatsThisCursor);
+  l_aAF->setToolTip (tr ("AF: Aggression Factor"));
   l_fAF = new QLabel (tr ("Flop AF:"));
   l_tseen = new QLabel (tr ("Turn seen:"));
   l_tseen->setCursor (Qt::WhatsThisCursor);
@@ -131,9 +147,11 @@ RightPart::RightPart (QWidget *parent)
   l_wts->setCursor (Qt::WhatsThisCursor);
   l_wts->setToolTip (tr ("With how many hands the player went to Showdown <b>after the flop</b>."));
   l_wwsf = new QLabel (tr ("W$WSF:"));
+  l_wwsf->setCursor (Qt::WhatsThisCursor);
+  l_wwsf->setToolTip (tr ("How often the player won money after he saw the flop."));
   l_wsd = new QLabel (tr ("W$SD:"));
   l_wsd->setCursor (Qt::WhatsThisCursor);
-  l_wsd->setToolTip (tr ("How often the player wins by going to Showdown."));
+  l_wsd->setToolTip (tr ("How often the player wins money by going to Showdown."));
   
   t_obh = new QLabel ("0");
   t_vpip = new QLabel ("0");

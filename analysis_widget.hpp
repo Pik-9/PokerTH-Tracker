@@ -10,11 +10,13 @@ class QLabel;
 
 enum PlayerCharacteristic
 {
+  P_NEData,
   P_Rock,
   P_Weak_Passive,
   P_Fish,
   P_TAG,
   P_LAG,
+  P_dump_LAG,
   P_Fool,
   P_Maniac
 };

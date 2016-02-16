@@ -36,7 +36,7 @@
 MultiView::MultiView (Statistics* PInformation, QWidget* parent)
   : QWidget (parent), stat (PInformation)
 {
-  resize (1000, 765);
+  resize (1000, 786);
   setWindowTitle (tr ("Multiplayer view"));
   
   setWindowIcon (QIcon (Global::getInstance ()->getDataDir () + "/PokerTH_Tracker.png"));
@@ -90,12 +90,14 @@ void MultiView::writeTable ()
   
   tableSize ts = (tableSize) c_tsize->currentIndex ();
   
-  QString pchar[7] = {
+  QString pchar[9] = {
+    tr ("No data..."),
     tr ("Rock"),
     tr ("Weak-Passive"),
     tr ("Fish"),
     tr ("Shark"),
     tr ("Loose-Aggressive"),
+    tr ("Dump Loose-Aggressive"),
     tr ("Fool"),
     tr ("Maniac")
   };

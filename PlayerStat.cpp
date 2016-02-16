@@ -148,11 +148,11 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
   QSqlQuery qu (db);
   
   /* Clear the maps before (re-)loading. */
-  for (int ii = 0; ii < 4; ++ii)  {
+  for (uint32_t ii = 0; ii < 4; ++ii)  {
     statMaps[ii].clear ();
   }
   
-  for (int ii = 0; ii < files.count (); ++ii)  {
+  for (uint32_t ii = 0; ii < files.count (); ++ii)  {
     db.setDatabaseName (dir.absoluteFilePath (files.at (ii)));
     success = db.open ();
     if (!success)  {
@@ -172,16 +172,16 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
       return false;
     }
     
-    unsigned int round_ = 6, nbet = 0, betsize = 0;
+    uint32_t round_ = 6, nbet = 0, betsize = 0;
     
     /* If a player in this round fired a contibet or turnbet. */
-    unsigned int conbet = 0, turnbet = 0;
+    uint32_t conbet = 0, turnbet = 0;
     smap tmp;
     while (qu.next ())  {      
-      unsigned int round = qu.value (0).toInt ();
+      uint32_t round = qu.value (0).toInt ();
       QString player_name = qu.value (1).toString ();
       QString player_action = qu.value (2).toString ();
-      unsigned int amount = qu.value (3).toInt ();
+      uint32_t amount = qu.value (3).toInt ();
       
       /* New game. */
       if (player_action == "starts as dealer")  {
@@ -209,18 +209,18 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
       round_ = round;
       
       //tmp[player_name].round_seen[round] = 1;
-      for (int ir = 0; ir <= round; ++ir)  {
+      for (uint32_t ir = 0; ir <= round; ++ir)  {
         tmp[player_name].round_seen[ir] = 1;
       }
       tmp[player_name].observed_hands = 1;
       
       /* When this player is confronted with a contibet. */
-      if (conbet)  {
+      if ((conbet) && (!tmp[player_name].f_cb))  {
         tmp[player_name].f_cbe = 1;
       }
       
       /* When this player is confronted with a turnbet. */
-      if (turnbet)  {
+      if ((turnbet) && (!tmp[player_name].t_2b))  {
         tmp[player_name].t_2be = 1;
       }
       
@@ -291,18 +291,18 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
         }
         
         /* If the player folds to a continuation bet. */
-        if (conbet)  {
+        if ((conbet) && (tmp[player_name].f_cbe))  {
           tmp[player_name].f_fc++;
         }
         
         /* If the player folds to a turn bet. */
-        if (turnbet)  {
+        if ((turnbet) && (tmp[player_name].t_2be))  {
           tmp[player_name].t_f2++;
         }
       }
       
       if (player_action == "is all in with")  {
-        for (int ir = 0; ir < 5; ++ir)  {
+        for (uint32_t ir = 0; ir < 5; ++ir)  {
           tmp[player_name].round_seen[ir] = 1;
         }
         
@@ -359,7 +359,7 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
   }
   
   /* Sum up the maps for different table sizes in the last one for any. */
-  for (int ii = 0; ii < 3; ++ii)  {
+  for (uint32_t ii = 0; ii < 3; ++ii)  {
     for (smap::iterator it = statMaps[ii].begin (); it != statMaps[ii].end (); ++it)  {
       statMaps[ANY][it->first] += it->second;
     }
