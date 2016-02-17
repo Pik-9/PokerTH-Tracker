@@ -11,7 +11,6 @@ AnaWidget::AnaWidget (Statistics* pinfo, QWidget* parent)
 {
   l_icon = new QLabel ();
   l_icon->setAlignment (Qt::AlignCenter);
-  l_icon->setPixmap (QPixmap (Global::getInstance ()->getDataDir () + "/PokerTH_Tracker.png"));
   l_caption = new QLabel (tr ("Category"));
   l_caption->setAlignment (Qt::AlignCenter);
   l_short = new QLabel (tr ("Short description"));
@@ -200,4 +199,19 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
     
   l_caption->setText (caption[(int) pc]);
   l_short->setText (charDescription (pc));
+  
+  QString icons[9] = {
+    "/s_NoData.png",
+    "/s_Rock.png",
+    "/s_Weak-Passive.png",
+    "/s_Fish.png",
+    "/s_Shark.png",
+    "/s_LAG.png",
+    "/s_Dump_LAG.png",
+    "/s_Fool.png",
+    "/s_Maniac.png"
+  };
+  
+  QString icon_path = Global::getInstance ()->getDataDir () + icons[(int) pc];
+  l_icon->setPixmap (QPixmap (icon_path));
 }

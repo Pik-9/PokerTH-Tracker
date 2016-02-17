@@ -13,7 +13,18 @@ set(PTHT_SRC
   global.cpp
 )
 set(PTHT_LANG Lang/PokerTH_tracker_de.ts)
-set(PTHT_ICON Icons/PokerTH_Tracker.png)
+set(PTHT_ICON
+  Icons/PokerTH_Tracker.png
+  Icons/s_Dump_LAG.png
+  Icons/s_Fish.png
+  Icons/s_Fool.png
+  Icons/s_LAG.png
+  Icons/s_Maniac.png
+  Icons/s_NoData.png
+  Icons/s_Rock.png
+  Icons/s_Shark.png
+  Icons/s_Weak-Passive.png
+)
 set(PTHT_DSKT PokerTH_tracker.desktop)
 
 find_package(Qt5Widgets)
