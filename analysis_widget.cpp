@@ -28,7 +28,7 @@ AnaWidget::~AnaWidget ()
 
 QString AnaWidget::charDescription (const PlayerCharacteristic ps)
 {
-  QString short_desc[9] = {
+  QString short_desc[10] = {
     tr (
       "You didn't observe enough hands\n"
       "to make a reliable rating."
@@ -50,9 +50,18 @@ QString AnaWidget::charDescription (const PlayerCharacteristic ps)
       "A bluff will succeed often."
     ),
     tr (
+      "This player plays far too many hands preflop,\n"
+      "but he is a fit-or-fold player! He might be chasing\n"
+      "draws sometimes, but he will usually throw his\n"
+      "hand away if he didn't hit anything. Try to figure\n"
+      "out whether he has something and if not: Bluff him\n"
+      "out!"
+    ),
+    tr (
       "This player has no idea of what Poker is about!\n"
       "He plays far too many hands and calls down till\n"
-      "the river hoping for a miracle!\n"
+      "the river hoping for a miracle! No matter how\n"
+      "bad his hand is, he will play it till the end!\n"
       "He should be easy to exploit, but don't bluff him!"
     ),
     tr (
@@ -170,6 +179,14 @@ PlayerCharacteristic AnaWidget::analyseChar (const PlayerStat ps, const tableSiz
     }
   }
   
+  /* Determine whether it's a fish or a donkey. */
+  const double wts_l[4] = {40.0, 45.0, 75.0, 40.0};
+  if (pc == P_Fish)  {
+    if (ps.wtShowdown () > wts_l[(int) ts])  {
+      pc = P_Donkey;
+    }
+  }
+  
   /* The minimum observed hands: */
   const uint32_t oh[4] = {100, 100, 75, 120};
   if (ps.observed_hands < oh[(int) ts])  {
@@ -183,11 +200,12 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
 {
   PlayerStat ps = stat->getPlayerStat (pname, ts);
   
-  QString caption[9] = {
+  QString caption[10] = {
     tr ("<font color='#808080'>Too few data!</font>"),
     tr ("<font color='#550055'>Rock</font>"),
     tr ("<font color='#800080'>Weak-Passive</font>"),
     tr ("<font color='#1000EE'>Fish</font>"),
+    tr ("<font color='#FF0080'>Donkey</font>"),
     tr ("<font color='#00FF80'>Shark</font>"),
     tr ("<font color='#FF8000'>Loose-Aggressive</font>"),
     tr ("<font color='#559900'>Dump Loose-Aggressive</font>"),
@@ -200,11 +218,12 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
   l_caption->setText (caption[(int) pc]);
   l_short->setText (charDescription (pc));
   
-  QString icons[9] = {
+  QString icons[10] = {
     "/s_NoData.png",
     "/s_Rock.png",
     "/s_Weak-Passive.png",
     "/s_Fish.png",
+    "/s_Donkey.png",
     "/s_Shark.png",
     "/s_LAG.png",
     "/s_Dump_LAG.png",

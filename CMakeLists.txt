@@ -17,6 +17,7 @@ set(PTHT_ICON
   Icons/PokerTH_Tracker.png
   Icons/s_Dump_LAG.png
   Icons/s_Fish.png
+  Icons/s_Donkey.png
   Icons/s_Fool.png
   Icons/s_LAG.png
   Icons/s_Maniac.png

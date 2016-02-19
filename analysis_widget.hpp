@@ -14,6 +14,7 @@ enum PlayerCharacteristic
   P_Rock,
   P_Weak_Passive,
   P_Fish,
+  P_Donkey,
   P_TAG,
   P_LAG,
   P_dump_LAG,
