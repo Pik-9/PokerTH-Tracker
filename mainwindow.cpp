@@ -116,12 +116,12 @@ RightPart::RightPart (QWidget *parent)
   l_fconti = new QLabel (tr ("Folded to Contibet:"));
   l_fconti->setCursor (Qt::WhatsThisCursor);
   l_fconti->setToolTip (tr ("How often the player folded when confronted with a continuation bet."));
-  l_tbet = new QLabel (tr ("Turn Contibet:"));
+  l_tbet = new QLabel (tr ("2nd barrel:"));
   l_tbet->setCursor (Qt::WhatsThisCursor);
   l_tbet->setToolTip (tr ("How often the player fired another c-bet on the turn after raising preflop."));
-  l_ftbet = new QLabel (tr ("Folded to Turn C-Bet:"));
+  l_ftbet = new QLabel (tr ("Folded 2nd barrel:"));
   l_ftbet->setCursor (Qt::WhatsThisCursor);
-  l_ftbet->setToolTip (tr ("How often the player folded when confronted with a c-bet on the turn."));
+  l_ftbet->setToolTip (tr ("How often the player folded when confronted with a 2nd barrel on the turn."));
   
   l_fnbet = new QLabel (tr ("Folded to n-Bets:"));
   l_fnbet->setCursor (Qt::WhatsThisCursor);

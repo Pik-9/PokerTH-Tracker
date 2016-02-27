@@ -14,7 +14,7 @@ AnaWidget::AnaWidget (Statistics* pinfo, QWidget* parent)
   l_caption = new QLabel (tr ("Category"));
   l_caption->setAlignment (Qt::AlignCenter);
   l_short = new QLabel (tr ("Short description"));
-  l_tips = new QLabel (tr ("Try to..."));
+  l_tips = new QLabel (tr ("Weaknesses"));
   layout = new QVBoxLayout (this);
   
   layout->addWidget (l_icon);
@@ -233,4 +233,96 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
   
   QString icon_path = Global::getInstance ()->getDataDir () + icons[(int) pc];
   l_icon->setPixmap (QPixmap (icon_path));
+  
+  QString advise ("");
+  
+  if (ps.seen_round (TURN) / ps.seen_round (FLOP) <= 0.6)  {
+    advise += tr (
+      "- He often gives up after missing the flop.\n  Try to bluff him on the flop.\n"
+    );
+  }
+  
+  if (ps.seen_round (RIVER) / ps.seen_round (TURN) <= 0.6)  {
+    advise += tr (
+      "- He often gives up after missing the turn.\n  Try to bluff him on the turn.\n"
+    );
+  }
+  
+  if (ps.seen_round (SHOWDOWN) / ps.seen_round (RIVER) <= 0.6)  {
+    advise += tr (
+      "- He often gives up after missing the river.\n  Try to bluff him on the river.\n"
+    );
+  }
+  
+  if ((ps.preflop_raise () >= 4.0) && (ps.F_contibet () > 70) && (ps.F_contibet () - ps.T_contibet () >= 20.0))  {
+    advise += tr (
+      "- He may be vulnerable to floating.\n"
+    );
+  }
+  
+  if ((ps.AF (FLOP) < 1.0) && (ps.AF (TURN) < 1.0) && (ps.AF (RIVER) > 1.0) && (ps.wtShowdown () > 40.0))  {
+    advise += tr (
+      "- This player is probably a calling station.\n  Be carefull with bluffing.\n"
+    );
+  }
+  
+  if (ps.folded_nbet () >= 40.0)  {
+    advise += tr (
+      "- Try to reraise him to see, whether he's bluffing.\n"
+      "  He will often give up his hand then.\n"
+    );
+  }
+  
+  if (ps.folded_conbet () >= 40.0)  {
+    advise += tr (
+      "- You should usually fire continuation bets against him!\n"
+    );
+  }
+  
+  if (ps.folded_turnbet () - ps.folded_conbet () >= 20.0)  {
+    advise += tr (
+      "- Don't worry if he called your continuation bet.\n"
+      "  Just 2nd barrel him!\n"
+    );
+  }
+  
+  if (ps.checkraise_prop () > 5.0)  {
+    advise += tr (
+      "- This player likes to check-raise.\n"
+      "  Be carefull when he checks - it\n"
+      "  might be a trap!\n"
+    );
+  }
+  
+  if (ts != HEADSUP)  {
+    double won_in_showdown = ps.wonShowdown () / ps.wtShowdown ();
+    if (won_in_showdown < 0.45)  {
+      advise += tr (
+        "- This player's a donkey caller!\n"
+        "  He often goes to showdown with weak hands.\n"
+      );
+    } else if (won_in_showdown <= 0.55)  {
+      if (ps.wtShowdown () < 30.0)  {
+        advise += tr (
+          "- He's playing pretty tight.\n"
+        );
+      } else  {
+        advise += tr (
+          "- Be carefull: He might be a competent LAG!\n"
+        );
+      }
+    } else  {
+      advise += tr (
+        "- He only goes to showdown when he's\n"
+        "  absolutely confident to have the best hand!\n"
+        "  You can bluff him a lot!\n"
+      );
+    }
+  }
+  
+  if (pc == P_NEData) {
+    l_tips->setText (tr ("Too few data to detect weaknesses!"));
+  } else  {
+    l_tips->setText (advise);
+  }
 }

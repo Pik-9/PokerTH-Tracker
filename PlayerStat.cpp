@@ -285,8 +285,8 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
       }
       
       if (player_action == "folds")  {
-        /* If the player folds to a n-bet post flop. (n > 1) */
-        if ((nbet > 1) && (round))  {
+        /* If the player folds to a n-bet after betting first post flop. (n > 1) */
+        if ((nbet > 1) && (tmp[player_name].round_bet[round]) && (round))  {
           tmp[player_name].postflop_fn++;
         }
         

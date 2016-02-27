@@ -90,11 +90,12 @@ void MultiView::writeTable ()
   
   tableSize ts = (tableSize) c_tsize->currentIndex ();
   
-  QString pchar[9] = {
+  QString pchar[10] = {
     tr ("No data..."),
     tr ("Rock"),
     tr ("Weak-Passive"),
     tr ("Fish"),
+    tr ("Donkey"),
     tr ("Shark"),
     tr ("Loose-Aggressive"),
     tr ("Dump Loose-Aggressive"),
@@ -110,9 +111,9 @@ void MultiView::writeTable ()
     tr ("3bet:"),
     tr ("Continuation bet:"),
     tr ("Folded to Contibet:"),
-    tr ("Turn Contibet:"),
-    tr ("Folded to Turn C-Bet:"),
-    tr ("Folded to n-Bets:"),
+    tr ("2nd barrel:"),
+    tr ("Folded to 2nd barrel:"),
+    tr ("Folded to n-Bet:"),
     tr ("Check-Raise:"),
     tr ("Average AF:"),
     tr ("Flop AF:"),
