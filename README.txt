@@ -36,6 +36,14 @@ QMake:
   $ qmake ../PokerTH_tracker.pro && make
   $ sudo make install
 
+  
+Special thanks to
+-----------------
+
+the internet portal openclipart.org for providing funny cliparts
+to be used in PokerTH Tracker. All cliparts are published under
+the terms of an open source license.
+
 
 License
 -------
