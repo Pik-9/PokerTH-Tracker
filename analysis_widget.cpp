@@ -294,6 +294,12 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
     );
   }
   
+  if (ps.wonPostflop () - ps.wonShowdown () >= 20.0)  {
+    advise += tr (
+      "- Be carefull: He might be a competent LAG!\n"
+    );
+  }
+  
   if (ts != HEADSUP)  {
     double won_in_showdown = ps.wonShowdown () / ps.wtShowdown ();
     if (won_in_showdown < 0.45)  {
@@ -302,15 +308,9 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
         "  He often goes to showdown with weak hands.\n"
       );
     } else if (won_in_showdown <= 0.55)  {
-      if (ps.wtShowdown () < 30.0)  {
-        advise += tr (
-          "- He's playing pretty tight.\n"
-        );
-      } else  {
-        advise += tr (
-          "- Be carefull: He might be a competent LAG!\n"
-        );
-      }
+      advise += tr (
+        "- He seems to be a solid player.\n"
+      );
     } else  {
       advise += tr (
         "- He only goes to showdown when he's\n"

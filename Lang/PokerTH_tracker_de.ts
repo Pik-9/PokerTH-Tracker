@@ -316,7 +316,7 @@ bis er sich selbst aus dem Spiel gekegelt hat.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../analysis_widget.cpp" line="300"/>
+        <location filename="../analysis_widget.cpp" line="306"/>
         <source>- This player&apos;s a donkey caller!
   He often goes to showdown with weak hands.
 </source>
@@ -325,17 +325,17 @@ bis er sich selbst aus dem Spiel gekegelt hat.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../analysis_widget.cpp" line="306"/>
-        <source>- He&apos;s playing pretty tight.
-</source>
-        <translation>- Er spielt ziemlich tight.
-</translation>
-    </message>
-    <message>
-        <location filename="../analysis_widget.cpp" line="310"/>
+        <location filename="../analysis_widget.cpp" line="298"/>
         <source>- Be carefull: He might be a competent LAG!
 </source>
         <translation>- Sei vorsichtig: Er könnte ein starker LAG sein!
+</translation>
+    </message>
+    <message>
+        <location filename="../analysis_widget.cpp" line="311"/>
+        <source>- He seems to be a solid player.
+</source>
+        <translation>Er scheint recht solide zu spielen.
 </translation>
     </message>
     <message>
@@ -372,7 +372,7 @@ bis er sich selbst aus dem Spiel gekegelt hat.</translation>
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.cpp" line="272"/>
-        <location filename="../mainwindow.cpp" line="360"/>
+        <location filename="../mainwindow.cpp" line="361"/>
         <source>PokerTH Tracker</source>
         <translation>PokerTH Tracker</translation>
     </message>
@@ -425,8 +425,15 @@ bis er sich selbst aus dem Spiel gekegelt hat.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="359"/>
-        <source>This software is published under the termns of the GNU General Public License Version 3.</source>
-        <translation>Dieses Programm ist unter der GNU General Public License in Version 3 veröffentlicht.</translation>
+        <source>This software is published under the termns of the GNU General Public License Version 3.
+</source>
+        <translation>Diese Software ist unter der GNU General Public License in Version 3 veröffentlicht.
+</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="360"/>
+        <source>This software contains free cliparts from openclipart.org.</source>
+        <translation>Diese Software enthält freie Grafiken von openclipart.org.</translation>
     </message>
 </context>
 <context>
