@@ -335,7 +335,7 @@ bis er sich selbst aus dem Spiel gekegelt hat.</translation>
         <location filename="../analysis_widget.cpp" line="311"/>
         <source>- He seems to be a solid player.
 </source>
-        <translation>Er scheint recht solide zu spielen.
+        <translation>- Er scheint recht solide zu spielen.
 </translation>
     </message>
     <message>
