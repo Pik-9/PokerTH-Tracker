@@ -34,7 +34,7 @@ Er spielt nur Premiumhände.
 Du wirst nicht viel Geld mit diesem Spieler verdienen,
 auf der anderen Seite schadet er dir aber auch nicht!
 Normalerweise kannst du diesen Spieler gut bluffen.
-Wenn er allerdings mal setzt, solltest aussteigen, es
+Wenn er allerdings mal setzt, solltest du aussteigen, es
 sei denn, du hältst die Nuts.</translation>
     </message>
     <message>
@@ -65,11 +65,11 @@ hand away if he didn&apos;t hit anything. Try to figure
 out whether he has something and if not: Bluff him
 out!</source>
         <translation>Dieser Spieler spielt viel zu viele Hände,
-Allerdings gibt er sie zügig auf, wenn er
+allerdings gibt er sie zügig auf, wenn er
 nichts getroffen hat! Auch wenn er manchmal
 Draws hinterher jagd, ist er doch meistens
 leicht zu bezwingen. Versuche herauszufinden,
-Ob er etwas getroffen hat - Und wenn nicht:
+ob er etwas getroffen hat - Und wenn nicht:
 Übe Druck aus!</translation>
     </message>
     <message>
@@ -81,7 +81,7 @@ bad his hand is, he will play it till the end!
 He should be easy to exploit, but don&apos;t bluff him!</source>
         <translation>Diese Spieler hat den Sinn des Spiels nicht ganz
 verstanden! Er spielt viel zu viele Hände und
-callt alle Einsätze immer an ein Wunder glaubend!
+callt alle Einsätze, immer an ein Wunder glaubend!
 Egal wie schlecht seine Chancen stehen, er wird
 bis zum bitteren Ende dabei bleiben!
 Es sollte nicht schwer sein, ihn zu bezwingen,
@@ -174,7 +174,7 @@ gäbe es kein Morgen mehr! Natürlich blufft er meistens,
 aber du musst trotzdem unbedingt RUHE BEWAHREN.
 Du willst nicht mit AK gegen diesen Typen All-In gehen
 und am Ende gegen ein Dreierpärchen verlieren!
-Gehen ihm also einfach aus dem Weg und warte,
+Gehe ihm also einfach aus dem Weg und warte,
 bis er sich selbst aus dem Spiel gekegelt hat.</translation>
     </message>
     <message>
@@ -371,67 +371,77 @@ bis er sich selbst aus dem Spiel gekegelt hat.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="272"/>
-        <location filename="../mainwindow.cpp" line="361"/>
+        <location filename="../mainwindow.cpp" line="271"/>
+        <location filename="../mainwindow.cpp" line="365"/>
         <source>PokerTH Tracker</source>
         <translation>PokerTH Tracker</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="282"/>
+        <location filename="../mainwindow.cpp" line="279"/>
         <source>&amp;File</source>
         <translation>&amp;Datei</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="283"/>
+        <location filename="../mainwindow.cpp" line="280"/>
         <source>&amp;Refresh</source>
         <translation>&amp;Aktualisieren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="284"/>
+        <location filename="../mainwindow.cpp" line="281"/>
         <source>&amp;Quit</source>
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="287"/>
+        <location filename="../mainwindow.cpp" line="284"/>
+        <source>&amp;Settings</source>
+        <translation>&amp;Einstellungen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="285"/>
+        <source>Save &amp;Geometry</source>
+        <translation>Fenster&amp;geometrie speichern</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="290"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="288"/>
+        <location filename="../mainwindow.cpp" line="291"/>
         <source>About Qt</source>
         <translation>Über Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="289"/>
+        <location filename="../mainwindow.cpp" line="292"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="323"/>
+        <location filename="../mainwindow.cpp" line="327"/>
         <source>Opened %1 files from %2</source>
         <translation>%1 Dateien aus %2 geöffnet</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="325"/>
+        <location filename="../mainwindow.cpp" line="329"/>
         <source>There were errors while loading files from %1!</source>
         <translation>Beim Laden aus %1 sind Fehler aufgetreten!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="357"/>
+        <location filename="../mainwindow.cpp" line="361"/>
         <source>PokerTH Tracker - A simple poker statistics tracker for PokerTH
 </source>
         <translation>PokerTH Tracker - Ein einfaches Statistik Analyse Programm für PokerTH
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="359"/>
+        <location filename="../mainwindow.cpp" line="363"/>
         <source>This software is published under the termns of the GNU General Public License Version 3.
 </source>
         <translation>Diese Software ist unter der GNU General Public License in Version 3 veröffentlicht.
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="360"/>
+        <location filename="../mainwindow.cpp" line="364"/>
         <source>This software contains free cliparts from openclipart.org.</source>
         <translation>Diese Software enthält freie Grafiken von openclipart.org.</translation>
     </message>
@@ -439,202 +449,202 @@ bis er sich selbst aus dem Spiel gekegelt hat.</translation>
 <context>
     <name>MultiView</name>
     <message>
-        <location filename="../multiview.cpp" line="40"/>
+        <location filename="../multiview.cpp" line="38"/>
         <source>Multiplayer view</source>
         <translation>Mehrspieleransicht</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="49"/>
+        <location filename="../multiview.cpp" line="45"/>
         <source>Table size:</source>
         <translation>Tischgröße:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="51"/>
+        <location filename="../multiview.cpp" line="47"/>
         <source>Fullring (7 - 10 players)</source>
         <translation>Fullring (7 - 10 Spieler)</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="52"/>
+        <location filename="../multiview.cpp" line="48"/>
         <source>Shorthand (3 - 6 players)</source>
         <translation>Shorthand (3 - 6 Spieler)</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="53"/>
+        <location filename="../multiview.cpp" line="49"/>
         <source>Heads-Up (2 players)</source>
         <translation>Heads-Up (2 Spieler)</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="54"/>
+        <location filename="../multiview.cpp" line="50"/>
         <source>Any</source>
         <translation>Alle</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="57"/>
+        <location filename="../multiview.cpp" line="53"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="58"/>
+        <location filename="../multiview.cpp" line="54"/>
         <source>Clear</source>
         <translation>Alle entfernen</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="59"/>
+        <location filename="../multiview.cpp" line="55"/>
         <source>Remove player</source>
         <translation>Entfernen</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="94"/>
+        <location filename="../multiview.cpp" line="90"/>
         <source>No data...</source>
         <translation>Keine Daten...</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="95"/>
+        <location filename="../multiview.cpp" line="91"/>
         <source>Rock</source>
         <translation>Rock</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="96"/>
+        <location filename="../multiview.cpp" line="92"/>
         <source>Weak-Passive</source>
         <translation>Weak-Passive</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="97"/>
+        <location filename="../multiview.cpp" line="93"/>
         <source>Fish</source>
         <translation>Fisch</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="98"/>
+        <location filename="../multiview.cpp" line="94"/>
         <source>Donkey</source>
         <translation>Donkey</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="99"/>
+        <location filename="../multiview.cpp" line="95"/>
         <source>Shark</source>
         <translation>Shark</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="100"/>
+        <location filename="../multiview.cpp" line="96"/>
         <source>Loose-Aggressive</source>
         <translation>Loose-Aggressive</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="101"/>
+        <location filename="../multiview.cpp" line="97"/>
         <source>Dump Loose-Aggressive</source>
         <translation>Hirnamputiert Loose-Aggressive</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="102"/>
+        <location filename="../multiview.cpp" line="98"/>
         <source>Fool</source>
         <translation>Irrer</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="103"/>
+        <location filename="../multiview.cpp" line="99"/>
         <source>Maniac</source>
         <translation>Maniac</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="107"/>
+        <location filename="../multiview.cpp" line="103"/>
         <source>Name:</source>
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="108"/>
+        <location filename="../multiview.cpp" line="104"/>
         <source>Observed hands:</source>
         <translation>Beobachtete Hände:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="113"/>
+        <location filename="../multiview.cpp" line="109"/>
         <source>Folded to Contibet:</source>
         <translation>Gegen eine Contibet ausgestiegen:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="117"/>
+        <location filename="../multiview.cpp" line="113"/>
         <source>Check-Raise:</source>
         <translation>Check-Raise:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="118"/>
+        <location filename="../multiview.cpp" line="114"/>
         <source>Average AF:</source>
         <translation>Durchschnittlicher AF:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="119"/>
+        <location filename="../multiview.cpp" line="115"/>
         <source>Flop AF:</source>
         <translation>Flop AF:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="121"/>
+        <location filename="../multiview.cpp" line="117"/>
         <source>Turn AF:</source>
         <translation>Turn AF:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="123"/>
+        <location filename="../multiview.cpp" line="119"/>
         <source>River AF:</source>
         <translation>River AF:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="125"/>
+        <location filename="../multiview.cpp" line="121"/>
         <source>W$WSF:</source>
         <translation>W$WSF:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="126"/>
+        <location filename="../multiview.cpp" line="122"/>
         <source>W$SD:</source>
         <translation>W$SD:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="127"/>
+        <location filename="../multiview.cpp" line="123"/>
         <source>Characteristic:</source>
         <translation>Spielertyp:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="109"/>
+        <location filename="../multiview.cpp" line="105"/>
         <source>VP$IP:</source>
         <translation>VP$IP:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="110"/>
+        <location filename="../multiview.cpp" line="106"/>
         <source>Preflop Raise:</source>
         <translation>Preflop Erhöhung:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="111"/>
+        <location filename="../multiview.cpp" line="107"/>
         <source>3bet:</source>
         <translation>3Bet:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="112"/>
+        <location filename="../multiview.cpp" line="108"/>
         <source>Continuation bet:</source>
         <translation>Continuation Bet:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="114"/>
+        <location filename="../multiview.cpp" line="110"/>
         <source>2nd barrel:</source>
         <translation>2nd Barrel:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="115"/>
+        <location filename="../multiview.cpp" line="111"/>
         <source>Folded to 2nd barrel:</source>
         <translation>Gegen 2nd Barrel ausgestiegen:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="116"/>
+        <location filename="../multiview.cpp" line="112"/>
         <source>Folded to n-Bet:</source>
         <translation>Gegen eine n-Bet ausgestiegen:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="120"/>
+        <location filename="../multiview.cpp" line="116"/>
         <source>Turn seen:</source>
         <translation>Turn gesehen:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="122"/>
+        <location filename="../multiview.cpp" line="118"/>
         <source>River seen:</source>
         <translation>River gesehen:</translation>
     </message>
     <message>
-        <location filename="../multiview.cpp" line="124"/>
+        <location filename="../multiview.cpp" line="120"/>
         <source>Went to Showdown:</source>
         <translation>Bis in den Showdown gegangen:</translation>
     </message>

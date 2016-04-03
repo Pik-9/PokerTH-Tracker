@@ -29,21 +29,17 @@
 #include <QPushButton>
 #include <QComboBox>
 #include <QTableWidget>
-#include <QApplication>
-#include <QDesktopWidget>
 #include <QShowEvent>
 
 MultiView::MultiView (Statistics* PInformation, QWidget* parent)
   : QWidget (parent), stat (PInformation)
 {
-  resize (1000, 786);
+  
   setWindowTitle (tr ("Multiplayer view"));
   
-  setWindowIcon (QIcon (Global::getInstance ()->getDataDir () + "/PokerTH_Tracker.png"));
-  
-  /* Move window to screen center. */
-  QRect geom = QApplication::desktop ()->screenGeometry ();
-  move ((geom.width () - width ()) / 2, (geom.height () - height ()) / 2);
+  Global* glset = Global::getInstance ();
+  glset->getMultiViewGeom (this);
+  setWindowIcon (QIcon (glset->getDataDir () + "/PokerTH_Tracker.png"));
   
   layout = new QGridLayout (this);
   l_tsize = new QLabel (tr ("Table size:"));

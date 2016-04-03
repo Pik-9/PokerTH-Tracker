@@ -33,9 +33,9 @@
 #include <QFileDialog>
 #include <QMenu>
 #include <QMenuBar>
+#include <QAction>
 #include <QStatusBar>
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QMessageBox>
 
 LeftPart::LeftPart (QWidget *parent)
@@ -268,21 +268,24 @@ void RightPart::changedTableSize (int index)
 MainWindow::MainWindow (QWidget *parent)
   : QMainWindow (parent)
 {
-  resize (1024, 786);
   setWindowTitle (tr ("PokerTH Tracker"));
   
- setWindowIcon (QIcon (Global::getInstance ()->getDataDir () + "/PokerTH_Tracker.png"));
+  Global* glset = Global::getInstance ();
+  glset->getMainWinGeom (this);
+  setWindowIcon (QIcon (glset->getDataDir () + "/PokerTH_Tracker.png"));
   
   splitter = new QSplitter (Qt::Horizontal);
-
-  /* Move window to screen center. */
-  QRect geom = QApplication::desktop ()->screenGeometry ();
-  move ((geom.width () - width ()) / 2, (geom.height () - height ()) / 2);
 
   QMenu *fmenu = new QMenu (tr ("&File"));
   fmenu->addAction (tr ("&Refresh"), this, SLOT (refresh ()), QKeySequence::Refresh);
   fmenu->addAction (tr ("&Quit"), qApp, SLOT (quit ()));
   menuBar ()->addMenu (fmenu);
+  
+  QMenu *fsettings = new QMenu (tr ("&Settings"));
+  saveGeomSetting = fsettings->addAction (tr ("Save &Geometry"));
+  saveGeomSetting->setCheckable (true);
+  saveGeomSetting->setChecked (glset->getGeomSave ());
+  menuBar ()->addMenu (fsettings);
 
   QMenu *fhelp = new QMenu (tr ("&Help"));
   fhelp->addAction (tr ("About Qt"), this, SLOT (clickedAboutQT ()));
@@ -300,6 +303,7 @@ MainWindow::MainWindow (QWidget *parent)
   splitter->addWidget (ap);
   setCentralWidget (splitter);
 
+  connect (qApp, SIGNAL (aboutToQuit ()), this, SLOT (quitSavingSettings ()));
   connect (lp, SIGNAL (changedDirectory ()), this, SLOT (refresh ()));
   connect (lp->getListWidget (), SIGNAL (currentTextChanged (const QString)), this, SLOT (showPlayerStats (const QString)));
   connect (lp->getListWidget (), SIGNAL (itemDoubleClicked (QListWidgetItem*)), this, SLOT (addToMultiview (QListWidgetItem*)));
@@ -359,4 +363,14 @@ void MainWindow::clickedAbout ()
   msg += tr ("This software is published under the termns of the GNU General Public License Version 3.\n");
   msg += tr ("This software contains free cliparts from openclipart.org.");
   QMessageBox::about (this, tr ("PokerTH Tracker"), msg);
+}
+
+void MainWindow::quitSavingSettings ()
+{
+  Global* glset = Global::getInstance ();
+  glset->setGeomSave (saveGeomSetting->isChecked ());
+  if (saveGeomSetting->isChecked ())  {
+    glset->setMultiViewGeom (mv);
+    glset->setMainWinGeom (this);
+  }
 }

@@ -36,6 +36,7 @@ class QPushButton;
 class QComboBox;
 class QListWidget;
 class QListWidgetItem;
+class QAction;
 class QGridLayout;
 class QFileDialog;
 
@@ -110,6 +111,7 @@ class MainWindow : public QMainWindow
 
 private:
   QSplitter *splitter;
+  QAction *saveGeomSetting;
   LeftPart *lp;
   RightPart *rp;
   AnaWidget *ap;
@@ -128,6 +130,7 @@ public slots:
   void addToMultiview (QListWidgetItem*);
   void clickedAboutQT ();
   void clickedAbout ();
+  void quitSavingSettings ();
 };
 
 #endif

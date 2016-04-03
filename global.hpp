@@ -3,6 +3,7 @@
 
 class QSettings;
 class QDir;
+class QWidget;
 class QString;
 
 class Global
@@ -22,6 +23,14 @@ public:
   void setLogDir (const QString);
   void setLogDir (const QDir);
   QString getDataDir ();
+  
+  bool getGeomSave ();
+  void setGeomSave (const bool);
+  
+  void setMainWinGeom (QWidget*);
+  void getMainWinGeom (QWidget*);
+  void setMultiViewGeom (QWidget*);
+  void getMultiViewGeom (QWidget*);
 };
 
 #endif
