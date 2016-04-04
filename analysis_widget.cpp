@@ -160,7 +160,7 @@ PlayerCharacteristic AnaWidget::analyseChar (const PlayerStat ps, const tableSiz
     {P_TAG, P_LAG, P_Maniac}
   };
   
-  PlayerCharacteristic pc = P_Fool;
+  PlayerCharacteristic pc;
   
   uint32_t ar, vr;
   if (ps.VPIP () < vl[(int) ts])  {
@@ -255,19 +255,19 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
   
   QString advise ("");
   
-  if (ps.seen_round (TURN) / ps.seen_round (FLOP) <= 0.6)  {
+  if (ps.seen_round (TURN) / ps.seen_round (FLOP) <= 0.65)  {
     advise += tr (
       "- He often gives up after missing the flop.\n  Try to bluff him on the flop.\n"
     );
   }
   
-  if (ps.seen_round (RIVER) / ps.seen_round (TURN) <= 0.6)  {
+  if (ps.seen_round (RIVER) / ps.seen_round (TURN) <= 0.65)  {
     advise += tr (
       "- He often gives up after missing the turn.\n  Try to bluff him on the turn.\n"
     );
   }
   
-  if (ps.seen_round (SHOWDOWN) / ps.seen_round (RIVER) <= 0.6)  {
+  if (ps.seen_round (SHOWDOWN) / ps.seen_round (RIVER) <= 0.65)  {
     advise += tr (
       "- He often gives up after missing the river.\n  Try to bluff him on the river.\n"
     );
@@ -285,7 +285,7 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
     );
   }
   
-  if (ps.folded_nbet () >= 40.0)  {
+  if (ps.folded_nbet () >= 30.0)  {
     advise += tr (
       "- Try to reraise him to see, whether he's bluffing.\n"
       "  He will often give up his hand then.\n"
@@ -313,7 +313,7 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
     );
   }
   
-  if (ps.wonPostflop () - ps.wonShowdown () >= 20.0)  {
+  if ((ps.wonPostflop () - ps.wonShowdown () >= 30.0) && (ps.AF_ave () >= 0.8))  {
     advise += tr (
       "- Be carefull: He might be a competent LAG!\n"
     );
@@ -323,18 +323,13 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
     double won_in_showdown = ps.wonShowdown () / ps.wtShowdown ();
     if (won_in_showdown < 0.45)  {
       advise += tr (
-        "- This player's a donkey caller!\n"
-        "  He often goes to showdown with weak hands.\n"
+        "- This player often goes to\n"
+        "  showdown with weak hands.\n"
       );
-    } else if (won_in_showdown <= 0.55)  {
+    } else if ((won_in_showdown > 0.55) && (ps.wtShowdown () < 45.0))  {
       advise += tr (
-        "- He seems to be a solid player.\n"
-      );
-    } else  {
-      advise += tr (
-        "- He only goes to showdown when he's\n"
-        "  absolutely confident to have the best hand!\n"
-        "  You can bluff him a lot!\n"
+        "- This player only goes to\n"
+        "  showdown with pretty strong hands.\n"
       );
     }
   }
