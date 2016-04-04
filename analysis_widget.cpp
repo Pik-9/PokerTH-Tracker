@@ -28,7 +28,7 @@ AnaWidget::~AnaWidget ()
 
 QString AnaWidget::charDescription (const PlayerCharacteristic ps)
 {
-  QString short_desc[10] = {
+  QString short_desc[11] = {
     tr (
       "You didn't observe enough hands\n"
       "to make a reliable rating."
@@ -107,6 +107,18 @@ QString AnaWidget::charDescription (const PlayerCharacteristic ps)
       "loose against a pair of threes! So just get\n"
       "out of his way and wait until he eliminates\n"
       "himself."
+    ),
+    tr (
+      "This pathetic little worm's only purpose in\n"
+      "life is trolling other people! He thinks he\n"
+      "is incredibly funny, because he annoys other\n"
+      "players by pushing all-in with junk all the\n"
+      "time! He loves to see other players complaining\n"
+      "about him in the chat window, so remember:\n"
+      "DON'T FEED THE TROLL!\n"
+      "Just wait for premium hands to call him.\n"
+      "Attention: The tips below only apply when\n"
+      "he is playing seriously."
     )
   };
   
@@ -187,6 +199,11 @@ PlayerCharacteristic AnaWidget::analyseChar (const PlayerStat ps, const tableSiz
     }
   }
   
+  /* Recognise All-In Trolls */
+  if ((ts != HEADSUP) && (ps.hardAllin () >= 25.0))  {
+    pc = P_Allin_Troll;
+  }
+  
   /* The minimum observed hands: */
   const uint32_t oh[4] = {100, 100, 75, 120};
   if (ps.observed_hands < oh[(int) ts])  {
@@ -200,7 +217,7 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
 {
   PlayerStat ps = stat->getPlayerStat (pname, ts);
   
-  QString caption[10] = {
+  QString caption[11] = {
     tr ("<font color='#808080'>Too few data!</font>"),
     tr ("<font color='#550055'>Rock</font>"),
     tr ("<font color='#800080'>Weak-Passive</font>"),
@@ -210,7 +227,8 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
     tr ("<font color='#FF8000'>Loose-Aggressive</font>"),
     tr ("<font color='#559900'>Dump Loose-Aggressive</font>"),
     tr ("<font color='#CCCC00'>Fool</font>"),
-    tr ("<font color='#FF0000'>Maniac</font>")
+    tr ("<font color='#FF0000'>Maniac</font>"),
+    tr ("<font color='#66AA22'>All-In Troll</font>")
   };
     
   PlayerCharacteristic pc = analyseChar (ps, ts);
@@ -218,7 +236,7 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
   l_caption->setText (caption[(int) pc]);
   l_short->setText (charDescription (pc));
   
-  QString icons[10] = {
+  QString icons[11] = {
     "/s_NoData.png",
     "/s_Rock.png",
     "/s_Weak-Passive.png",
@@ -228,7 +246,8 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
     "/s_LAG.png",
     "/s_Dump_LAG.png",
     "/s_Fool.png",
-    "/s_Maniac.png"
+    "/s_Maniac.png",
+    "/s_All-in_Troll.png"
   };
   
   QString icon_path = Global::getInstance ()->getDataDir () + icons[(int) pc];

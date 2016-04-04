@@ -83,6 +83,11 @@ double PlayerStat::checkraise_prop () const
   return 100.0 * checkraises / (checkraises + round_check[1] + round_check[2] + round_check[3]);
 }
 
+double PlayerStat::hardAllin () const
+{
+  return 100.0 * hard_allin / observed_hands;
+}
+
 double PlayerStat::seen_round (const gameRound RND) const
 {
   return 100.0 * round_seen[RND] / observed_hands;
@@ -121,6 +126,7 @@ PlayerStat& PlayerStat::operator+= (PlayerStat& other)
   postflop_nb += other.postflop_nb;
   postflop_nbe += other.postflop_nbe;
   checkraises += other.checkraises;
+  hard_allin += other.hard_allin;
   for (int ii = 0; ii < 4; ++ii)  {
     round_bet[ii] += other.round_bet[ii];
     round_call[ii] += other.round_call[ii];
@@ -172,7 +178,7 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
       return false;
     }
     
-    uint32_t round_ = 6, nbet = 0, betsize = 0;
+    uint32_t round_ = 6, nbet = 0, betsize = 0, bblind = 0;
     
     /* If a player in this round fired a contibet or turnbet. */
     uint32_t conbet = 0, turnbet = 0;
@@ -231,7 +237,7 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
       
       if (player_action == "posts big blind")  {
         nbet = 1;
-        betsize = amount;
+        bblind = betsize = amount;
       }
       
       if (player_action == "checks")  {
@@ -304,6 +310,11 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
       if (player_action == "is all in with")  {
         for (uint32_t ir = 0; ir < 5; ++ir)  {
           tmp[player_name].round_seen[ir] = 1;
+        }
+        
+        /* Was it more than 10 BB? */
+        if ((amount / bblind) > 10)  {
+          tmp[player_name].hard_allin++;
         }
         
         /* Is this all-in a call or a raise? */

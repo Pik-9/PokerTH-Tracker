@@ -57,6 +57,9 @@ struct PlayerStat
     postflop_nb, postflop_nbe, postflop_fn; /* Postflop n-bet, confronted with p-n-bet, folded to p-n-bet. */
     
   uint32_t checkraises;
+  
+  /* How often the player went all-in with more than 10 BB. */
+  uint32_t hard_allin;
 
   /* 
    * 0: Preflop
@@ -84,6 +87,7 @@ struct PlayerStat
   double folded_turnbet () const;
   double folded_nbet () const;
   double checkraise_prop () const;
+  double hardAllin () const;
   double seen_round (const gameRound) const;
   double wtShowdown () const;
   double wonShowdown () const;

@@ -19,7 +19,8 @@ enum PlayerCharacteristic
   P_LAG,
   P_dump_LAG,
   P_Fool,
-  P_Maniac
+  P_Maniac,
+  P_Allin_Troll
 };
 
 class AnaWidget : public QWidget

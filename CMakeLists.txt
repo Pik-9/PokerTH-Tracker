@@ -25,6 +25,7 @@ set(PTHT_ICON
   Icons/s_Rock.png
   Icons/s_Shark.png
   Icons/s_Weak-Passive.png
+  Icons/s_All-in_Troll.png
 )
 set(PTHT_DSKT PokerTH_tracker.desktop)
 
