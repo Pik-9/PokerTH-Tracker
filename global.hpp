@@ -12,7 +12,6 @@ private:
   static Global* singleton;
   
   QSettings* app_settings;
-  QDir* dataDir;
   
   Global ();
   virtual ~Global ();
@@ -22,7 +21,6 @@ public:
   QString getLogDir ();
   void setLogDir (const QString);
   void setLogDir (const QDir);
-  QString getDataDir ();
   
   bool getGeomSave ();
   void setGeomSave (const bool);

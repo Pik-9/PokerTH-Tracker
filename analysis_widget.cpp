@@ -237,21 +237,20 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
   l_short->setText (charDescription (pc));
   
   QString icons[11] = {
-    "/s_NoData.png",
-    "/s_Rock.png",
-    "/s_Weak-Passive.png",
-    "/s_Fish.png",
-    "/s_Donkey.png",
-    "/s_Shark.png",
-    "/s_LAG.png",
-    "/s_Dump_LAG.png",
-    "/s_Fool.png",
-    "/s_Maniac.png",
-    "/s_All-in_Troll.png"
+    ":/s_NoData.png",
+    ":/s_Rock.png",
+    ":/s_Weak-Passive.png",
+    ":/s_Fish.png",
+    ":/s_Donkey.png",
+    ":/s_Shark.png",
+    ":/s_LAG.png",
+    ":/s_Dump_LAG.png",
+    ":/s_Fool.png",
+    ":/s_Maniac.png",
+    ":/s_All-in_Troll.png"
   };
   
-  QString icon_path = Global::getInstance ()->getDataDir () + icons[(int) pc];
-  l_icon->setPixmap (QPixmap (icon_path));
+  l_icon->setPixmap (QPixmap (icons[(int) pc]));
   
   QString advise ("");
   

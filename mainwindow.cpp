@@ -272,7 +272,7 @@ MainWindow::MainWindow (QWidget *parent)
   
   Global* glset = Global::getInstance ();
   glset->getMainWinGeom (this);
-  setWindowIcon (QIcon (glset->getDataDir () + "/PokerTH_Tracker.png"));
+  setWindowIcon (QIcon (":/PokerTH_Tracker.png"));
   
   splitter = new QSplitter (Qt::Horizontal);
 

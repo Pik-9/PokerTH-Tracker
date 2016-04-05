@@ -9,10 +9,13 @@ QT       += core gui sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 iconset.path = /usr/local/share/PokerTH_tracker
-iconset.files = Icons/*
+iconset.files = Icons/PokerTH_Tracker.png
 
 TARGET = PokerTH_tracker
 TEMPLATE = app
+
+RESOURCES += Icons.qrc Trans_qmake.qrc
+RC_ICONS = Icons/PokerTH_Tracker.ico
 
 target.path = /usr/local/bin
 
@@ -31,10 +34,7 @@ HEADERS  += mainwindow.hpp\
 
 TRANSLATIONS = Lang/PokerTH_tracker_de.ts
 
-qm_files.path = /usr/local/share/PokerTH_tracker
-qm_files.files = Lang/*.qm
-
 desktop.path = /usr/share/applications
 desktop.files += PokerTH_tracker.desktop
 
-INSTALLS += target iconset qm_files desktop
+INSTALLS += target iconset desktop

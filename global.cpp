@@ -12,15 +12,6 @@ Global* Global::singleton = 0;
 Global::Global ()
 {
   app_settings = new QSettings ("Pik-9", "PokerTH-Tracker");
-  dataDir = new QDir ("/usr/local/share/PokerTH_tracker");
-  if (!dataDir->exists ())  {
-    /* The directory above doesn't exist,
-     * go to data in the current directory.
-     * This is necessary for the Windows client.
-     */
-    *dataDir = QDir::current ();
-    dataDir->cd ("data");
-  }
   
   if (!app_settings->contains ("defaultPath"))  {
     QDir logData (QDir::home ());
@@ -61,11 +52,6 @@ void Global::setLogDir (const QString logPath)
 void Global::setLogDir (const QDir logFolder)
 {
   setLogDir (logFolder.absolutePath ());
-}
-
-QString Global::getDataDir ()
-{
-  return dataDir->absolutePath ();
 }
 
 bool Global::getGeomSave ()

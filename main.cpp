@@ -25,14 +25,13 @@
 
 #include <QApplication>
 #include <QTranslator>
-#include <QLocale>
 
 int main (int argc, char *argv[])
 {
   QApplication app (argc, argv);
   QTranslator *trans = new QTranslator ();
-  QString filename = QString ("PokerTH_tracker_%1.qm").arg (QLocale::system ().name ());
-  trans->load (filename, Global::getInstance ()->getDataDir ());
+  //QString filename = QString ("PokerTH_tracker_%1.qm").arg (QLocale::system ().name ());
+  trans->load (":/qm_translation");
   app.installTranslator (trans);
   MainWindow *mw = new MainWindow ();
   mw->show ();

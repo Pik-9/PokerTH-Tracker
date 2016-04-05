@@ -34,12 +34,11 @@
 MultiView::MultiView (Statistics* PInformation, QWidget* parent)
   : QWidget (parent), stat (PInformation)
 {
-  
   setWindowTitle (tr ("Multiplayer view"));
   
   Global* glset = Global::getInstance ();
   glset->getMultiViewGeom (this);
-  setWindowIcon (QIcon (glset->getDataDir () + "/PokerTH_Tracker.png"));
+  setWindowIcon (QIcon (":/PokerTH_Tracker.png"));
   
   layout = new QGridLayout (this);
   l_tsize = new QLabel (tr ("Table size:"));
