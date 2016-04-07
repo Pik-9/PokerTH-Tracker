@@ -34,6 +34,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QAction>
+#include <QActionGroup>
 #include <QStatusBar>
 #include <QApplication>
 #include <QMessageBox>
@@ -281,10 +282,40 @@ MainWindow::MainWindow (QWidget *parent)
   fmenu->addAction (tr ("&Quit"), qApp, SLOT (quit ()));
   menuBar ()->addMenu (fmenu);
   
+  /* The supported languages */
+  const uint32_t count_lang = 2;
+  QString langs[count_lang] = {
+    tr ("English"),
+    tr ("German")
+  };
+  static QString lang_xx[count_lang] = {
+    "en",
+    "de"
+  };
+  
+  QMenu *flang = new QMenu (tr ("Language"));
+  m_lang = new QActionGroup (flang);
+  m_lang->setExclusive (true);
+  QAction *act_en;  /* This is the default option. */
+  for (int ii = 0; ii < count_lang; ++ii)  {
+    QAction *act = flang->addAction (langs[ii], this, SLOT (changedLang ()));
+    act->setCheckable (true);
+    act->setActionGroup (m_lang);
+    langCodes[act] = lang_xx[ii];
+    act->setChecked (glset->getLang () == lang_xx[ii]);
+    if (lang_xx[ii] == "en")  {
+      act_en = act;
+    }
+  }
+  if (!m_lang->checkedAction ())  {
+    act_en->setChecked (true);
+  }
+  
   QMenu *fsettings = new QMenu (tr ("&Settings"));
   saveGeomSetting = fsettings->addAction (tr ("Save &Geometry"));
   saveGeomSetting->setCheckable (true);
   saveGeomSetting->setChecked (glset->getGeomSave ());
+  fsettings->addMenu (flang);
   menuBar ()->addMenu (fsettings);
 
   QMenu *fhelp = new QMenu (tr ("&Help"));
@@ -363,6 +394,16 @@ void MainWindow::clickedAbout ()
   msg += tr ("This software is published under the termns of the GNU General Public License Version 3.\n");
   msg += tr ("This software contains free cliparts from openclipart.org.");
   QMessageBox::about (this, tr ("PokerTH Tracker"), msg);
+}
+
+void MainWindow::changedLang ()
+{
+  Global::getInstance ()->setLang (langCodes[m_lang->checkedAction ()]);
+  QMessageBox::information (
+    this,
+    tr ("Language changed"),
+    tr ("The language has been changed. The change will take effect after the next start.")
+  );
 }
 
 void MainWindow::quitSavingSettings ()

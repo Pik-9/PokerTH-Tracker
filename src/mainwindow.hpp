@@ -37,6 +37,7 @@ class QComboBox;
 class QListWidget;
 class QListWidgetItem;
 class QAction;
+class QActionGroup;
 class QGridLayout;
 class QFileDialog;
 
@@ -112,12 +113,15 @@ class MainWindow : public QMainWindow
 private:
   QSplitter *splitter;
   QAction *saveGeomSetting;
+  QActionGroup *m_lang;
   LeftPart *lp;
   RightPart *rp;
   AnaWidget *ap;
   MultiView *mv;
 
   Statistics *stat;
+  
+  std::map<QAction*, QString> langCodes;
 
 public:
   MainWindow (QWidget *parent = 0);
@@ -130,6 +134,7 @@ public slots:
   void addToMultiview (QListWidgetItem*);
   void clickedAboutQT ();
   void clickedAbout ();
+  void changedLang ();
   void quitSavingSettings ();
 };
 
