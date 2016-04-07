@@ -18,13 +18,16 @@ private:
   
 public:
   static Global* getInstance ();
+  
   QString getLogDir ();
   void setLogDir (const QString);
   void setLogDir (const QDir);
   
+  QString getLang ();
+  void setLang (const QString);
+  
   bool getGeomSave ();
   void setGeomSave (const bool);
-  
   void setMainWinGeom (QWidget*);
   void getMainWinGeom (QWidget*);
   void setMultiViewGeom (QWidget*);

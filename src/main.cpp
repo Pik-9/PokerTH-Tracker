@@ -30,8 +30,8 @@ int main (int argc, char *argv[])
 {
   QApplication app (argc, argv);
   QTranslator *trans = new QTranslator ();
-  //QString filename = QString ("PokerTH_tracker_%1.qm").arg (QLocale::system ().name ());
-  trans->load (":/qm_translation");
+  QString filename = QString (":/qm_translation_%1").arg (Global::getInstance ()->getLang ());
+  trans->load (filename);
   app.installTranslator (trans);
   MainWindow *mw = new MainWindow ();
   mw->show ();

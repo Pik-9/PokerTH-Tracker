@@ -6,6 +6,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QRect>
+#include <QLocale>
 
 Global* Global::singleton = 0;
 
@@ -52,6 +53,24 @@ void Global::setLogDir (const QString logPath)
 void Global::setLogDir (const QDir logFolder)
 {
   setLogDir (logFolder.absolutePath ());
+}
+
+QString Global::getLang ()
+{
+  QString lang_xx;
+  if (app_settings->contains ("language"))  {
+    lang_xx = app_settings->value ("language").toString ();
+  } else  {
+    lang_xx = QLocale::system ().name ();
+    setLang (lang_xx);
+  }
+  return lang_xx;
+}
+
+void Global::setLang (const QString xx)
+{
+  app_settings->setValue ("language", xx);
+  app_settings->sync ();
 }
 
 bool Global::getGeomSave ()

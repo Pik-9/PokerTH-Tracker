@@ -19,18 +19,18 @@ RC_ICONS = Icons/PokerTH_Tracker.ico
 
 target.path = /usr/local/bin
 
-SOURCES += main.cpp\
-        global.cpp\
-        mainwindow.cpp\
-        PlayerStat.cpp\
-        multiview.cpp\
-        analysis_widget.cpp
+SOURCES += src/main.cpp\
+        src/global.cpp\
+        src/mainwindow.cpp\
+        src/PlayerStat.cpp\
+        src/multiview.cpp\
+        src/analysis_widget.cpp
 
-HEADERS  += mainwindow.hpp\
-        global.hpp\
-        PlayerStat.hpp\
-        multiview.hpp\
-        analysis_widget.hpp
+HEADERS  += src/mainwindow.hpp\
+        src/global.hpp\
+        src/PlayerStat.hpp\
+        src/multiview.hpp\
+        src/analysis_widget.hpp
 
 TRANSLATIONS = Lang/PokerTH_tracker_de.ts
 
