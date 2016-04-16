@@ -26,6 +26,7 @@
 #include <QMainWindow>
 
 #include "PlayerStat.hpp"
+#include "worker.hpp"
 #include "multiview.hpp"
 #include "analysis_widget.hpp"
 
@@ -120,6 +121,7 @@ private:
   MultiView *mv;
 
   Statistics *stat;
+  Worker *work_thread;
   
   std::map<QAction*, QString> langCodes;
 
@@ -129,6 +131,7 @@ public:
 
 public slots:
   void refresh ();
+  void buildList ();
   void showPlayerStats ();
   void showPlayerStats (const QString);
   void addToMultiview (QListWidgetItem*);

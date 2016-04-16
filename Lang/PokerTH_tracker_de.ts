@@ -397,7 +397,7 @@ mal vernünftig spielt.</translation>
     <name>MainWindow</name>
     <message>
         <location filename="../src/mainwindow.cpp" line="272"/>
-        <location filename="../src/mainwindow.cpp" line="396"/>
+        <location filename="../src/mainwindow.cpp" line="406"/>
         <source>PokerTH Tracker</source>
         <translation>PokerTH Tracker</translation>
     </message>
@@ -457,41 +457,46 @@ mal vernünftig spielt.</translation>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="358"/>
+        <location filename="../src/mainwindow.cpp" line="357"/>
+        <source>Loading files...</source>
+        <translation>Lade Dateien...</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="368"/>
         <source>Opened %1 files from %2</source>
         <translation>%1 Dateien aus %2 geöffnet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="360"/>
+        <location filename="../src/mainwindow.cpp" line="370"/>
         <source>There were errors while loading files from %1!</source>
         <translation>Beim Laden aus %1 sind Fehler aufgetreten!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="392"/>
+        <location filename="../src/mainwindow.cpp" line="402"/>
         <source>PokerTH Tracker - A simple poker statistics tracker for PokerTH
 </source>
         <translation>PokerTH Tracker - Ein einfaches Statistik Analyse Programm für PokerTH
 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="394"/>
+        <location filename="../src/mainwindow.cpp" line="404"/>
         <source>This software is published under the termns of the GNU General Public License Version 3.
 </source>
         <translation>Diese Software ist unter der GNU General Public License in Version 3 veröffentlicht.
 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="395"/>
+        <location filename="../src/mainwindow.cpp" line="405"/>
         <source>This software contains free cliparts from openclipart.org.</source>
         <translation>Diese Software enthält freie Grafiken von openclipart.org.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="404"/>
+        <location filename="../src/mainwindow.cpp" line="414"/>
         <source>Language changed</source>
         <translation>Sprache geändert</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="405"/>
+        <location filename="../src/mainwindow.cpp" line="415"/>
         <source>The language has been changed. The change will take effect after the next start.</source>
         <translation>Die Sprache wurde geändert. Die Änderung wird nach dem nächsten Neustart in Kraft treten.</translation>
     </message>

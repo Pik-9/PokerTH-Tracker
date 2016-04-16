@@ -324,6 +324,7 @@ MainWindow::MainWindow (QWidget *parent)
   menuBar ()->addMenu (fhelp);
 
   stat = new Statistics ();
+  work_thread = new Worker (stat);
   
   lp = new LeftPart ();
   rp = new RightPart ();
@@ -339,6 +340,7 @@ MainWindow::MainWindow (QWidget *parent)
   connect (lp->getListWidget (), SIGNAL (currentTextChanged (const QString)), this, SLOT (showPlayerStats (const QString)));
   connect (lp->getListWidget (), SIGNAL (itemDoubleClicked (QListWidgetItem*)), this, SLOT (addToMultiview (QListWidgetItem*)));
   connect (rp, SIGNAL (requestStat ()), this, SLOT (showPlayerStats ()));
+  connect (work_thread, SIGNAL (finished ()), this, SLOT (buildList ()));
 
   refresh ();
 }
@@ -348,16 +350,24 @@ MainWindow::~MainWindow ()
 
 void MainWindow::refresh ()
 {
-  uint32_t cf = 0;
-  if (stat->loadStatistics (lp->getFilePath (), &cf))  {
+  if (!work_thread->isRunning ())  {
+    work_thread->setFilePath (lp->getFilePath ());
+    work_thread->start ();
+  }
+  statusBar ()->showMessage (tr ("Loading files..."));
+}
+
+void MainWindow::buildList ()
+{
+  if (work_thread->loadedSuccessfully ())  {
     QListWidget *overview = lp->getListWidget ();
     overview->clear ();
     overview->addItems (stat->getPlayerNames ());
-    Global::getInstance ()->setLogDir (lp->getFilePath ());
+    Global::getInstance ()->setLogDir (work_thread->getFilePath ());
     mv->writeTable ();
-    statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (cf).arg (lp->getFilePath ()));
+    statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (work_thread->countLoadedFiles ()).arg (work_thread->getFilePath ()));
   } else  {
-    statusBar ()->showMessage (tr ("There were errors while loading files from %1!").arg (lp->getFilePath ()));
+    statusBar ()->showMessage (tr ("There were errors while loading files from %1!").arg (work_thread->getFilePath ()));
   }
 }
 

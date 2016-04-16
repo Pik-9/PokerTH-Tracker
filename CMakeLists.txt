@@ -12,6 +12,7 @@ set(PTHT_SRC
   src/multiview.cpp
   src/analysis_widget.cpp
   src/global.cpp
+  src/worker.cpp
 )
 set(PTHT_LANG
   Lang/PokerTH_tracker_de.ts
