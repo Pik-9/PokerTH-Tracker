@@ -14,6 +14,12 @@ iconset.files = Icons/PokerTH_Tracker.png
 TARGET = PokerTH_tracker
 TEMPLATE = app
 
+# TODO: Make this work with MXE cross build.
+linux {
+  QMAKE_CXXFLAGS += -fopenmp
+  QMAKE_LFLAGS += -fopenmp
+}
+
 RESOURCES += Icons.qrc Trans_qmake.qrc
 RC_ICONS = Icons/PokerTH_Tracker.ico
 
@@ -23,12 +29,14 @@ SOURCES += src/main.cpp\
         src/global.cpp\
         src/mainwindow.cpp\
         src/PlayerStat.cpp\
+        src/worker.cpp\
         src/multiview.cpp\
         src/analysis_widget.cpp
 
 HEADERS  += src/mainwindow.hpp\
         src/global.hpp\
         src/PlayerStat.hpp\
+        src/worker.hpp\
         src/multiview.hpp\
         src/analysis_widget.hpp
 

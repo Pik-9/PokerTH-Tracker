@@ -28,6 +28,10 @@
 #include <QSqlError>
 #include <QDebug>
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 double PlayerStat::VPIP () const
 {
   return 100.0 * pf_invest / observed_hands;
@@ -147,35 +151,43 @@ Statistics::~Statistics ()
 
 bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
 {
-  bool success = false;
+  bool success = true;
   QDir dir (path);
   QStringList files = dir.entryList (QStringList ("*.pdb"));
-  QSqlDatabase db = QSqlDatabase::addDatabase ("QSQLITE", "Logfile");
-  QSqlQuery qu (db);
   
   /* Clear the maps before (re-)loading. */
   for (uint32_t ii = 0; ii < 4; ++ii)  {
     statMaps[ii].clear ();
   }
   
+  #pragma omp parallel for reduction(&:success) if (files.count () > 100)
   for (uint32_t ii = 0; ii < files.count (); ++ii)  {
+    QString conName = "Logfile_";
+    #ifdef _OPENMP
+      conName += QString::number (omp_get_thread_num ());
+    #endif
+    
+    QSqlDatabase db = (
+      QSqlDatabase::contains (conName) ?
+      QSqlDatabase::database (conName) :
+      QSqlDatabase::addDatabase ("QSQLITE", conName)
+    );
     db.setDatabaseName (dir.absoluteFilePath (files.at (ii)));
-    success = db.open ();
-    if (!success)  {
+    bool t_suc = db.open ();
+    QSqlQuery qu (db);
+    if (!t_suc)  {
       qDebug () << "Error while loading database: " << db.lastError ().text ();
       qDebug () << "Available SQL drivers: " << QSqlDatabase::drivers ();
-      return false;
-    }
-    QSqlQuery qu (db);
-    success = qu.exec (
-      "SELECT Action.BeRo, Player.Player, Action.Action, Action.Amount "
-      "FROM Action, Player "
-      "WHERE Action.UniqueGameID = Player.UniqueGameID AND Action.Player = Player.Seat"
-    );
+    } else  {
+      t_suc = qu.exec (
+        "SELECT Action.BeRo, Player.Player, Action.Action, Action.Amount "
+        "FROM Action, Player "
+        "WHERE Action.UniqueGameID = Player.UniqueGameID AND Action.Player = Player.Seat"
+      );
     
-    if (!success)  {
-      qDebug () << "Error while executing query: " << qu.lastError ().text ();
-      return false;
+      if (!t_suc)  {
+        qDebug () << "Error while executing query: " << qu.lastError ().text ();
+      }
     }
     
     uint32_t round_ = 6, nbet = 0, betsize = 0, bblind = 0;
@@ -363,10 +375,14 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
       mtu = HEADSUP;
     }
     smap& mapToUse = statMaps[mtu];
+    
+    #pragma omp critical
     for (smap::iterator it = tmp.begin (); it != tmp.end (); ++it)  {
       mapToUse[it->first] += it->second;
     }
+    
     db.close ();
+    success &= t_suc;
   }
   
   /* Sum up the maps for different table sizes in the last one for any. */

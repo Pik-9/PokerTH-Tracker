@@ -22,9 +22,25 @@ set(PTHT_ICON
 )
 set(PTHT_DSKT PokerTH_tracker.desktop)
 
+find_package(OpenMP)
+if(${OPENMP_FOUND})
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif(${OPENMP_FOUND})
+
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Sql REQUIRED)
 find_package(Qt5LinguistTools)
+
+# The following is necessary for the MXE cross build!-----
+# This is a known issue with MXE - Nothing I can help!----
+#find_package(PkgConfig REQUIRED)
+#pkg_check_modules(DEPS Qt5Widgets Qt5Sql)
+#link_directories(${DEPS_LIBRARY_DIRS})
+#include_directories(${DEPS_INCLUDE_DIRS})
+#---------------------------------------------------------
+
 if(${Qt5LinguistTools_FOUND})
   configure_file(Trans_cmake.qrc Trans_cmake.qrc COPYONLY)
   qt5_add_translation(QM ${PTHT_LANG})
@@ -34,7 +50,7 @@ else(${Qt5LinguistTools_FOUND})
 endif(${Qt5LinguistTools_FOUND})
 
 add_executable(${PROJECT_NAME} ${PTHT_SRC} ${QM_RC} Icons.qrc)
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Sql)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Sql ${DEPS_LIBRARIES})
 
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 install(FILES ${PTHT_ICON} DESTINATION share/PokerTH_tracker)
