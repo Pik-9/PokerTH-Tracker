@@ -28,6 +28,11 @@
 
 #include <math.h>
 
+/* In C++11 the isfinite macro became a function under std. */
+#if __cplusplus >= 201103L
+#define isfinite std::isfinite
+#endif
+
 AnaWidget::AnaWidget (Statistics* pinfo, QWidget* parent)
   : QWidget (parent), stat (pinfo)
 {
@@ -202,7 +207,7 @@ PlayerCharacteristic AnaWidget::analyseChar (const PlayerStat ps, const tableSiz
   }
     
   pc = rating[ar][vr];
-  if (!(isnormal (ps.AF_ave ()) || (ps.AF_ave () == 0.0)))  {
+  if (!isfinite (ps.AF_ave ()))  {
     pc = P_Fool;
   }
   
