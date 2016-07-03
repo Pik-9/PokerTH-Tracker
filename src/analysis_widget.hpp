@@ -39,7 +39,7 @@ enum PlayerCharacteristic
   P_Donkey,
   P_TAG,
   P_LAG,
-  P_dump_LAG,
+  P_dumb_LAG,
   P_Fool,
   P_Maniac,
   P_Allin_Troll

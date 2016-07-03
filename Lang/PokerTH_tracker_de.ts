@@ -243,7 +243,7 @@ mal vernünftig spielt.</translation>
     </message>
     <message>
         <location filename="../src/analysis_widget.cpp" line="250"/>
-        <source>&lt;font color=&apos;#559900&apos;&gt;Dump Loose-Aggressive&lt;/font&gt;</source>
+        <source>&lt;font color=&apos;#559900&apos;&gt;Dumb Loose-Aggressive&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#559900&apos;&gt;Hirnamputiert Loose-Aggressive&lt;/font&gt;</translation>
     </message>
     <message>
@@ -530,7 +530,7 @@ mal vernünftig spielt.</translation>
     </message>
     <message>
         <location filename="../src/multiview.cpp" line="49"/>
-        <source>Any</source>
+        <source>All</source>
         <translation>Alle</translation>
     </message>
     <message>
@@ -585,7 +585,7 @@ mal vernünftig spielt.</translation>
     </message>
     <message>
         <location filename="../src/multiview.cpp" line="96"/>
-        <source>Dump Loose-Aggressive</source>
+        <source>Dumb Loose-Aggressive</source>
         <translation>Hirnamputiert Loose-Aggressive</translation>
     </message>
     <message>
@@ -888,7 +888,7 @@ mal vernünftig spielt.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="95"/>
-        <source>Any</source>
+        <source>All</source>
         <translation>Alle</translation>
     </message>
     <message>

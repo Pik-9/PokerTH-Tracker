@@ -92,7 +92,7 @@ RightPart::RightPart (QWidget *parent)
   c_table->addItem (tr ("Fullring (7 - 10 players)"));
   c_table->addItem (tr ("Shorthand (3 - 6 players)"));
   c_table->addItem (tr ("Heads-Up (2 players)"));
-  c_table->addItem (tr ("Any"));
+  c_table->addItem (tr ("All"));
   c_table->setCurrentIndex (3);
   
   l_obh = new QLabel (tr ("Observed hands:"));

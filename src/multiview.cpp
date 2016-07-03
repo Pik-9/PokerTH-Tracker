@@ -46,7 +46,7 @@ MultiView::MultiView (Statistics* PInformation, QWidget* parent)
   c_tsize->addItem (tr ("Fullring (7 - 10 players)"));
   c_tsize->addItem (tr ("Shorthand (3 - 6 players)"));
   c_tsize->addItem (tr ("Heads-Up (2 players)"));
-  c_tsize->addItem (tr ("Any"));
+  c_tsize->addItem (tr ("All"));
   c_tsize->setCurrentIndex (3);
   table = new QTableWidget ();
   b_ok = new QPushButton (tr ("OK"));
@@ -93,7 +93,7 @@ void MultiView::writeTable ()
     tr ("Donkey"),
     tr ("Shark"),
     tr ("Loose-Aggressive"),
-    tr ("Dump Loose-Aggressive"),
+    tr ("Dumb Loose-Aggressive"),
     tr ("Fool"),
     tr ("Maniac")
   };

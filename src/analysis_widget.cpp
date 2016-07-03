@@ -172,7 +172,7 @@ PlayerCharacteristic AnaWidget::analyseChar (const PlayerStat ps, const tableSiz
    *   Fullring:  vl =   15%, vh = 25%, al = 0.8, ah = 2.0
    *   Shorthand: vl =   20%, vh = 35%, al = 1.0, ah = 2.0
    *   Heads-Up:  vl =   50%, vh = 90%, al = 1.5, ah = 5.0
-   *   Any:       vl = 22.5%, vh = 35%, al = 1.0, ah = 2.2
+   *   All:       vl = 22.5%, vh = 35%, al = 1.0, ah = 2.2
    */
   
   const double vl[4] = {15.0, 20.0, 50.0, 22.5};
@@ -211,10 +211,10 @@ PlayerCharacteristic AnaWidget::analyseChar (const PlayerStat ps, const tableSiz
     pc = P_Fool;
   }
   
-  /* Determine whether it's a dump or a successfull LAG. */
+  /* Determine whether it's a dumb or a successfull LAG. */
   if (pc == P_LAG)  {
     if ((ps.wonPostflop () - ps.wonShowdown ()) < 25.0)  {
-      pc = P_dump_LAG;
+      pc = P_dumb_LAG;
     }
   }
   
@@ -252,7 +252,7 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
     tr ("<font color='#FF0080'>Donkey</font>"),
     tr ("<font color='#00FF80'>Shark</font>"),
     tr ("<font color='#FF8000'>Loose-Aggressive</font>"),
-    tr ("<font color='#559900'>Dump Loose-Aggressive</font>"),
+    tr ("<font color='#559900'>Dumb Loose-Aggressive</font>"),
     tr ("<font color='#CCCC00'>Fool</font>"),
     tr ("<font color='#FF0000'>Maniac</font>"),
     tr ("<font color='#66AA22'>All-In Troll</font>")
@@ -271,7 +271,7 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
     ":/s_Donkey.png",
     ":/s_Shark.png",
     ":/s_LAG.png",
-    ":/s_Dump_LAG.png",
+    ":/s_Dumb_LAG.png",
     ":/s_Fool.png",
     ":/s_Maniac.png",
     ":/s_All-in_Troll.png"
