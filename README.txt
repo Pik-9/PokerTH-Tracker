@@ -13,7 +13,7 @@ Prerequirements
 In order to compile and link this application you need the Qt development files.
 On Ubuntu and derived distributions you can install anything you need with:
   
-  $ sudo apt-get install git cmake build-essential qt5-default qttools5-dev-tools libqt5sql5-sqlite
+  $ sudo apt-get install git cmake build-essential qt5-default qttools5-dev-tools libqt5sql5-sqlite libqt5xml5
 
 
 Compile and Install

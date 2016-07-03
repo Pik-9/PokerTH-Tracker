@@ -25,6 +25,7 @@
 
 #include <QListWidget>
 #include <QGridLayout>
+#include <QTabWidget>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QComboBox>
@@ -328,11 +329,17 @@ MainWindow::MainWindow (QWidget *parent)
   
   lp = new LeftPart ();
   rp = new RightPart ();
+  tabs = new QTabWidget ();
+  tabs->setTabPosition (QTabWidget::South);
   ap = new AnaWidget (stat);
+  np = new NotesStarsWidget ();
+  tabs->addTab (ap, tr ("Analysis"));
+  tabs->addTab (np, tr ("Notes"));
+  tabs->setCurrentWidget (ap);
   mv = new MultiView (stat);
   splitter->addWidget (lp);
   splitter->addWidget (rp);
-  splitter->addWidget (ap);
+  splitter->addWidget (tabs);
   setCentralWidget (splitter);
 
   connect (qApp, SIGNAL (aboutToQuit ()), this, SLOT (quitSavingSettings ()));

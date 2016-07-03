@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,14 +31,16 @@ SOURCES += src/main.cpp\
         src/PlayerStat.cpp\
         src/worker.cpp\
         src/multiview.cpp\
-        src/analysis_widget.cpp
+        src/analysis_widget.cpp\
+        src/notes_stars.cpp
 
 HEADERS  += src/mainwindow.hpp\
         src/global.hpp\
         src/PlayerStat.hpp\
         src/worker.hpp\
         src/multiview.hpp\
-        src/analysis_widget.hpp
+        src/analysis_widget.hpp\
+        src/notes_stars.hpp
 
 TRANSLATIONS = Lang/PokerTH_tracker_de.ts
 
