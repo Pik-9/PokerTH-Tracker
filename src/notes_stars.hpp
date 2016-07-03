@@ -25,11 +25,20 @@
 
 #include <QWidget>
 
+#include <map>
+
 class QGridLayout;
 class QSlider;
 class QPushButton;
 class QLabel;
 class QTextEdit;
+class QDomDocument;
+
+struct NotesStars
+{
+  QString notes;
+  int stars;
+};
 
 class NotesStarsWidget : public QWidget
 {
@@ -41,13 +50,22 @@ private:
   QTextEdit *t_notes;
   QPushButton *b_disc, *b_appl;
   
+  QString currentPlayer;
+  QDomDocument *pth_config;
+  std::map<QString, NotesStars> entries;
+  
 public:
   NotesStarsWidget (QWidget *parent = 0);
   ~NotesStarsWidget ();
   
+  static const QString separator;
+  
 public slots:
   void clickedApply ();
   void clickedDiscard ();
+  void contentEdited (int dump = 0);
+  void loadNotes ();
+  void showPlayerNotes (QString player_name = "");
 };
 
 #endif

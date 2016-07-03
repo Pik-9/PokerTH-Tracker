@@ -391,6 +391,7 @@ void MainWindow::showPlayerStats (const QString pname)
   if (!pname.isEmpty ())  {
     rp->setupProps (pname, stat);
     ap->refresh (pname, rp->desiredTableSize ());
+    np->showPlayerNotes (pname);
   }
 }
 
