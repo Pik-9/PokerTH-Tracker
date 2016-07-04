@@ -73,12 +73,20 @@ void NotesStarsWidget::clickedApply ()
   b_appl->setEnabled (false);
   b_disc->setEnabled (false);
   
-  QDomNode PTT = pth_config->documentElement ().firstChild ().namedItem ("PlayerTooltips");
-  
-  /* Clear the existing tooltips. */
-  QDomNodeList PTTs = PTT.childNodes ();
-  while (PTTs.size ())  {
-    PTT.removeChild (PTTs.at (0));
+  QDomNode PTTn = pth_config->documentElement ().firstChild ().namedItem ("PlayerTooltips");
+  QDomElement PTT;
+  if (PTTn.isNull ())  {
+    PTT = pth_config->createElement ("PlayerTooltips");
+    PTT.setAttribute ("value", "PlayerTooltips");
+    PTT.setAttribute ("type", "list");
+    pth_config->documentElement ().firstChild ().appendChild (PTT);
+  } else  {
+    /* Clear the existing tooltips. */
+    QDomNodeList PTTs = PTTn.childNodes ();
+    PTT = PTTn.toElement ();
+    while (PTTs.size ())  {
+      PTTn.removeChild (PTTs.at (0));
+    }
   }
   
   /* Insert the new ones. */
