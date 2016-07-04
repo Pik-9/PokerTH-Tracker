@@ -76,6 +76,7 @@ void NotesStarsWidget::clickedApply ()
   QDomNode PTTn = pth_config->documentElement ().firstChild ().namedItem ("PlayerTooltips");
   QDomElement PTT;
   if (PTTn.isNull ())  {
+    /* Create the nonexistent PlayerTooltips node. */
     PTT = pth_config->createElement ("PlayerTooltips");
     PTT.setAttribute ("value", "PlayerTooltips");
     PTT.setAttribute ("type", "list");
