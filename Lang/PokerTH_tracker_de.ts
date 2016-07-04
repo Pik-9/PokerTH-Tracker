@@ -717,17 +717,17 @@ mal vernünftig spielt.</translation>
 <context>
     <name>NotesStarsWidget</name>
     <message>
-        <location filename="../src/notes_stars.cpp" line="42"/>
+        <location filename="../src/notes_stars.cpp" line="41"/>
         <source>Stars:</source>
         <translation>Sterne:</translation>
     </message>
     <message>
-        <location filename="../src/notes_stars.cpp" line="49"/>
+        <location filename="../src/notes_stars.cpp" line="48"/>
         <source>Apply</source>
         <translation>Übernehmen</translation>
     </message>
     <message>
-        <location filename="../src/notes_stars.cpp" line="50"/>
+        <location filename="../src/notes_stars.cpp" line="49"/>
         <source>Discard</source>
         <translation>Verwerfen</translation>
     </message>

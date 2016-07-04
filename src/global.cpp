@@ -66,6 +66,13 @@ QString Global::getLogDir ()
   return app_settings->value ("defaultPath").toString ();
 }
 
+QString Global::getConfigFile ()
+{
+  QDir logDir (getLogDir ());
+  logDir.cdUp ();
+  return (logDir.absolutePath () + "/config.xml");
+}
+
 void Global::setLogDir (const QString logPath)
 {
   app_settings->setValue ("defaultPath", logPath);

@@ -42,6 +42,7 @@ public:
   static Global* getInstance ();
   
   QString getLogDir ();
+  QString getConfigFile ();
   void setLogDir (const QString);
   void setLogDir (const QDir);
   

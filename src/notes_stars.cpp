@@ -29,9 +29,8 @@
 #include <QSlider>
 #include <QTextEdit>
 #include <QFile>
+#include <QDebug>
 #include <QtXml>
-
-#include <iostream>
 
 const QString NotesStarsWidget::separator = "(!#$%)";
 
@@ -91,8 +90,11 @@ void NotesStarsWidget::clickedApply ()
   }
   
   /* Save to config file. */
-  QFile conf_file (Global::getInstance ()->getLogDir () + "/../config.xml");
-  conf_file.open (QIODevice::WriteOnly | QIODevice::Text);
+  QFile conf_file (Global::getInstance ()->getConfigFile ());
+  if (!conf_file.open (QIODevice::WriteOnly | QIODevice::Text))  {
+    qDebug () << "Error while writing file " << conf_file.fileName ()
+      << ": " << conf_file.errorString ();
+  }
   QTextStream tstr (&conf_file);
   tstr << pth_config->toString ();
   conf_file.close ();
@@ -121,9 +123,17 @@ void NotesStarsWidget::loadNotes ()
   currentPlayer = "";
   
   entries.clear ();
-  QFile conf_file (Global::getInstance ()->getLogDir () + "/../config.xml");
-  conf_file.open (QIODevice::ReadOnly);
-  pth_config->setContent (&conf_file);
+  QFile conf_file (Global::getInstance ()->getConfigFile ());
+  if (!conf_file.open (QIODevice::ReadOnly))  {
+    qDebug () << "Error while loading file " << conf_file.fileName ()
+      << ": " << conf_file.errorString ();
+  }
+  QString parsingError;
+  int parsingErrorLine = -1;
+  if (!pth_config->setContent (&conf_file, &parsingError, &parsingErrorLine))   {
+    qDebug () << "Error while parsing XML file in line " << parsingErrorLine
+      << ": " << parsingError;
+  }
   conf_file.close ();
   
   QDomNodeList PTTs = pth_config->documentElement ().firstChild ().namedItem ("PlayerTooltips").childNodes ();
