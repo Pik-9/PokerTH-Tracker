@@ -22,6 +22,7 @@
 
 #include "mainwindow.hpp"
 #include "global.hpp"
+#include "version.hpp"
 
 #include <QListWidget>
 #include <QGridLayout>
@@ -401,6 +402,7 @@ void MainWindow::clickedAbout ()
 {
   QString msg = tr ("PokerTH Tracker - A simple poker statistics tracker for PokerTH\n");
   msg += "(C) 2015-2016 Daniel Steinhauer (9 of Spades)\n";
+  msg += "Git commit: " GVERSION "\n";
   msg += tr ("This software is published under the termns of the GNU General Public License Version 3.\n");
   msg += tr ("This software contains free cliparts from openclipart.org.");
   QMessageBox::about (this, tr ("PokerTH Tracker"), msg);

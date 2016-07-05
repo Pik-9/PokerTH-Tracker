@@ -41,6 +41,17 @@ find_package(Qt5LinguistTools)
 #include_directories(${DEPS_INCLUDE_DIRS})
 #---------------------------------------------------------
 
+execute_process(
+  COMMAND git log -1 --format=%H
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_COMMIT
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+configure_file(
+  ${CMAKE_SOURCE_DIR}/misc/version.hpp.in
+  ${CMAKE_BINARY_DIR}/version.hpp
+)
+
 if(${Qt5LinguistTools_FOUND})
   configure_file(Trans_cmake.qrc Trans_cmake.qrc COPYONLY)
   qt5_add_translation(QM ${PTHT_LANG})

@@ -42,6 +42,9 @@ HEADERS  += src/mainwindow.hpp\
 
 TRANSLATIONS = Lang/PokerTH_tracker_de.ts
 
+GIT_COMMIT = $$system("git log -1 --format=%H")
+system("sed -e \"s/@GIT_COMMIT@/$$GIT_COMMIT/g\" misc/version.hpp.in > version.hpp")
+
 desktop.path = /usr/share/applications
 desktop.files += PokerTH_tracker.desktop
 
