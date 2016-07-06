@@ -467,7 +467,7 @@ mal vernünftig spielt.</translation>
         <translation>Notizen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="365"/>
+        <location filename="../src/mainwindow.cpp" line="364"/>
         <source>Loading files...</source>
         <translation>Lade Dateien...</translation>
     </message>
@@ -717,19 +717,39 @@ mal vernünftig spielt.</translation>
 <context>
     <name>NotesStarsWidget</name>
     <message>
-        <location filename="../src/notes_stars.cpp" line="41"/>
+        <location filename="../src/notes_stars.cpp" line="43"/>
         <source>Stars:</source>
         <translation>Sterne:</translation>
     </message>
     <message>
-        <location filename="../src/notes_stars.cpp" line="48"/>
+        <location filename="../src/notes_stars.cpp" line="50"/>
         <source>Apply</source>
         <translation>Übernehmen</translation>
     </message>
     <message>
-        <location filename="../src/notes_stars.cpp" line="49"/>
+        <location filename="../src/notes_stars.cpp" line="51"/>
         <source>Discard</source>
         <translation>Verwerfen</translation>
+    </message>
+    <message>
+        <location filename="../src/notes_stars.cpp" line="148"/>
+        <source>Config file not found!</source>
+        <translation>Config Datei nicht gefunden!</translation>
+    </message>
+    <message>
+        <location filename="../src/notes_stars.cpp" line="149"/>
+        <source>The PokerTH config file &apos;config.xml&apos; could not be found. Do you want to set it manually?</source>
+        <translation>Die PokerTH Konfigurationsdatei &apos;config.xml&apos; konnte nicht gefunden werden. Möchtest du sie manuell setzen?</translation>
+    </message>
+    <message>
+        <location filename="../src/notes_stars.cpp" line="158"/>
+        <source>Open config file.</source>
+        <translation>Öffne Konfigurationsdatei.</translation>
+    </message>
+    <message>
+        <location filename="../src/notes_stars.cpp" line="160"/>
+        <source>XML files (*.xml)</source>
+        <translation>XML Dateien (*.xml)</translation>
     </message>
 </context>
 <context>

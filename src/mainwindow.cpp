@@ -360,9 +360,9 @@ void MainWindow::refresh ()
   if (!work_thread->isRunning ())  {
     work_thread->setFilePath (lp->getFilePath ());
     work_thread->start ();
-    np->loadNotes ();
   }
   statusBar ()->showMessage (tr ("Loading files..."));
+  np->loadNotes ();
 }
 
 void MainWindow::buildList ()

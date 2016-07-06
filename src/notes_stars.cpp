@@ -28,6 +28,8 @@
 #include <QPushButton>
 #include <QSlider>
 #include <QTextEdit>
+#include <QMessageBox>
+#include <QFileDialog>
 #include <QFile>
 #include <QDebug>
 #include <QtXml>
@@ -55,7 +57,6 @@ NotesStarsWidget::NotesStarsWidget (QWidget* parent)
   layout->addWidget (b_appl, 3, 1, 1, 1);
   
   pth_config = new QDomDocument ();
-  loadNotes ();
   
   connect (b_appl, SIGNAL (clicked ()), this, SLOT (clickedApply ()));
   connect (b_disc, SIGNAL (clicked ()), this, SLOT (clickedDiscard ()));
@@ -72,6 +73,12 @@ void NotesStarsWidget::clickedApply ()
   entries[currentPlayer].notes = t_notes->toPlainText ();
   b_appl->setEnabled (false);
   b_disc->setEnabled (false);
+  
+  if (pth_config->isNull ())  {
+    qDebug () << "The config.xml hasn't been opened properly or has invalid content!"
+      << " Won't apply anything!";
+    return;
+  }
   
   QDomNode PTTn = pth_config->documentElement ().firstChild ().namedItem ("PlayerTooltips");
   QDomElement PTT;
@@ -103,6 +110,7 @@ void NotesStarsWidget::clickedApply ()
   if (!conf_file.open (QIODevice::WriteOnly | QIODevice::Text))  {
     qDebug () << "Error while writing file " << conf_file.fileName ()
       << ": " << conf_file.errorString ();
+    return;
   }
   QTextStream tstr (&conf_file);
   tstr << pth_config->toString ();
@@ -117,7 +125,7 @@ void NotesStarsWidget::clickedDiscard ()
 /* dump will be dumped! */
 void NotesStarsWidget::contentEdited (int dump)
 {
-  if (!currentPlayer.isEmpty ())  {
+  if (!(currentPlayer.isEmpty () || pth_config->isNull ()))  {
     b_appl->setEnabled (true);
     b_disc->setEnabled (true);
   }
@@ -132,16 +140,51 @@ void NotesStarsWidget::loadNotes ()
   currentPlayer = "";
   
   entries.clear ();
-  QFile conf_file (Global::getInstance ()->getConfigFile ());
-  if (!conf_file.open (QIODevice::ReadOnly))  {
+  
+  QString cfilePath = Global::getInstance ()->getConfigFile ();
+  if (!QFile::exists (cfilePath))  {
+    if (QMessageBox::question (
+      this,
+      tr ("Config file not found!"),
+      tr ("The PokerTH config file 'config.xml' could not be found. Do you want to set it manually?"),
+      QMessageBox::Yes,
+      QMessageBox::No
+    ) == QMessageBox::No)  {
+      return;
+    }
+    
+    cfilePath = QFileDialog::getOpenFileName (
+      this,
+      tr ("Open config file."),
+      QDir::homePath (),
+      tr ("XML files (*.xml)")
+    );
+    if (cfilePath.isEmpty ())  {
+      return;
+    }
+    Global::getInstance ()->setConfigFile (cfilePath);
+  }
+  
+  QFile conf_file (cfilePath);
+  if (!conf_file.open (QIODevice::ReadOnly | QIODevice::Text))  {
     qDebug () << "Error while loading file " << conf_file.fileName ()
       << ": " << conf_file.errorString ();
+    return;
   }
+  if (!conf_file.isReadable ())  {
+    qDebug () << "Error: Could not read from file " << conf_file.fileName () << ".";
+    conf_file.close ();
+    return;
+  }
+  
   QString parsingError;
   int parsingErrorLine = -1;
   if (!pth_config->setContent (&conf_file, &parsingError, &parsingErrorLine))   {
-    qDebug () << "Error while parsing XML file in line " << parsingErrorLine
-      << ": " << parsingError;
+    qDebug () << "Error while parsing XML file" << cfilePath << "in line "
+      << parsingErrorLine << ": " << parsingError;
+    conf_file.close ();
+    pth_config->clear ();
+    return;
   }
   conf_file.close ();
   
@@ -180,8 +223,8 @@ void NotesStarsWidget::showPlayerNotes (QString player_name)
   
   s_stars->blockSignals (true);
   t_notes->blockSignals (true);
-  s_stars->setEnabled (!currentPlayer.isEmpty ());
-  t_notes->setEnabled (!currentPlayer.isEmpty ());
+  s_stars->setEnabled (!(currentPlayer.isEmpty () || pth_config->isNull ()));
+  t_notes->setEnabled (!(currentPlayer.isEmpty () || pth_config->isNull ()));
   s_stars->setValue (entries[currentPlayer].stars);
   t_notes->clear ();
   t_notes->setText (entries[currentPlayer].notes);
