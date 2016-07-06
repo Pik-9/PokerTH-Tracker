@@ -42,6 +42,8 @@ HEADERS  += src/mainwindow.hpp\
 
 TRANSLATIONS = Lang/PokerTH_tracker_de.ts
 
+system("lrelease PokerTH_tracker.pro")
+
 GIT_COMMIT = $$system("git log -1 --format=%H")
 system("sed -e \"s/@GIT_COMMIT@/$$GIT_COMMIT/g\" misc/version.hpp.in > version.hpp")
 

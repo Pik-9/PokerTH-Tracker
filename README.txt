@@ -32,7 +32,6 @@ QMake:
   $ cd /path/to/PokerTH_tracker
   $ mkdir build
   $ cd build
-  $ lrelease ../PokerTH_tracker.pro
   $ qmake ../PokerTH_tracker.pro && make
   $ sudo make install
 
@@ -43,6 +42,14 @@ Special thanks to
 the internet portal openclipart.org for providing funny cliparts
 to be used in PokerTH Tracker. All cliparts are published under
 the terms of an open source license.
+
+
+PGP
+---
+
+All precompiled binaries since v0.2.2 are signed with my PGP key 992E9547.
+If it is not signed or the signature is broken, you should not trust
+the source!
 
 
 License
