@@ -20,42 +20,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GLOBAL_HPP
-#define GLOBAL_HPP
+#ifndef NOTES_STARS_HPP
+#define NOTES_STARS_HPP
 
-class QSettings;
-class QDir;
-class QWidget;
-class QString;
+#include <QWidget>
 
-class Global
+#include <map>
+
+class QGridLayout;
+class QSlider;
+class QPushButton;
+class QLabel;
+class QTextEdit;
+class QDomDocument;
+
+struct NotesStars
 {
+  QString notes;
+  int stars;
+};
+
+class NotesStarsWidget : public QWidget
+{
+  Q_OBJECT
 private:
-  static Global* singleton;
+  QGridLayout *layout;
+  QLabel *l_stars;
+  QSlider *s_stars;
+  QTextEdit *t_notes;
+  QPushButton *b_disc, *b_appl;
   
-  QSettings* app_settings;
-  
-  Global ();
-  virtual ~Global ();
+  QString currentPlayer;
+  QDomDocument *pth_config;
+  std::map<QString, NotesStars> entries;
   
 public:
-  static Global* getInstance ();
+  NotesStarsWidget (QWidget *parent = 0);
+  ~NotesStarsWidget ();
   
-  QString getConfigFile ();
-  void setConfigFile (const QString);
-  QString getLogDir ();
-  void setLogDir (const QString);
-  void setLogDir (const QDir);
+  static const QString separator;
   
-  QString getLang ();
-  void setLang (const QString);
-  
-  bool getGeomSave ();
-  void setGeomSave (const bool);
-  void setMainWinGeom (QWidget*);
-  void getMainWinGeom (QWidget*);
-  void setMultiViewGeom (QWidget*);
-  void getMultiViewGeom (QWidget*);
+public slots:
+  void clickedApply ();
+  void clickedDiscard ();
+  void contentEdited (int dump = 0);
+  void loadNotes ();
+  void showPlayerNotes (QString player_name = "");
 };
 
 #endif

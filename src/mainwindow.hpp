@@ -29,6 +29,7 @@
 #include "worker.hpp"
 #include "multiview.hpp"
 #include "analysis_widget.hpp"
+#include "notes_stars.hpp"
 
 class QSplitter;
 class QLineEdit;
@@ -40,6 +41,7 @@ class QListWidgetItem;
 class QAction;
 class QActionGroup;
 class QGridLayout;
+class QTabWidget;
 class QFileDialog;
 
 class LeftPart : public QWidget
@@ -113,11 +115,13 @@ class MainWindow : public QMainWindow
 
 private:
   QSplitter *splitter;
+  QTabWidget *tabs;
   QAction *saveGeomSetting;
   QActionGroup *m_lang;
   LeftPart *lp;
   RightPart *rp;
   AnaWidget *ap;
+  NotesStarsWidget *np;
   MultiView *mv;
 
   Statistics *stat;

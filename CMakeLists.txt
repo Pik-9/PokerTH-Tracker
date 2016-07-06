@@ -11,6 +11,7 @@ set(PTHT_SRC
   src/PlayerStat.cpp
   src/multiview.cpp
   src/analysis_widget.cpp
+  src/notes_stars.cpp
   src/global.cpp
   src/worker.cpp
 )
@@ -31,15 +32,8 @@ endif(${OPENMP_FOUND})
 
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Sql REQUIRED)
+find_package(Qt5Xml REQUIRED)
 find_package(Qt5LinguistTools)
-
-# The following is necessary for the MXE cross build!-----
-# This is a known issue with MXE - Nothing I can help!----
-#find_package(PkgConfig REQUIRED)
-#pkg_check_modules(DEPS Qt5Widgets Qt5Sql)
-#link_directories(${DEPS_LIBRARY_DIRS})
-#include_directories(${DEPS_INCLUDE_DIRS})
-#---------------------------------------------------------
 
 execute_process(
   COMMAND git log -1 --format=%H
@@ -61,7 +55,7 @@ else(${Qt5LinguistTools_FOUND})
 endif(${Qt5LinguistTools_FOUND})
 
 add_executable(${PROJECT_NAME} ${PTHT_SRC} ${QM_RC} Icons.qrc)
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Sql ${DEPS_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Sql Qt5::Xml)
 
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 install(FILES ${PTHT_ICON} DESTINATION share/PokerTH_tracker)

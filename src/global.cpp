@@ -35,9 +35,10 @@ Global* Global::singleton = 0;
 Global::Global ()
 {
   app_settings = new QSettings ("Pik-9", "PokerTH-Tracker");
+  QDir logData (QDir::home ());
   
+  /* Try to find the log file path automatically. */
   if (!app_settings->contains ("defaultPath"))  {
-    QDir logData (QDir::home ());
     /* Try to navigate to the linux client's log file directory.
      * Otherwise try to navigate to the windows client's log file directory. */
     if (!logData.cd (".pokerth/log-files"))  {
@@ -46,6 +47,26 @@ Global::Global ()
     }
     app_settings->setValue ("defaultPath", logData.absolutePath ());
   }
+  
+  /* Try to find the config.xml automatically. */
+  if (!app_settings->contains ("configPath"))  {
+    QDir configP (QDir::home ());
+    /* Try to navigate to the linux client's config file.
+     * Otherwise try to navigate to the windows client's config file. */
+    if (!configP.cd (".pokerth"))  {
+      /* If this fails as well, try the log file directory! */
+      if (!configP.cd ("AppData/Roaming/pokerth/log-files"))  {
+        configP.cd (logData.absolutePath ());
+        configP.cdUp ();
+      }
+    }
+    /* Check whether we find the config.xml here. */
+    if (configP.exists ("config.xml"))  {
+      app_settings->setValue ("configPath", configP.absolutePath () + "config.xml");
+    }
+  }
+  
+  app_settings->sync ();
 }
 
 Global::~Global ()
@@ -59,6 +80,17 @@ Global* Global::getInstance ()
     singleton = new Global ();
   }
   return singleton;
+}
+
+QString Global::getConfigFile ()
+{
+  return app_settings->value ("configPath", "").toString ();
+}
+
+void Global::setConfigFile (const QString configPath)
+{
+  app_settings->setValue ("configPath", configPath);
+  app_settings->sync ();
 }
 
 QString Global::getLogDir ()

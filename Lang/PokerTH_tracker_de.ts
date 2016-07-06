@@ -383,12 +383,12 @@ mal vernünftig spielt.</translation>
 <context>
     <name>LeftPart</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="49"/>
+        <location filename="../src/mainwindow.cpp" line="50"/>
         <source>Search...</source>
         <translation>Durchsuchen...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="51"/>
+        <location filename="../src/mainwindow.cpp" line="52"/>
         <source>Double click on player to add to multi player view.</source>
         <translation>Doppelklick auf Spieler, um ihn zur Mehrspieleransicht hinzuzufügen.</translation>
     </message>
@@ -396,107 +396,117 @@ mal vernünftig spielt.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="273"/>
-        <location filename="../src/mainwindow.cpp" line="408"/>
+        <location filename="../src/mainwindow.cpp" line="274"/>
+        <location filename="../src/mainwindow.cpp" line="417"/>
         <source>PokerTH Tracker</source>
         <translation>PokerTH Tracker</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="281"/>
+        <location filename="../src/mainwindow.cpp" line="282"/>
         <source>&amp;File</source>
         <translation>&amp;Datei</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="282"/>
+        <location filename="../src/mainwindow.cpp" line="283"/>
         <source>&amp;Refresh</source>
         <translation>&amp;Aktualisieren</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="283"/>
+        <location filename="../src/mainwindow.cpp" line="284"/>
         <source>&amp;Quit</source>
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="289"/>
+        <location filename="../src/mainwindow.cpp" line="290"/>
         <source>English</source>
         <translation>Englisch</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="290"/>
+        <location filename="../src/mainwindow.cpp" line="291"/>
         <source>German</source>
         <translation>Deutsch</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="297"/>
+        <location filename="../src/mainwindow.cpp" line="298"/>
         <source>Language</source>
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="315"/>
+        <location filename="../src/mainwindow.cpp" line="316"/>
         <source>&amp;Settings</source>
         <translation>&amp;Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="316"/>
+        <location filename="../src/mainwindow.cpp" line="317"/>
         <source>Save &amp;Geometry</source>
         <translation>Fenster&amp;geometrie speichern</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="322"/>
+        <location filename="../src/mainwindow.cpp" line="323"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="323"/>
+        <location filename="../src/mainwindow.cpp" line="324"/>
         <source>About Qt</source>
         <translation>Über Qt</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="324"/>
+        <location filename="../src/mainwindow.cpp" line="325"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="358"/>
+        <location filename="../src/mainwindow.cpp" line="337"/>
+        <source>Analysis</source>
+        <translation>Analyse</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="338"/>
+        <source>Notes</source>
+        <translation>Notizen</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="365"/>
         <source>Loading files...</source>
         <translation>Lade Dateien...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="369"/>
+        <location filename="../src/mainwindow.cpp" line="377"/>
         <source>Opened %1 files from %2</source>
         <translation>%1 Dateien aus %2 geöffnet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="371"/>
+        <location filename="../src/mainwindow.cpp" line="379"/>
         <source>There were errors while loading files from %1!</source>
         <translation>Beim Laden aus %1 sind Fehler aufgetreten!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="403"/>
+        <location filename="../src/mainwindow.cpp" line="412"/>
         <source>PokerTH Tracker - A simple poker statistics tracker for PokerTH
 </source>
         <translation>PokerTH Tracker - Ein einfaches Statistik Analyse Programm für PokerTH
 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="406"/>
+        <location filename="../src/mainwindow.cpp" line="415"/>
         <source>This software is published under the termns of the GNU General Public License Version 3.
 </source>
         <translation>Diese Software ist unter der GNU General Public License in Version 3 veröffentlicht.
 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="407"/>
+        <location filename="../src/mainwindow.cpp" line="416"/>
         <source>This software contains free cliparts from openclipart.org.</source>
         <translation>Diese Software enthält freie Grafiken von openclipart.org.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="416"/>
+        <location filename="../src/mainwindow.cpp" line="425"/>
         <source>Language changed</source>
         <translation>Sprache geändert</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="417"/>
+        <location filename="../src/mainwindow.cpp" line="426"/>
         <source>The language has been changed. The change will take effect after the next start.</source>
         <translation>Die Sprache wurde geändert. Die Änderung wird nach dem nächsten Neustart in Kraft treten.</translation>
     </message>
@@ -705,214 +715,252 @@ mal vernünftig spielt.</translation>
     </message>
 </context>
 <context>
+    <name>NotesStarsWidget</name>
+    <message>
+        <location filename="../src/notes_stars.cpp" line="43"/>
+        <source>Stars:</source>
+        <translation>Sterne:</translation>
+    </message>
+    <message>
+        <location filename="../src/notes_stars.cpp" line="50"/>
+        <source>Apply</source>
+        <translation>Übernehmen</translation>
+    </message>
+    <message>
+        <location filename="../src/notes_stars.cpp" line="51"/>
+        <source>Discard</source>
+        <translation>Verwerfen</translation>
+    </message>
+    <message>
+        <location filename="../src/notes_stars.cpp" line="148"/>
+        <source>Config file not found!</source>
+        <translation>Config Datei nicht gefunden!</translation>
+    </message>
+    <message>
+        <location filename="../src/notes_stars.cpp" line="149"/>
+        <source>The PokerTH config file &apos;config.xml&apos; could not be found. Do you want to set it manually?</source>
+        <translation>Die PokerTH Konfigurationsdatei &apos;config.xml&apos; konnte nicht gefunden werden. Möchtest du sie manuell setzen?</translation>
+    </message>
+    <message>
+        <location filename="../src/notes_stars.cpp" line="158"/>
+        <source>Open config file.</source>
+        <translation>Öffne Konfigurationsdatei.</translation>
+    </message>
+    <message>
+        <location filename="../src/notes_stars.cpp" line="160"/>
+        <source>XML files (*.xml)</source>
+        <translation>XML Dateien (*.xml)</translation>
+    </message>
+</context>
+<context>
     <name>RightPart</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="99"/>
+        <location filename="../src/mainwindow.cpp" line="100"/>
         <source>Observed hands:</source>
         <translation>Beobachtete Hände:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="101"/>
+        <location filename="../src/mainwindow.cpp" line="102"/>
         <source>&lt;b&gt;Preflop&lt;/b&gt;</source>
         <translation>&lt;b&gt;Preflop&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="102"/>
+        <location filename="../src/mainwindow.cpp" line="103"/>
         <source>&lt;b&gt;Postflop&lt;/b&gt;</source>
         <translation>&lt;b&gt;Postflop&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="103"/>
+        <location filename="../src/mainwindow.cpp" line="104"/>
         <source>&lt;b&gt;Winnings&lt;/b&gt;</source>
         <translation>&lt;b&gt;Gewinnstatistik&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="105"/>
+        <location filename="../src/mainwindow.cpp" line="106"/>
         <source>VP$IP:</source>
         <translation>VP$IP:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="107"/>
+        <location filename="../src/mainwindow.cpp" line="108"/>
         <source>Percantage of hands the player voluntarily invested money in.</source>
         <translation>Prozentsatz der Hände, in die der Spieler preflop Geld investiert hat.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="108"/>
+        <location filename="../src/mainwindow.cpp" line="109"/>
         <source>Preflop Raise:</source>
         <translation>Preflop Erhöhung:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="110"/>
+        <location filename="../src/mainwindow.cpp" line="111"/>
         <source>Percentage of hands the player raised with preflop.</source>
         <translation>Prozentsatz der Hände, mit denen der Spieler vor dem Flop erhöht hat.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="111"/>
+        <location filename="../src/mainwindow.cpp" line="112"/>
         <source>3bet:</source>
         <translation>3Bet:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="113"/>
+        <location filename="../src/mainwindow.cpp" line="114"/>
         <source>How often the player made a 3bet preflop.</source>
         <translation>Wie oft der Spieler preflop eine 3Bet gemacht hat.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="115"/>
+        <location filename="../src/mainwindow.cpp" line="116"/>
         <source>Continuation Bet:</source>
         <translation>Continuation Bet:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="117"/>
+        <location filename="../src/mainwindow.cpp" line="118"/>
         <source>How often the player fired a continuation bet after a preflop raise.</source>
         <translation>Wie oft der Spieler nach einer Preflop-Erhöhung eine Continuation Bet gemacht hat.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="118"/>
+        <location filename="../src/mainwindow.cpp" line="119"/>
         <source>Folded to Contibet:</source>
         <translation>Gegen eine Contibet ausgestiegen:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="120"/>
+        <location filename="../src/mainwindow.cpp" line="121"/>
         <source>How often the player folded when confronted with a continuation bet.</source>
         <translation>Wie oft der Spieler ausgestiegen ist, wenn er mit einer Continuation-Bet konfrontiert wurde.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="123"/>
+        <location filename="../src/mainwindow.cpp" line="124"/>
         <source>How often the player fired another c-bet on the turn after raising preflop.</source>
         <translation>Wie oft der Spieler eine weitere C-Bet auf dem Turn nach einer Preflop-Erhöhung gemacht hat.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="128"/>
+        <location filename="../src/mainwindow.cpp" line="129"/>
         <source>Folded to n-Bets:</source>
         <translation>Gegen eine n-Bet ausgestiegen:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="130"/>
+        <location filename="../src/mainwindow.cpp" line="131"/>
         <source>How often the opponent folds when confronted with a n-bet.</source>
         <translation>Wie oft der Spieler ausgestiegen ist, nachdem er mit einer n-Bet konfrontiert wurde.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="131"/>
+        <location filename="../src/mainwindow.cpp" line="132"/>
         <source>Check-Raise:</source>
         <translation>Check-Raise:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="133"/>
+        <location filename="../src/mainwindow.cpp" line="134"/>
         <source>How many checks are followed by an 2bet.</source>
         <translation>Wie viele Checks nur zum Zwecke eines Check-Raises unternommen wurden.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="135"/>
+        <location filename="../src/mainwindow.cpp" line="136"/>
         <source>Average AF:</source>
         <translation>Durchschnittlicher AF:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="137"/>
+        <location filename="../src/mainwindow.cpp" line="138"/>
         <source>AF: Aggression Factor</source>
         <translation>AF: Aggressionsfaktor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="138"/>
+        <location filename="../src/mainwindow.cpp" line="139"/>
         <source>Flop AF:</source>
         <translation>Flop AF:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="142"/>
+        <location filename="../src/mainwindow.cpp" line="143"/>
         <source>Turn AF:</source>
         <translation>Turn AF:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="146"/>
+        <location filename="../src/mainwindow.cpp" line="147"/>
         <source>River AF:</source>
         <translation>River AF:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="151"/>
+        <location filename="../src/mainwindow.cpp" line="152"/>
         <source>W$WSF:</source>
         <translation>W$WSF:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="153"/>
+        <location filename="../src/mainwindow.cpp" line="154"/>
         <source>How often the player won money after he saw the flop.</source>
         <translation>Wie oft der Spieler Geld gewonnen hat, nachdem er den Flop gesehen hat.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="154"/>
+        <location filename="../src/mainwindow.cpp" line="155"/>
         <source>W$SD:</source>
         <translation>W$SD:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="156"/>
+        <location filename="../src/mainwindow.cpp" line="157"/>
         <source>How often the player wins money by going to Showdown.</source>
         <translation>Wie oft der Spieler Geld im Showdown gewonnen hat.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="139"/>
+        <location filename="../src/mainwindow.cpp" line="140"/>
         <source>Turn seen:</source>
         <translation>Turn gesehen:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="141"/>
+        <location filename="../src/mainwindow.cpp" line="142"/>
         <source>With how many hands the player went to the Turn.</source>
         <translation>Mit wie vielen Händen der Spieler bis zum Turn gegangen ist.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="143"/>
+        <location filename="../src/mainwindow.cpp" line="144"/>
         <source>River seen:</source>
         <translation>River gesehen:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="145"/>
+        <location filename="../src/mainwindow.cpp" line="146"/>
         <source>With how many hands the player went to the River.</source>
         <translation>Mit wie vielen Händen der Spieler bis zum River gegangen ist.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="91"/>
+        <location filename="../src/mainwindow.cpp" line="92"/>
         <source>Table size:</source>
         <translation>Tischgröße:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="93"/>
+        <location filename="../src/mainwindow.cpp" line="94"/>
         <source>Fullring (7 - 10 players)</source>
         <translation>Fullring (7 - 10 Spieler)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="94"/>
+        <location filename="../src/mainwindow.cpp" line="95"/>
         <source>Shorthand (3 - 6 players)</source>
         <translation>Shorthand (3 - 6 Spieler)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="95"/>
+        <location filename="../src/mainwindow.cpp" line="96"/>
         <source>Heads-Up (2 players)</source>
         <translation>Heads-Up (2 Spieler)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="96"/>
+        <location filename="../src/mainwindow.cpp" line="97"/>
         <source>All</source>
         <translation>Alle</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="121"/>
+        <location filename="../src/mainwindow.cpp" line="122"/>
         <source>2nd barrel:</source>
         <translation>2nd Barrel:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="124"/>
+        <location filename="../src/mainwindow.cpp" line="125"/>
         <source>Folded 2nd barrel:</source>
         <translation>Gegen 2nd Barrel ausgestiegen:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="126"/>
+        <location filename="../src/mainwindow.cpp" line="127"/>
         <source>How often the player folded when confronted with a 2nd barrel on the turn.</source>
         <translation>Wie oft der Spieler gegen eine 2nd Barrel ausgestiegen ist.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="148"/>
+        <location filename="../src/mainwindow.cpp" line="149"/>
         <source>Went to Showdown:</source>
         <translation>Bis in den Showdown gegangen:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="150"/>
+        <location filename="../src/mainwindow.cpp" line="151"/>
         <source>With how many hands the player went to Showdown &lt;b&gt;after the flop&lt;/b&gt;.</source>
         <translation>Mit wie vielen Händen der Spieler bis in den Showdown gegangen ist, &lt;b&gt;nachdem&lt;/b&gt; er den &lt;b&gt;Flop&lt;/b&gt; gesehen hat.</translation>
     </message>
