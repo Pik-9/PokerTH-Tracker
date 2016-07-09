@@ -183,8 +183,8 @@ PlayerCharacteristic AnaWidget::analyseChar (const PlayerStat ps, const tableSiz
   /* The char. matrix: */
   const PlayerCharacteristic rating[3][3] = {
     {P_Rock, P_Weak_Passive, P_Fish},
-    {P_Rock, P_TAG, P_LAG},
-    {P_TAG, P_LAG, P_Maniac}
+    {P_Rock, P_TAG, P_dumb_LAG},
+    {P_TAG, P_dumb_LAG, P_Maniac}
   };
   
   PlayerCharacteristic pc;
@@ -212,9 +212,13 @@ PlayerCharacteristic AnaWidget::analyseChar (const PlayerStat ps, const tableSiz
   }
   
   /* Determine whether it's a dumb or a successfull LAG. */
-  if (pc == P_LAG)  {
-    if ((ps.wonPostflop () - ps.wonShowdown ()) < 25.0)  {
-      pc = P_dumb_LAG;
+  if (pc == P_dumb_LAG)  {
+    if (
+      ((ps.wonPostflop () - ps.wonShowdown ()) >= 20.0) ||
+      (ps.wonPostflop () >= 40.0) ||
+      (ps.wonPostflop () / ps.wonShowdown () >= 1.5)
+    )  {
+      pc = P_LAG;
     }
   }
   
@@ -227,7 +231,7 @@ PlayerCharacteristic AnaWidget::analyseChar (const PlayerStat ps, const tableSiz
   }
   
   /* Recognise All-In Trolls */
-  if ((ts != HEADSUP) && (ps.hardAllin () >= 25.0))  {
+  if ((ts != HEADSUP) && (ps.hardAllin () >= 20.0))  {
     pc = P_Allin_Troll;
   }
   

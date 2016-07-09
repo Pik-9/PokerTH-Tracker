@@ -300,7 +300,11 @@ void MultiView::addPlayer (const QString pname)
     observedPlayers.push_back (pname);
   }
   
-  show ();
+  if (isVisible ())  {
+    writeTable ();
+  } else  {
+    show ();
+  }
 }
 
 void MultiView::removePlayer (const QString pname)

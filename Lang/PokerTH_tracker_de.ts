@@ -207,62 +207,62 @@ Hinweise nur gelten, wenn er ausnahmsweise
 mal vernünftig spielt.</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="248"/>
+        <location filename="../src/analysis_widget.cpp" line="252"/>
         <source>&lt;font color=&apos;#808080&apos;&gt;Too few data!&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#808080&apos;&gt;Zu wenige Daten!&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="249"/>
+        <location filename="../src/analysis_widget.cpp" line="253"/>
         <source>&lt;font color=&apos;#550055&apos;&gt;Rock&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#550055&apos;&gt;Rock&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="250"/>
+        <location filename="../src/analysis_widget.cpp" line="254"/>
         <source>&lt;font color=&apos;#800080&apos;&gt;Weak-Passive&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#800080&apos;&gt;Weak-Passive&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="251"/>
+        <location filename="../src/analysis_widget.cpp" line="255"/>
         <source>&lt;font color=&apos;#1000EE&apos;&gt;Fish&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#1000EE&apos;&gt;Fisch&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="252"/>
+        <location filename="../src/analysis_widget.cpp" line="256"/>
         <source>&lt;font color=&apos;#FF0080&apos;&gt;Donkey&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#FF0080&apos;&gt;Donkey&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="253"/>
+        <location filename="../src/analysis_widget.cpp" line="257"/>
         <source>&lt;font color=&apos;#00FF80&apos;&gt;Shark&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#00FF80&apos;&gt;Shark&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="254"/>
+        <location filename="../src/analysis_widget.cpp" line="258"/>
         <source>&lt;font color=&apos;#FF8000&apos;&gt;Loose-Aggressive&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#FF8000&apos;&gt;Loose-Aggressive&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="255"/>
+        <location filename="../src/analysis_widget.cpp" line="259"/>
         <source>&lt;font color=&apos;#559900&apos;&gt;Dumb Loose-Aggressive&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#559900&apos;&gt;Hirnamputiert Loose-Aggressive&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="256"/>
+        <location filename="../src/analysis_widget.cpp" line="260"/>
         <source>&lt;font color=&apos;#CCCC00&apos;&gt;Fool&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#CCCC00&apos;&gt;Irrer&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="257"/>
+        <location filename="../src/analysis_widget.cpp" line="261"/>
         <source>&lt;font color=&apos;#FF0000&apos;&gt;Maniac&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#FF0000&apos;&gt;Maniac&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="258"/>
+        <location filename="../src/analysis_widget.cpp" line="262"/>
         <source>&lt;font color=&apos;#66AA22&apos;&gt;All-In Troll&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#66AA22&apos;&gt;All-In Troll&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="285"/>
+        <location filename="../src/analysis_widget.cpp" line="289"/>
         <source>- He often gives up after missing the flop.
   Try to bluff him on the flop.
 </source>
@@ -273,7 +273,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="291"/>
+        <location filename="../src/analysis_widget.cpp" line="295"/>
         <source>- He often gives up after missing the turn.
   Try to bluff him on the turn.
 </source>
@@ -284,7 +284,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="297"/>
+        <location filename="../src/analysis_widget.cpp" line="301"/>
         <source>- He often gives up after missing the river.
   Try to bluff him on the river.
 </source>
@@ -295,7 +295,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="315"/>
+        <location filename="../src/analysis_widget.cpp" line="319"/>
         <source>- Try to reraise him to see, whether he&apos;s bluffing.
   He will often give up his hand then.
 </source>
@@ -305,7 +305,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="351"/>
+        <location filename="../src/analysis_widget.cpp" line="355"/>
         <source>- This player often goes to
   showdown with weak hands.
 </source>
@@ -314,7 +314,7 @@ mal vernünftig spielt.</translation>
   in den Showdown.</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="356"/>
+        <location filename="../src/analysis_widget.cpp" line="360"/>
         <source>- This player only goes to
   showdown with pretty strong hands.
 </source>
@@ -323,14 +323,14 @@ mal vernünftig spielt.</translation>
   in den Showdown.</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="303"/>
+        <location filename="../src/analysis_widget.cpp" line="307"/>
         <source>- He may be vulnerable to floating.
 </source>
         <translation>- Ein Float könnte funktionieren.
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="309"/>
+        <location filename="../src/analysis_widget.cpp" line="313"/>
         <source>- This player is probably a calling station.
   Be carefull with bluffing.
 </source>
@@ -339,7 +339,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="322"/>
+        <location filename="../src/analysis_widget.cpp" line="326"/>
         <source>- You should usually fire continuation bets against him!
 </source>
         <translation>- Du solltest gegen diesen Spieler fast immer Contibets
@@ -347,7 +347,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="328"/>
+        <location filename="../src/analysis_widget.cpp" line="332"/>
         <source>- Don&apos;t worry if he called your continuation bet.
   Just 2nd barrel him!
 </source>
@@ -357,7 +357,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="335"/>
+        <location filename="../src/analysis_widget.cpp" line="339"/>
         <source>- This player likes to check-raise.
   Be carefull when he checks - it
   might be a trap!
@@ -368,14 +368,14 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="343"/>
+        <location filename="../src/analysis_widget.cpp" line="347"/>
         <source>- Be carefull: He might be a competent LAG!
 </source>
         <translation>- Sei vorsichtig: Er könnte ein starker LAG sein!
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="364"/>
+        <location filename="../src/analysis_widget.cpp" line="368"/>
         <source>Too few data to detect weaknesses!</source>
         <translation>Nicht genug Daten um Schwächen zu erkennen!</translation>
     </message>
