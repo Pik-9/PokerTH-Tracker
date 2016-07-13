@@ -34,6 +34,7 @@
 class QSplitter;
 class QLineEdit;
 class QLabel;
+class QCheckBox;
 class QPushButton;
 class QComboBox;
 class QListWidget;
@@ -52,6 +53,7 @@ private:
   QPushButton *b_search;
   QLineEdit *t_path;
   QListWidget *l_players;
+  QCheckBox *c_onlyEnough;
   QFileDialog *lopen;
 
 public:
@@ -60,6 +62,7 @@ public:
 
   QString getFilePath () const;
   QListWidget* getListWidget ();
+  QCheckBox* getOECheckBox ();
 
 public slots:
   void chooseURL (const QString);
@@ -128,6 +131,8 @@ private:
   Worker *work_thread;
   
   std::map<QAction*, QString> langCodes;
+  
+  QString currentPlayer;
 
 public:
   MainWindow (QWidget *parent = 0);

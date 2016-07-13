@@ -21,6 +21,7 @@
  */
 
 #include "PlayerStat.hpp"
+#include "analysis_widget.hpp"
 
 #include <QDir>
 #include <QSqlDatabase>
@@ -399,11 +400,13 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
   return success;
 }
 
-QStringList Statistics::getPlayerNames ()
+QStringList Statistics::getPlayerNames (tableSize ts, bool onlyEnoughData)
 {
   QStringList RET;
-  for (smap::iterator it = statMaps[ANY].begin (); it != statMaps[ANY].end (); ++it)  {
-    RET.push_back (it->first);
+  for (smap::iterator it = statMaps[ts].begin (); it != statMaps[ts].end (); ++it)  {
+    if ((!onlyEnoughData) || (it->second.observed_hands >= AnaWidget::min_observed_hands[(int) ts]))  {
+      RET.push_back (it->first);
+    }
   }
   return RET;
 }

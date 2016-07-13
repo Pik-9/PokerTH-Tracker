@@ -33,6 +33,8 @@
 #define isfinite std::isfinite
 #endif
 
+const uint32_t AnaWidget::min_observed_hands[4] = {100, 100, 75, 120};
+
 AnaWidget::AnaWidget (Statistics* pinfo, QWidget* parent)
   : QWidget (parent), stat (pinfo)
 {
@@ -169,15 +171,15 @@ PlayerCharacteristic AnaWidget::analyseChar (const PlayerStat ps, const tableSiz
    *  >ah   | TAG   | LAG     | Maniac
    * 
    * The borders are the following:
-   *   Fullring:  vl =   15%, vh = 25%, al = 0.8, ah = 2.0
-   *   Shorthand: vl =   20%, vh = 35%, al = 1.0, ah = 2.0
+   *   Fullring:  vl =   15%, vh = 25%, al = 1.0, ah = 2.0
+   *   Shorthand: vl =   20%, vh = 35%, al = 1.1, ah = 2.0
    *   Heads-Up:  vl =   50%, vh = 90%, al = 1.5, ah = 5.0
    *   All:       vl = 22.5%, vh = 35%, al = 1.0, ah = 2.2
    */
   
   const double vl[4] = {15.0, 20.0, 50.0, 22.5};
   const double vh[4] = {25.0, 35.0, 90.0, 35.0};
-  const double al[4] = {0.8, 1.0, 1.5, 1.0};
+  const double al[4] = {1.0, 1.1, 1.5, 1.0};
   const double ah[4] = {2.0, 2.0, 5.0, 2.2};
   
   /* The char. matrix: */
@@ -214,9 +216,9 @@ PlayerCharacteristic AnaWidget::analyseChar (const PlayerStat ps, const tableSiz
   /* Determine whether it's a dumb or a successfull LAG. */
   if (pc == P_dumb_LAG)  {
     if (
-      ((ps.wonPostflop () - ps.wonShowdown ()) >= 20.0) ||
-      (ps.wonPostflop () >= 40.0) ||
-      (ps.wonPostflop () / ps.wonShowdown () >= 1.5)
+      (ps.wonPostflop () >= 37.5) &&
+      (((ps.wonPostflop () - ps.wonShowdown ()) >= 20.0) ||
+      (ps.wonPostflop () / ps.wonShowdown () >= 2.0))
     )  {
       pc = P_LAG;
     }
@@ -236,8 +238,7 @@ PlayerCharacteristic AnaWidget::analyseChar (const PlayerStat ps, const tableSiz
   }
   
   /* The minimum observed hands: */
-  const uint32_t oh[4] = {100, 100, 75, 120};
-  if (ps.observed_hands < oh[(int) ts])  {
+  if (ps.observed_hands < min_observed_hands[(int) ts])  {
     pc = P_NEData;
   }
   
@@ -262,7 +263,8 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
     tr ("<font color='#66AA22'>All-In Troll</font>")
   };
     
-  PlayerCharacteristic pc = analyseChar (ps, ts);
+  
+  PlayerCharacteristic pc = (pname.isEmpty () ? P_NEData : analyseChar (ps, ts));
     
   l_caption->setText (caption[(int) pc]);
   l_short->setText (charDescription (pc));

@@ -28,6 +28,7 @@
 #include <QGridLayout>
 #include <QTabWidget>
 #include <QLineEdit>
+#include <QCheckBox>
 #include <QPushButton>
 #include <QComboBox>
 #include <QLabel>
@@ -50,11 +51,13 @@ LeftPart::LeftPart (QWidget *parent)
   b_search = new QPushButton (tr ("Search..."));
   l_players = new QListWidget ();
   l_players->setToolTip (tr ("Double click on player to add to multi player view."));
+  c_onlyEnough = new QCheckBox (tr ("Only show players with enough observed hands."));
   lopen = new QFileDialog ();
   lopen->setFileMode (QFileDialog::Directory);
   layout->addWidget (t_path, 0, 0, 1, 1);
   layout->addWidget (b_search, 0, 1, 1, 1);
   layout->addWidget (l_players, 1, 0, 1, 2);
+  layout->addWidget (c_onlyEnough, 2, 0, 1, 2);
 
   t_path->setText (Global::getInstance ()->getLogDir ());
 
@@ -73,6 +76,11 @@ QString LeftPart::getFilePath () const
 QListWidget* LeftPart::getListWidget ()
 {
   return l_players;
+}
+
+QCheckBox* LeftPart::getOECheckBox ()
+{
+  return c_onlyEnough;
 }
 
 void LeftPart::chooseURL (const QString path)
@@ -235,27 +243,49 @@ RightPart::~RightPart ()
 
 void RightPart::setupProps (const QString pname, Statistics* ps)
 {
-  PlayerStat stat = ps->getPlayerStat (pname, (tableSize) c_table->currentIndex ());
-  l_name->setText (pname);
-  t_obh->setText (QString::number (stat.observed_hands));
-  t_vpip->setText (QString ("%1 %").arg (stat.VPIP (), 0, 'g', 3));
-  t_pfr->setText (QString ("%1 %").arg (stat.preflop_raise (), 0, 'g', 3));
-  t_3bet->setText (QString ("%1 %").arg (stat.bet3_preflop (), 0, 'g', 3));
-  t_conti->setText (QString ("%1 %").arg (stat.F_contibet (), 0, 'g', 3));
-  t_fconti->setText (QString ("%1 %").arg (stat.folded_conbet (), 0, 'g', 3));
-  t_tbet->setText (QString ("%1 %").arg (stat.T_contibet (), 0, 'g', 3));
-  t_ftbet->setText (QString ("%1 %").arg (stat.folded_turnbet (), 0, 'g', 3));
-  t_fnbet->setText (QString ("%1 %").arg (stat.folded_nbet (), 0, 'g', 3));
-  t_cr->setText (QString ("%1 %").arg (stat.checkraise_prop (), 0, 'g', 3));
-  t_aAF->setText (QString::number (stat.AF_ave (), 'g', 3));
-  t_fAF->setText (QString::number (stat.AF (FLOP), 'g', 3));
-  t_tseen->setText (QString ("%1 %").arg (stat.seen_round (TURN), 0, 'g', 3));
-  t_tAF->setText (QString::number (stat.AF (TURN), 'g', 3));
-  t_rseen->setText (QString ("%1 %").arg (stat.seen_round (RIVER), 0, 'g', 3));
-  t_rAF->setText (QString::number (stat.AF (RIVER), 'g', 3));
-  t_wts->setText (QString ("%1 %").arg (stat.wtShowdown (), 0, 'g', 3));
-  t_wwsf->setText (QString ("%1 %").arg (stat.wonPostflop (), 0, 'g', 3));
-  t_wsd->setText (QString ("%1 %").arg (stat.wonShowdown (), 0, 'g', 3));
+  if (!pname.isEmpty ())  {
+  PlayerStat stat = ps->getPlayerStat (pname, desiredTableSize ());
+    l_name->setText (pname);
+    t_obh->setText (QString::number (stat.observed_hands));
+    t_vpip->setText (QString ("%1 %").arg (stat.VPIP (), 0, 'g', 3));
+    t_pfr->setText (QString ("%1 %").arg (stat.preflop_raise (), 0, 'g', 3));
+    t_3bet->setText (QString ("%1 %").arg (stat.bet3_preflop (), 0, 'g', 3));
+    t_conti->setText (QString ("%1 %").arg (stat.F_contibet (), 0, 'g', 3));
+    t_fconti->setText (QString ("%1 %").arg (stat.folded_conbet (), 0, 'g', 3));
+    t_tbet->setText (QString ("%1 %").arg (stat.T_contibet (), 0, 'g', 3));
+    t_ftbet->setText (QString ("%1 %").arg (stat.folded_turnbet (), 0, 'g', 3));
+    t_fnbet->setText (QString ("%1 %").arg (stat.folded_nbet (), 0, 'g', 3));
+    t_cr->setText (QString ("%1 %").arg (stat.checkraise_prop (), 0, 'g', 3));
+    t_aAF->setText (QString::number (stat.AF_ave (), 'g', 3));
+    t_fAF->setText (QString::number (stat.AF (FLOP), 'g', 3));
+    t_tseen->setText (QString ("%1 %").arg (stat.seen_round (TURN), 0, 'g', 3));
+    t_tAF->setText (QString::number (stat.AF (TURN), 'g', 3));
+    t_rseen->setText (QString ("%1 %").arg (stat.seen_round (RIVER), 0, 'g', 3));
+    t_rAF->setText (QString::number (stat.AF (RIVER), 'g', 3));
+    t_wts->setText (QString ("%1 %").arg (stat.wtShowdown (), 0, 'g', 3));
+    t_wwsf->setText (QString ("%1 %").arg (stat.wonPostflop (), 0, 'g', 3));
+    t_wsd->setText (QString ("%1 %").arg (stat.wonShowdown (), 0, 'g', 3));
+  } else  {
+    t_obh->setText ("0");
+    t_vpip->setText ("0");
+    t_pfr->setText ("0");
+    t_3bet->setText ("0");
+    t_conti->setText ("0");
+    t_fconti->setText ("0");
+    t_tbet->setText ("0");
+    t_ftbet->setText ("0");
+    t_fnbet->setText ("0");
+    t_cr->setText ("0");
+    t_aAF->setText ("0");
+    t_fAF->setText ("0");
+    t_tseen->setText ("0");
+    t_tAF->setText ("0");
+    t_rseen->setText ("0");
+    t_rAF->setText ("0");
+    t_wts->setText ("0");
+    t_wwsf->setText ("0");
+    t_wsd->setText ("0");
+  }
 }
 
 tableSize RightPart::desiredTableSize ()
@@ -347,6 +377,7 @@ MainWindow::MainWindow (QWidget *parent)
   connect (lp, SIGNAL (changedDirectory ()), this, SLOT (refresh ()));
   connect (lp->getListWidget (), SIGNAL (currentTextChanged (const QString)), this, SLOT (showPlayerStats (const QString)));
   connect (lp->getListWidget (), SIGNAL (itemDoubleClicked (QListWidgetItem*)), this, SLOT (addToMultiview (QListWidgetItem*)));
+  connect (lp->getOECheckBox (), SIGNAL (clicked ()), this, SLOT (buildList ()));
   connect (rp, SIGNAL (requestStat ()), this, SLOT (showPlayerStats ()));
   connect (work_thread, SIGNAL (finished ()), this, SLOT (buildList ()));
 
@@ -363,6 +394,7 @@ void MainWindow::refresh ()
     work_thread->start ();
   }
   statusBar ()->showMessage (tr ("Loading files..."));
+  currentPlayer = "";
   np->loadNotes ();
 }
 
@@ -371,7 +403,7 @@ void MainWindow::buildList ()
   if (work_thread->loadedSuccessfully ())  {
     QListWidget *overview = lp->getListWidget ();
     overview->clear ();
-    overview->addItems (stat->getPlayerNames ());
+    overview->addItems (stat->getPlayerNames (rp->desiredTableSize (), lp->getOECheckBox ()->isChecked ()));
     Global::getInstance ()->setLogDir (work_thread->getFilePath ());
     mv->writeTable ();
     statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (work_thread->countLoadedFiles ()).arg (work_thread->getFilePath ()));
@@ -384,17 +416,17 @@ void MainWindow::showPlayerStats ()
 {
   QListWidgetItem *li = lp->getListWidget ()->currentItem ();
   if (li)  {
-    showPlayerStats (li->text ());
+    currentPlayer = li->text ();
   }
+  showPlayerStats (currentPlayer);
+  buildList ();
 }
 
 void MainWindow::showPlayerStats (const QString pname)
 {
-  if (!pname.isEmpty ())  {
-    rp->setupProps (pname, stat);
-    ap->refresh (pname, rp->desiredTableSize ());
-    np->showPlayerNotes (pname);
-  }
+  rp->setupProps (pname, stat);
+  ap->refresh (pname, rp->desiredTableSize ());
+  np->showPlayerNotes (pname);
 }
 
 void MainWindow::addToMultiview (QListWidgetItem* item)

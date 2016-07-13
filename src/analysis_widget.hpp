@@ -56,6 +56,10 @@ private:
     *l_caption,
     *l_short,
     *l_tips;
+    
+public:
+  /* The minimum observed hands. */
+  static const uint32_t min_observed_hands[4];
   
 public:
   AnaWidget (Statistics*, QWidget* parent = 0);

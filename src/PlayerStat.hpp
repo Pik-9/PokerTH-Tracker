@@ -122,7 +122,7 @@ public:
   
   /* Returns true on success, false otherwise. */
   bool loadStatistics (const QString, uint32_t *count_files = 0);
-  QStringList getPlayerNames ();
+  QStringList getPlayerNames (tableSize ts, bool onlyEnoughData = false);
   PlayerStat getPlayerStat (const QString, const tableSize);
 };
 
