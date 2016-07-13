@@ -137,8 +137,11 @@ private:
 public:
   MainWindow (QWidget *parent = 0);
   ~MainWindow ();
+  
+  QString getCurrentPlayer ();
 
 public slots:
+  void setCurrentPlayer (QString);
   void refresh ();
   void buildList ();
   void showPlayerStats ();

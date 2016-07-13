@@ -394,15 +394,15 @@ mal vernünftig spielt.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="54"/>
-        <source>Only show players with enough observed hands.</source>
-        <translation>Zeige nur Spieler mit ausreichend vielen beobachteten Händen.</translation>
+        <source>Hide entries with insufficient data.</source>
+        <translation>Verstecke Einträge mit zu wenig Daten.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <location filename="../src/mainwindow.cpp" line="304"/>
-        <location filename="../src/mainwindow.cpp" line="449"/>
+        <location filename="../src/mainwindow.cpp" line="471"/>
         <source>PokerTH Tracker</source>
         <translation>PokerTH Tracker</translation>
     </message>
@@ -472,46 +472,46 @@ mal vernünftig spielt.</translation>
         <translation>Notizen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="396"/>
+        <location filename="../src/mainwindow.cpp" line="414"/>
         <source>Loading files...</source>
         <translation>Lade Dateien...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="409"/>
+        <location filename="../src/mainwindow.cpp" line="429"/>
         <source>Opened %1 files from %2</source>
         <translation>%1 Dateien aus %2 geöffnet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="411"/>
+        <location filename="../src/mainwindow.cpp" line="431"/>
         <source>There were errors while loading files from %1!</source>
         <translation>Beim Laden aus %1 sind Fehler aufgetreten!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="444"/>
+        <location filename="../src/mainwindow.cpp" line="466"/>
         <source>PokerTH Tracker - A simple poker statistics tracker for PokerTH
 </source>
         <translation>PokerTH Tracker - Ein einfaches Statistik Analyse Programm für PokerTH
 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="447"/>
+        <location filename="../src/mainwindow.cpp" line="469"/>
         <source>This software is published under the termns of the GNU General Public License Version 3.
 </source>
         <translation>Diese Software ist unter der GNU General Public License in Version 3 veröffentlicht.
 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="448"/>
+        <location filename="../src/mainwindow.cpp" line="470"/>
         <source>This software contains free cliparts from openclipart.org.</source>
         <translation>Diese Software enthält freie Grafiken von openclipart.org.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="457"/>
+        <location filename="../src/mainwindow.cpp" line="479"/>
         <source>Language changed</source>
         <translation>Sprache geändert</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="458"/>
+        <location filename="../src/mainwindow.cpp" line="480"/>
         <source>The language has been changed. The change will take effect after the next start.</source>
         <translation>Die Sprache wurde geändert. Die Änderung wird nach dem nächsten Neustart in Kraft treten.</translation>
     </message>

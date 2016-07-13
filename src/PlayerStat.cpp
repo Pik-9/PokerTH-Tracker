@@ -405,7 +405,7 @@ QStringList Statistics::getPlayerNames (tableSize ts, bool onlyEnoughData)
   QStringList RET;
   for (smap::iterator it = statMaps[ts].begin (); it != statMaps[ts].end (); ++it)  {
     if ((!onlyEnoughData) || (it->second.observed_hands >= AnaWidget::min_observed_hands[(int) ts]))  {
-      RET.push_back (it->first);
+      RET.push_back (QString ("%1   (%2)").arg (it->first).arg (it->second.observed_hands));
     }
   }
   return RET;

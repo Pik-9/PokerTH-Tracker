@@ -51,7 +51,7 @@ LeftPart::LeftPart (QWidget *parent)
   b_search = new QPushButton (tr ("Search..."));
   l_players = new QListWidget ();
   l_players->setToolTip (tr ("Double click on player to add to multi player view."));
-  c_onlyEnough = new QCheckBox (tr ("Only show players with enough observed hands."));
+  c_onlyEnough = new QCheckBox (tr ("Hide entries with insufficient data."));
   lopen = new QFileDialog ();
   lopen->setFileMode (QFileDialog::Directory);
   layout->addWidget (t_path, 0, 0, 1, 1);
@@ -387,6 +387,24 @@ MainWindow::MainWindow (QWidget *parent)
 MainWindow::~MainWindow ()
 {}
 
+QString MainWindow::getCurrentPlayer ()
+{
+  return currentPlayer;
+}
+
+void MainWindow::setCurrentPlayer (QString pname)
+{
+  QStringList pname_parts = pname.split ("   (");
+  currentPlayer = "";
+  if (pname_parts.count() > 1)  {
+    for (int ii = 0; ii < pname_parts.count () - 1; ++ii)  {
+      currentPlayer += pname_parts.at (ii);
+    }
+  } else  {
+    currentPlayer = pname_parts.at (0);
+  }
+}
+
 void MainWindow::refresh ()
 {
   if (!work_thread->isRunning ())  {
@@ -394,7 +412,7 @@ void MainWindow::refresh ()
     work_thread->start ();
   }
   statusBar ()->showMessage (tr ("Loading files..."));
-  currentPlayer = "";
+  setCurrentPlayer ("");
   np->loadNotes ();
 }
 
@@ -402,8 +420,10 @@ void MainWindow::buildList ()
 {
   if (work_thread->loadedSuccessfully ())  {
     QListWidget *overview = lp->getListWidget ();
+    overview->blockSignals (true);
     overview->clear ();
     overview->addItems (stat->getPlayerNames (rp->desiredTableSize (), lp->getOECheckBox ()->isChecked ()));
+    overview->blockSignals (false);
     Global::getInstance ()->setLogDir (work_thread->getFilePath ());
     mv->writeTable ();
     statusBar ()->showMessage (tr ("Opened %1 files from %2").arg (work_thread->countLoadedFiles ()).arg (work_thread->getFilePath ()));
@@ -416,22 +436,24 @@ void MainWindow::showPlayerStats ()
 {
   QListWidgetItem *li = lp->getListWidget ()->currentItem ();
   if (li)  {
-    currentPlayer = li->text ();
+    setCurrentPlayer (li->text ());
   }
-  showPlayerStats (currentPlayer);
+  showPlayerStats (getCurrentPlayer ());
   buildList ();
 }
 
 void MainWindow::showPlayerStats (const QString pname)
 {
-  rp->setupProps (pname, stat);
-  ap->refresh (pname, rp->desiredTableSize ());
-  np->showPlayerNotes (pname);
+  setCurrentPlayer (pname);
+  rp->setupProps (getCurrentPlayer (), stat);
+  ap->refresh (getCurrentPlayer (), rp->desiredTableSize ());
+  np->showPlayerNotes (getCurrentPlayer ());
 }
 
 void MainWindow::addToMultiview (QListWidgetItem* item)
 {
-  mv->addPlayer (item->text ());
+  setCurrentPlayer (item->text ());
+  mv->addPlayer (getCurrentPlayer ());
 }
 
 void MainWindow::clickedAboutQT ()
