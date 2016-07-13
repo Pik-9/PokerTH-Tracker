@@ -262,7 +262,7 @@ mal vernünftig spielt.</translation>
         <translation>&lt;font color=&apos;#66AA22&apos;&gt;All-In Troll&lt;/font&gt;</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="291"/>
+        <location filename="../src/analysis_widget.cpp" line="292"/>
         <source>- He often gives up after missing the flop.
   Try to bluff him on the flop.
 </source>
@@ -273,7 +273,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="297"/>
+        <location filename="../src/analysis_widget.cpp" line="298"/>
         <source>- He often gives up after missing the turn.
   Try to bluff him on the turn.
 </source>
@@ -284,7 +284,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="303"/>
+        <location filename="../src/analysis_widget.cpp" line="304"/>
         <source>- He often gives up after missing the river.
   Try to bluff him on the river.
 </source>
@@ -295,7 +295,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="321"/>
+        <location filename="../src/analysis_widget.cpp" line="322"/>
         <source>- Try to reraise him to see, whether he&apos;s bluffing.
   He will often give up his hand then.
 </source>
@@ -305,7 +305,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="357"/>
+        <location filename="../src/analysis_widget.cpp" line="358"/>
         <source>- This player often goes to
   showdown with weak hands.
 </source>
@@ -314,7 +314,7 @@ mal vernünftig spielt.</translation>
   in den Showdown.</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="362"/>
+        <location filename="../src/analysis_widget.cpp" line="363"/>
         <source>- This player only goes to
   showdown with pretty strong hands.
 </source>
@@ -323,14 +323,14 @@ mal vernünftig spielt.</translation>
   in den Showdown.</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="309"/>
+        <location filename="../src/analysis_widget.cpp" line="310"/>
         <source>- He may be vulnerable to floating.
 </source>
         <translation>- Ein Float könnte funktionieren.
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="315"/>
+        <location filename="../src/analysis_widget.cpp" line="316"/>
         <source>- This player is probably a calling station.
   Be carefull with bluffing.
 </source>
@@ -339,7 +339,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="328"/>
+        <location filename="../src/analysis_widget.cpp" line="329"/>
         <source>- You should usually fire continuation bets against him!
 </source>
         <translation>- Du solltest gegen diesen Spieler fast immer Contibets
@@ -347,7 +347,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="334"/>
+        <location filename="../src/analysis_widget.cpp" line="335"/>
         <source>- Don&apos;t worry if he called your continuation bet.
   Just 2nd barrel him!
 </source>
@@ -357,7 +357,7 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="341"/>
+        <location filename="../src/analysis_widget.cpp" line="342"/>
         <source>- This player likes to check-raise.
   Be carefull when he checks - it
   might be a trap!
@@ -368,14 +368,14 @@ mal vernünftig spielt.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="349"/>
+        <location filename="../src/analysis_widget.cpp" line="350"/>
         <source>- Be carefull: He might be a competent LAG!
 </source>
         <translation>- Sei vorsichtig: Er könnte ein starker LAG sein!
 </translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="370"/>
+        <location filename="../src/analysis_widget.cpp" line="371"/>
         <source>Too few data to detect weaknesses!</source>
         <translation>Nicht genug Daten um Schwächen zu erkennen!</translation>
     </message>

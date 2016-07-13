@@ -283,7 +283,8 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
     ":/s_All-in_Troll.png"
   };
   
-  l_icon->setPixmap (QPixmap (icons[(int) pc]));
+  QPixmap cat_icon (icons[(int) pc]);
+  l_icon->setPixmap (cat_icon.scaled (l_icon->size (), Qt::KeepAspectRatio));
   
   QString advise ("");
   
