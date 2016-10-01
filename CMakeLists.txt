@@ -59,6 +59,10 @@ endif(${Qt5LinguistTools_FOUND})
 add_executable(${PROJECT_NAME} ${PTHT_SRC} ${QM_RC} Icons.qrc)
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Sql Qt5::Xml)
 
+if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+  set(CMAKE_INSTALL_PREFIX "/usr")
+endif("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 install(FILES ${PTHT_ICON} DESTINATION share/PokerTH_tracker)
 install(PROGRAMS ${PTHT_DSKT} DESTINATION /usr/share/applications)
