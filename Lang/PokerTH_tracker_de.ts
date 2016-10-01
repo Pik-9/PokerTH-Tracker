@@ -207,11 +207,6 @@ Hinweise nur gelten, wenn er ausnahmsweise
 mal vernünftig spielt.</translation>
     </message>
     <message>
-        <location filename="../src/analysis_widget.cpp" line="253"/>
-        <source>&lt;font color=&apos;#808080&apos;&gt;Too few data!&lt;/font&gt;</source>
-        <translation>&lt;font color=&apos;#808080&apos;&gt;Zu wenige Daten!&lt;/font&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/analysis_widget.cpp" line="254"/>
         <source>&lt;font color=&apos;#550055&apos;&gt;Rock&lt;/font&gt;</source>
         <translation>&lt;font color=&apos;#550055&apos;&gt;Rock&lt;/font&gt;</translation>
@@ -323,11 +318,21 @@ mal vernünftig spielt.</translation>
   in den Showdown.</translation>
     </message>
     <message>
+        <location filename="../src/analysis_widget.cpp" line="371"/>
+        <source>Not enough data to detect weaknesses!</source>
+        <translation>Nicht genug Daten um Schwächen zu erkennen!</translation>
+    </message>
+    <message>
         <location filename="../src/analysis_widget.cpp" line="310"/>
         <source>- He may be vulnerable to floating.
 </source>
         <translation>- Ein Float könnte funktionieren.
 </translation>
+    </message>
+    <message>
+        <location filename="../src/analysis_widget.cpp" line="253"/>
+        <source>&lt;font color=&apos;#808080&apos;&gt;Insufficient data!&lt;/font&gt;</source>
+        <translation>&lt;font color=&apos;#808080&apos;&gt;Zu wenige Daten!&lt;/font&gt;</translation>
     </message>
     <message>
         <location filename="../src/analysis_widget.cpp" line="316"/>
@@ -373,11 +378,6 @@ mal vernünftig spielt.</translation>
 </source>
         <translation>- Sei vorsichtig: Er könnte ein starker LAG sein!
 </translation>
-    </message>
-    <message>
-        <location filename="../src/analysis_widget.cpp" line="371"/>
-        <source>Too few data to detect weaknesses!</source>
-        <translation>Nicht genug Daten um Schwächen zu erkennen!</translation>
     </message>
 </context>
 <context>

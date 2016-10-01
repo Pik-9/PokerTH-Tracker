@@ -227,7 +227,6 @@ bool Statistics::loadStatistics (const QString path, uint32_t* count_files)
       }
       round_ = round;
       
-      //tmp[player_name].round_seen[round] = 1;
       for (uint32_t ir = 0; ir <= round; ++ir)  {
         tmp[player_name].round_seen[ir] = 1;
       }

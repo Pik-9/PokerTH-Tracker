@@ -250,7 +250,7 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
   PlayerStat ps = stat->getPlayerStat (pname, ts);
   
   QString caption[11] = {
-    tr ("<font color='#808080'>Too few data!</font>"),
+    tr ("<font color='#808080'>Insufficient data!</font>"),
     tr ("<font color='#550055'>Rock</font>"),
     tr ("<font color='#800080'>Weak-Passive</font>"),
     tr ("<font color='#1000EE'>Fish</font>"),
@@ -368,7 +368,7 @@ void AnaWidget::refresh (const QString pname, tableSize ts)
   }
   
   if (pc == P_NEData) {
-    l_tips->setText (tr ("Too few data to detect weaknesses!"));
+    l_tips->setText (tr ("Not enough data to detect weaknesses!"));
   } else  {
     l_tips->setText (advise);
   }

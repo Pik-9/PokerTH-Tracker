@@ -1,6 +1,8 @@
 project(PokerTH_tracker)
 cmake_minimum_required(VERSION 2.8.11)
 
+option(PKG_GEN "The package system to use (DEB, RPM, etc). Empty line: Don't create a pkg at all." "")
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -60,3 +62,21 @@ target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Sql Qt5::Xml)
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 install(FILES ${PTHT_ICON} DESTINATION share/PokerTH_tracker)
 install(PROGRAMS ${PTHT_DSKT} DESTINATION /usr/share/applications)
+
+if(NOT ("${PKG_GEN}" STREQUAL ""))
+  set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
+  set(CPACK_PACKAGE_VERSION "0.2.3.1")
+  set(CPACK_PACKAGE_CONTACT "Daniel Steinhauer <d.steinhauer@mailbox.org>")
+  set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A simple poker tracker for PokerTH.")
+  set(CPACK_PACKAGE_DESCRIPTION "This tracker analyses the players' behavior at the table and gives you hints about their weaknesses.")
+  set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.txt")
+  
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6, libgcc1, libgomp1, libstdc++6, libqt5core5a, libqt5gui5, libqt5xml5, libqt5sql5, libqt5sql5-sqlite, libqt5widgets5")
+  set(CPACK_DEBIAN_PACKAGE_SUGGESTS "pokerth")
+  
+  set(CPACK_RPM_PACKAGE_LICENSE "GNU GENERAL PUBLIC LICENSE Version 3")
+  set(CPACK_RPM_PACKAGE_REQUIRES "libc6, libgcc1, libgomp1, libstdc++6, libqt5core5a, libqt5gui5, libqt5xml5, libqt5sql5, libqt5sql5-sqlite, libqt5widgets5")
+  
+  set(CPACK_GENERATOR "${PKG_GEN}")
+  include(CPack)
+endif(NOT ("${PKG_GEN}" STREQUAL ""))
