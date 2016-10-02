@@ -69,7 +69,7 @@ install(PROGRAMS ${PTHT_DSKT} DESTINATION /usr/share/applications)
 
 if(NOT ("${PKG_GEN}" STREQUAL ""))
   set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
-  set(CPACK_PACKAGE_VERSION "0.2.3.1")
+  set(CPACK_PACKAGE_VERSION "0.2.3.2")
   set(CPACK_PACKAGE_CONTACT "Daniel Steinhauer <d.steinhauer@mailbox.org>")
   set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A simple poker tracker for PokerTH.")
   set(CPACK_PACKAGE_DESCRIPTION "This tracker analyses the players' behavior at the table and gives you hints about their weaknesses.")
@@ -79,7 +79,7 @@ if(NOT ("${PKG_GEN}" STREQUAL ""))
   set(CPACK_DEBIAN_PACKAGE_SUGGESTS "pokerth")
   
   set(CPACK_RPM_PACKAGE_LICENSE "GNU GENERAL PUBLIC LICENSE Version 3")
-  set(CPACK_RPM_PACKAGE_REQUIRES "libc6, libgcc1, libgomp1, libstdc++6, libqt5core5a, libqt5gui5, libqt5xml5, libqt5sql5, libqt5sql5-sqlite, libqt5widgets5")
+  set(CPACK_RPM_PACKAGE_REQUIRES "glibc, libgcc_s1, libgomp1, libstdc++6, libQt5Core5, libQt5Gui5, libQt5Xml5, libQt5Sql5, libQt5Sql5-sqlite, libQt5Widgets5")
   
   set(CPACK_GENERATOR "${PKG_GEN}")
   include(CPack)
