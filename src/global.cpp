@@ -84,7 +84,23 @@ Global* Global::getInstance ()
 
 QString Global::getConfigFile ()
 {
-  return app_settings->value ("configPath", "").toString ();
+  QString RET = app_settings->value ("configPath", "").toString ();
+  if (RET.isEmpty ())  {
+    QDir suggest_dir = QDir::home ();
+    if (!suggest_dir.cd (".pokerth"))  {
+      /* If this is no Linux system, try the default Windows folder. */
+      if (!suggest_dir.cd ("AppData/Roaming/pokerth"))  {
+        /* Giving up, if this fails as well! */
+        return "";
+      }
+    }
+    QString suggest = suggest_dir.absoluteFilePath ("config.xml");
+    if (QFile::exists (suggest))  {
+      app_settings->setValue ("configPath", suggest);
+      RET = suggest;
+    }
+  }
+  return RET;
 }
 
 void Global::setConfigFile (const QString configPath)
