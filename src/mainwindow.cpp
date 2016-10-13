@@ -311,7 +311,7 @@ MainWindow::MainWindow (QWidget *parent)
 
   QMenu *fmenu = new QMenu (tr ("&File"));
   fmenu->addAction (tr ("&Refresh"), this, SLOT (refresh ()), QKeySequence::Refresh);
-  fmenu->addAction (tr ("&Quit"), qApp, SLOT (quit ()));
+  fmenu->addAction (tr ("&Quit"), qApp, SLOT (quit ()), QKeySequence::Quit);
   menuBar ()->addMenu (fmenu);
   
   /* The supported languages */
