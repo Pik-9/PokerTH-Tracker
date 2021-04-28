@@ -1,5 +1,4 @@
-PokerTH Tracker
-===============
+# PokerTH Tracker
 
 This is a simple poker statistics program to analyse your opponents'
 behaviour.
@@ -7,8 +6,7 @@ It reads the PokerTH logs, so you should collect them for a more
 precise analysis.
 
 
-Prerequirements
----------------
+## Prerequirements
 
 In order to compile and link this application you need the Qt development files.
 On Ubuntu and derived distributions you can install anything you need with:
@@ -16,44 +14,44 @@ On Ubuntu and derived distributions you can install anything you need with:
   $ sudo apt-get install git cmake build-essential qt5-default qttools5-dev-tools libqt5sql5-sqlite libqt5xml5
 
 
-Compile and Install
--------------------
+## Compile and Install
 
 This program has two build systems: QMake and CMake. You can choose.
 
-CMake:
-  $ cd /path/to/PokerTH_tracker
-  $ mkdir build
-  $ cd build
-  $ cmake .. && make
-  $ sudo make install
+### CMake
+```bash
+cd /path/to/PokerTH_tracker
+mkdir build
+cd build
+cmake .. && make
+sudo make install
+```
   
-QMake:
-  $ cd /path/to/PokerTH_tracker
-  $ mkdir build
-  $ cd build
-  $ qmake ../PokerTH_tracker.pro && make
-  $ sudo make install
+### QMake
+```bash
+cd /path/to/PokerTH_tracker
+mkdir build
+cd build
+qmake ../PokerTH_tracker.pro && make
+sudo make install
+```
 
   
-Special thanks to
------------------
+## Special thanks to
 
 the internet portal openclipart.org for providing funny cliparts
 to be used in PokerTH Tracker. All cliparts are published under
 the terms of an open source license.
 
 
-PGP
----
+## PGP
 
 All precompiled binaries since v0.2.2 are signed with my PGP key 992E9547.
 If it is not signed or the signature is broken, you should not trust
 the source!
 
 
-License
--------
+## License
 
 (C) 2015-2016 Daniel Steinhauer (9 of Spades)
 
