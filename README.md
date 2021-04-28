@@ -22,8 +22,7 @@ This program has two build systems: QMake and CMake. You can choose.
 ```bash
 cd /path/to/PokerTH_tracker
 mkdir build
-cd build
-cmake .. && make
+cmake -B build . && make -C build
 sudo make install
 ```
   
@@ -53,7 +52,7 @@ the source!
 
 ## License
 
-(C) 2015-2016 Daniel Steinhauer (9 of Spades)
+(C) 2015-2021 Daniel Steinhauer (9 of Spades)
 
 PokerTH Tracker is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
