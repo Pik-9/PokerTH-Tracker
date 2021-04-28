@@ -1,1 +1,3 @@
 build/
+version.hpp
+Lang/*.qm

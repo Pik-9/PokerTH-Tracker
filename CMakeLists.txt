@@ -1,5 +1,5 @@
 project(PokerTH_tracker)
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.7.0)
 
 option(PKG_GEN "The package system to use (DEB, RPM, etc). Empty line: Don't create a pkg at all." "")
 
@@ -73,7 +73,7 @@ if(NOT ("${PKG_GEN}" STREQUAL ""))
   set(CPACK_PACKAGE_CONTACT "Daniel Steinhauer <d.steinhauer@mailbox.org>")
   set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A simple poker tracker for PokerTH.")
   set(CPACK_PACKAGE_DESCRIPTION "This tracker analyses the players' behavior at the table and gives you hints about their weaknesses.")
-  set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.txt")
+  set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
   
   set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6, libgcc1, libgomp1, libstdc++6, libqt5core5a, libqt5gui5, libqt5xml5, libqt5sql5, libqt5sql5-sqlite, libqt5widgets5")
   set(CPACK_DEBIAN_PACKAGE_SUGGESTS "pokerth")

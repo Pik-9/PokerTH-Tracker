@@ -1,7 +1,7 @@
 /* 
  * PokerTH Tracker - A simple poker statistics tracker for PokerTH
  * 
- * (C) 2015-2016 Daniel Steinhauer
+ * (C) 2015-2021 Daniel Steinhauer
  * E-Mail: pik-9@users.sourceforge.net
  * 
  * This file is part of PokerTH Tracker
@@ -29,6 +29,8 @@
 #include <QDesktopWidget>
 #include <QRect>
 #include <QLocale>
+#include <QStyle>
+#include <QScreen>
 
 Global* Global::singleton = 0;
 
@@ -177,8 +179,15 @@ void Global::getMainWinGeom (QWidget* mainWindow)
     mainWindow->resize (1024, 786);
     
     /* Move window to screen center. */
-    QRect geom = QApplication::desktop ()->screenGeometry ();
-    mainWindow->move ((geom.width () - mainWindow->width ()) / 2, (geom.height () - mainWindow->height ()) / 2);
+    QScreen *screen = QGuiApplication::primaryScreen ();
+    mainWindow->setGeometry (
+      QStyle::alignedRect (
+        Qt::LeftToRight,
+        Qt::AlignCenter,
+        mainWindow->size (),
+        screen->availableGeometry ()
+      )
+    );
   }
 }
 
@@ -205,7 +214,14 @@ void Global::getMultiViewGeom(QWidget* multiView)
     multiView->resize (1000, 786);
     
     /* Move window to screen center. */
-    QRect geom = QApplication::desktop ()->screenGeometry ();
-    multiView->move ((geom.width () - multiView->width ()) / 2, (geom.height () - multiView->height ()) / 2);
+    QScreen *screen = QGuiApplication::primaryScreen ();
+    multiView->setGeometry (
+      QStyle::alignedRect (
+        Qt::LeftToRight,
+        Qt::AlignCenter,
+        multiView->size (),
+        screen->availableGeometry ()
+      )
+    );
   }
 }
